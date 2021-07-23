@@ -1,4 +1,4 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
@@ -38,7 +38,7 @@ Class Categoria
 		$sql="UPDATE categoria SET condicion='1' WHERE idcategoria='$idcategoria'";
 		return ejecutarConsulta($sql);
 	}
-
+  
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idcategoria)
 	{
@@ -50,13 +50,13 @@ Class Categoria
 	public function listar()
 	{
 		$sql="SELECT * FROM categoria";
-		return ejecutarConsulta($sql);		
+		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{
 		$sql="SELECT * FROM categoria where condicion=1";
-		return ejecutarConsulta($sql);		
+		return ejecutarConsulta($sql);
 	}
 }
 
