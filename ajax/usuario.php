@@ -1,14 +1,12 @@
 <?php
-session_start(); 
+session_start();
 require_once "../modelos/Usuario.php";
 
 $usuario=new Usuario();
 
 $idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-$tipo_documento=isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
-$num_documento=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
-$direccion=isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
+$apellido=isset($_POST["apellido"])? limpiarCadena($_POST["apellido"]):"";
 $telefono=isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
 $email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
 $cargo=isset($_POST["cargo"])? limpiarCadena($_POST["cargo"]):"";
@@ -23,7 +21,7 @@ switch ($_GET["op"]){
 		{
 			$imagen=$_POST["imagenactual"];
 		}
-		else 
+		else
 		{
 			$ext = explode(".", $_FILES["imagen"]["name"]);
 			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
@@ -33,14 +31,15 @@ switch ($_GET["op"]){
 			}
 		}
 		//Hash SHA256 en la contraseña
-		$clavehash=hash("SHA256",$clave);
+	//	$clavehash=hash("SHA256",$clave);
+		$clavehash=sha1($clave);
 
 		if (empty($idusuario)){
-			$rspta=$usuario->insertar($nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
+			$rspta=$usuario->insertar($nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
 			echo $rspta ? "Usuario registrado" : "No se pudieron registrar todos los datos del usuario";
 		}
 		else {
-			$rspta=$usuario->editar($idusuario,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
+			$rspta=$usuario->editar($idusuario,$nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
 			echo $rspta ? "Usuario actualizado" : "Usuario no se pudo actualizar";
 		}
 	break;
@@ -73,10 +72,10 @@ switch ($_GET["op"]){
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idusuario.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-primary" onclick="activar('.$reg->idusuario.')"><i class="fa fa-check"></i></button>',
  				"1"=>$reg->nombre,
- 				"2"=>$reg->tipo_documento,
- 				"3"=>$reg->num_documento,
- 				"4"=>$reg->telefono,
- 				"5"=>$reg->email,
+ 				"2"=>$reg->apellido,
+ 				"3"=>$reg->telefono,
+ 				"4"=>$reg->email,
+ 				"5"=>$reg->cargo,
  				"6"=>$reg->login,
  				"7"=>"<img src='../files/usuarios/".$reg->imagen."' height='50px' width='50px' >",
  				"8"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
@@ -120,12 +119,13 @@ switch ($_GET["op"]){
 
 	case 'verificar':
 		$logina=$_POST['logina'];
-	    $clavea=$_POST['clavea'];
+	  $clavea=$_POST['clavea'];
 
 	    //Hash SHA256 en la contraseña
-		$clavehash=hash("SHA256",$clavea);
+		//$clavehash=hash("SHA256",$clavea);
+		$clavehash=sha1($clavea);
 
-		$rspta=$usuario->verificar($logina, $clavehash);
+		$rspta=$usuario->verificar($logina,$clavehash);
 
 		$fetch=$rspta->fetch_object();
 
@@ -157,13 +157,14 @@ switch ($_GET["op"]){
 			in_array(5,$valores)?$_SESSION['acceso']=1:$_SESSION['acceso']=0;
 			in_array(6,$valores)?$_SESSION['consultac']=1:$_SESSION['consultac']=0;
 			in_array(7,$valores)?$_SESSION['consultav']=1:$_SESSION['consultav']=0;
+			in_array(8,$valores)?$_SESSION['caja']=1:$_SESSION['caja']=0;
 
 	    }
 	    echo json_encode($fetch);
 	break;
 
 	case 'salir':
-		//Limpiamos las variables de sesión   
+		//Limpiamos las variables de sesión
         session_unset();
         //Destruìmos la sesión
         session_destroy();

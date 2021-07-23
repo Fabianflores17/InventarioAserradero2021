@@ -7,7 +7,7 @@ function init(){
 
 	$("#formulario").on("submit",function(e)
 	{
-		guardaryeditar(e);	
+		guardaryeditar(e);
 	})
 
 	$("#imagenmuestra").hide();
@@ -21,7 +21,7 @@ function init(){
 function limpiar()
 {
 	$("#nombre").val("");
-	$("#num_documento").val("");
+	$("#apellido").val("");
 	$("#direccion").val("");
 	$("#telefono").val("");
 	$("#email").val("");
@@ -67,7 +67,7 @@ function listar()
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [		          
+	    buttons: [
 		            'copyHtml5',
 		            'excelHtml5',
 		            'csvHtml5',
@@ -77,9 +77,9 @@ function listar()
 				{
 					url: '../ajax/usuario.php?op=listar',
 					type : "get",
-					dataType : "json",						
+					dataType : "json",
 					error: function(e){
-						console.log(e.responseText);	
+						console.log(e.responseText);
 					}
 				},
 		"bDestroy": true,
@@ -103,8 +103,8 @@ function guardaryeditar(e)
 	    processData: false,
 
 	    success: function(datos)
-	    {                    
-	          bootbox.alert(datos);	          
+	    {
+	          bootbox.alert(datos);
 	          mostrarform(false);
 	          tabla.ajax.reload();
 	    }
@@ -117,19 +117,17 @@ function mostrar(idusuario)
 {
 	$.post("../ajax/usuario.php?op=mostrar",{idusuario : idusuario}, function(data, status)
 	{
-		data = JSON.parse(data);		
+		data = JSON.parse(data);
 		mostrarform(true);
 
 		$("#nombre").val(data.nombre);
-		$("#tipo_documento").val(data.tipo_documento);
-		$("#tipo_documento").selectpicker('refresh');
-		$("#num_documento").val(data.num_documento);
+		$("#apellido").val(data.apellido);
 		$("#direccion").val(data.direccion);
 		$("#telefono").val(data.telefono);
 		$("#email").val(data.email);
 		$("#cargo").val(data.cargo);
 		$("#login").val(data.login);
-		$("#clave").val(data.clave);
+		$("#clave").val(data.password);
 		$("#imagenmuestra").show();
 		$("#imagenmuestra").attr("src","../files/usuarios/"+data.imagen);
 		$("#imagenactual").val(data.imagen);
@@ -150,7 +148,7 @@ function desactivar(idusuario)
         	$.post("../ajax/usuario.php?op=desactivar", {idusuario : idusuario}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});	
+        	});
         }
 	})
 }
@@ -164,7 +162,7 @@ function activar(idusuario)
         	$.post("../ajax/usuario.php?op=activar", {idusuario : idusuario}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});	
+        	});
         }
 	})
 }

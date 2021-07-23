@@ -15,7 +15,7 @@ if ($_SESSION['acceso']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">        
+      <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -33,15 +33,15 @@ if ($_SESSION['acceso']==1)
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
-                            <th>Documento</th>
-                            <th>Número</th>
-                            <th>Teléfono</th>
+                            <th>Apellido</th>
+                            <th>Telfono</th>
                             <th>Email</th>
+                            <th>Cargo</th>
                             <th>Login</th>
                             <th>Foto</th>
                             <th>Estado</th>
                           </thead>
-                          <tbody>                            
+                          <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
@@ -58,26 +58,14 @@ if ($_SESSION['acceso']==1)
                     </div>
                     <div class="panel-body" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre(*):</label>
                             <input type="hidden" name="idusuario" id="idusuario">
                             <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Documento(*):</label>
-                            <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
-                              <option value="DNI">DNI</option>
-                              <option value="RUC">RUC</option>
-                              <option value="CEDULA">CEDULA</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Número(*):</label>
-                            <input type="text" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="Documento" required>
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Dirección:</label>
-                            <input type="text" class="form-control" name="direccion" id="direccion" placeholder="Dirección" maxlength="70">
+                            <label>Apellido(*):</label>
+                            <input type="text" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="apellido" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Teléfono:</label>
@@ -102,7 +90,7 @@ if ($_SESSION['acceso']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Permisos:</label>
                             <ul style="list-style: none;" id="permisos">
-                              
+
                             </ul>
                           </div>
 
@@ -136,8 +124,8 @@ else
 require 'footer.php';
 ?>
 
-<script type="text/javascript" src="scripts/usuario.js"></script>
-<?php 
+<script type="text/javascript" src="scripts/usuarios2.js"></script>
+<?php
 }
 ob_end_flush();
 ?>
