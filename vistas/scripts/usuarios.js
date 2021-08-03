@@ -9,6 +9,12 @@ function init(){
 	{
 		guardaryeditar(e);
 	})
+
+	$("#imagenmuestra").hide();
+	//Mostramos los permisos
+	$.post("../ajax/usuario.php?op=permisos&id=",function(r){
+	        $("#permisos").html(r);
+	});
 }
 
 //Función limpiar
@@ -16,12 +22,15 @@ function limpiar()
 {
 	$("#nombre").val("");
 	$("#apellido").val("");
-	$("#num_documento").val("");
 	$("#direccion").val("");
 	$("#telefono").val("");
-	$("#telefono1").val("");
 	$("#email").val("");
-	$("#idpersona").val("");
+	$("#cargo").val("");
+	$("#login").val("");
+	$("#clave").val("");
+	$("#imagenmuestra").attr("src","");
+	$("#imagenactual").val("");
+	$("#idusuario").val("");
 }
 
 //Función mostrar formulario
@@ -66,7 +75,7 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/persona.php?op=listarc',
+					url: '../ajax/usuario.php?op=listar',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -87,7 +96,7 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/persona.php?op=guardaryeditar",
+		url: "../ajax/usuario.php?op=guardaryeditar",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
@@ -104,35 +113,53 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idpersona)
+function mostrar(idusuario)
 {
-	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)
+	$.post("../ajax/usuario.php?op=mostrar",{idusuario : idusuario}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
 
 		$("#nombre").val(data.nombre);
 		$("#apellido").val(data.apellido);
-		$("#tipo_documento").val(data.tipo_documento);
-		$("#tipo_documento").selectpicker('refresh');
-		$("#num_documento").val(data.num_documento);
 		$("#direccion").val(data.direccion);
 		$("#telefono").val(data.telefono);
-		"#telefono1").val(data.telefono1);
 		$("#email").val(data.email);
- 		$("#idpersona").val(data.idpersona);
+		$("#cargo").val(data.cargo);
+		$("#login").val(data.login);
+		$("#clave").val(data.password);
+		$("#imagenmuestra").show();
+		$("#imagenmuestra").attr("src","../files/usuarios/"+data.imagen);
+		$("#imagenactual").val(data.imagen);
+		$("#idusuario").val(data.idusuario);
 
-
- 	})
+ 	});
+ 	$.post("../ajax/usuario.php?op=permisos&id="+idusuario,function(r){
+	        $("#permisos").html(r);
+	});
 }
 
-//Función para eliminar registros
-function eliminar(idpersona)
+//Función para desactivar registros
+function desactivar(idusuario)
 {
-	bootbox.confirm("¿Está Seguro de eliminar el cliente?", function(result){
+	bootbox.confirm("¿Está Seguro de desactivar el usuario?", function(result){
 		if(result)
         {
-        	$.post("../ajax/persona.php?op=eliminar", {idpersona : idpersona}, function(e){
+        	$.post("../ajax/usuario.php?op=desactivar", {idusuario : idusuario}, function(e){
+        		bootbox.alert(e);
+	            tabla.ajax.reload();
+        	});
+        }
+	})
+}
+
+//Función para activar registros
+function activar(idusuario)
+{
+	bootbox.confirm("¿Está Seguro de activar el Usuario?", function(result){
+		if(result)
+        {
+        	$.post("../ajax/usuario.php?op=activar", {idusuario : idusuario}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
         	});
