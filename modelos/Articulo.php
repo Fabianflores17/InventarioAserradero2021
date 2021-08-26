@@ -13,50 +13,50 @@ Class Articulo
 	//Implementamos un método para insertar registros
 	public function insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$id_precio_lis,$presentation,$idusuario,$idcategoria,$unidad,$stock)
 	{
-		$sql="INSERT INTO producto (imagen,codigo,nombre,descripcion,inventario_min,precio_en,id_precio_lis,presentation,idusuario,idcategoria,unit,stock)
-		VALUES ('$imagen','$codigo','$nombre','$descripcion','$inventario_min','$precio_en,'$id_precio_lis','$presentation','$idusuario','$idcategoria','$unidad','$stock','1','1')";
+		$sql="INSERT INTO producto (imagen,codigo,nombre,descripcion,inventario_min,precio_en,id_precio_lis,presentation,idcategoria,unit,stock)
+        VALUES ('$imagen','$codigo','$nombre','$descripcion','$inventario_min','$precio_en,'$id_precio_lis','$presentation','$idcategoria','$unit','$stock','1')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
 	public function editar($idarticulo,$idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen)
 	{
-		$sql="UPDATE articulo SET idcategoria='$idcategoria',codigo='$codigo',nombre='$nombre',stock='$stock',descripcion='$descripcion',imagen='$imagen' WHERE idarticulo='$idarticulo'";
+		$sql="UPDATE producto SET id='$idcategoria',codigo='$codigo',nombre='$nombre',stock='$stock',descripcion='$descripcion',imagen='$imagen' WHERE idarticulo='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para desactivar registros
 	public function desactivar($idarticulo)
 	{
-		$sql="UPDATE articulo SET condicion='0' WHERE idarticulo='$idarticulo'";
+		$sql="UPDATE producto SET condicion='0' WHERE id='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para activar registros
 	public function activar($idarticulo)
 	{
-		$sql="UPDATE articulo SET condicion='1' WHERE idarticulo='$idarticulo'";
+		$sql="UPDATE producto SET condicion='1' WHERE id='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idarticulo)
 	{
-		$sql="SELECT * FROM articulo WHERE idarticulo='$idarticulo'";
+		$sql="SELECT * FROM producto WHERE id='$idarticulo'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM articulo a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
+		$sql="SELECT a.id,a.idcategoria,c.nombre as categoria,a.inventario_min,a.precio_en,a.presentation,a.id_precio_lis,a.unit,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
 		return ejecutarConsulta($sql);		
 	}
 
 	//Implementar un método para listar los registros activos
 	public function listarActivos()
 	{
-		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM articulo a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
+		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
 		return ejecutarConsulta($sql);		
 	}
 

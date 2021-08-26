@@ -29,7 +29,7 @@ if ($_SESSION['almacen']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tbllistado1" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tabla" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
@@ -86,6 +86,14 @@ if ($_SESSION['almacen']==1)
                                 <input type="text" class="form-control" name="presentation" id="presentation" placeholder="Presentacion" required>
                             </div> 
                             <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Unidad</label>
+                                <input type="text"class="form-control" name="unit" id="unit" placeholde="Unidad de medida" required >
+                            </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Usuario</label>
+                                <select id="idusuario" name="idusuario" class="form-control selectpicker" data-live-search="true" required></select>
+                            </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <label>Listado de Precios</label>
                                 <select id="id_precio_lis" name="id_precio_lis" class="form-control selectpicker" data-live-search="true" required>
                                     <option value="1">52</option>
@@ -140,7 +148,7 @@ require 'footer.php';
 ?>
 <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script>
 <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
-<script type="text/javascript" src="scripts/articulo1.js"></script>
+<script type="text/javascript" src="scripts/articulo.js"></script>
 <?php 
 }
 ob_end_flush();

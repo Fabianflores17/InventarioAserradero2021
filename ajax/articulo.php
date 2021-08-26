@@ -14,7 +14,7 @@ $id_precio_lis=isset($_POST["id_precio_lis"])? limpiarCadena($_POST["id_precio_l
 $presentation=isset($_POST["presentation"])? limpiarCadena($_POST["presentation"]):"";
 $idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
 $idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
-$unidad=isset($_POST["unit"])? limpiarCadena($_POST["unit"]):"";
+$unit=isset($_POST["unit"])? limpiarCadena($_POST["unit"]):"";
 $stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
 
 switch ($_GET["op"]){
@@ -34,7 +34,7 @@ switch ($_GET["op"]){
 			}
 		}
 		if (empty($idarticulo)){
-			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen);
+			$rspta=$articulo->insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$id_precio_lis,$presentation,$idusuario,$idarticulo,$unidad,$stock);
 			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
 		}
 		else {
@@ -74,8 +74,13 @@ switch ($_GET["op"]){
  				"2"=>$reg->categoria,
  				"3"=>$reg->codigo,
  				"4"=>$reg->stock,
- 				"5"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
- 				"6"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
+ 				"5"=>$reg->inventario_min,
+ 				"6"=>$reg->precio_en,
+ 				"7"=>$reg->id_precio_lis,
+ 				"8"=>$reg->unit,
+ 				"9"=>$reg->presentation,
+ 				"10"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
+ 				"11"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
  				'<span class="label bg-red">Desactivado</span>'
  				);
  		}
