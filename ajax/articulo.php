@@ -3,13 +3,19 @@ require_once "../modelos/Articulo.php";
 
 $articulo=new Articulo();
 
-$idarticulo=isset($_POST["idarticulo"])? limpiarCadena($_POST["idarticulo"]):"";
-$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
+$idarticulo=isset($_POST["id"])? limpiarCadena($_POST["id"]):"";
+$imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
 $codigo=isset($_POST["codigo"])? limpiarCadena($_POST["codigo"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
-$imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
+$inventario_min=isset($_POST["inventario_min"])? limpiarCadena($_POST["inventario_min"]):"";
+$precio_en=isset($_POST["precio_en"])? limpiarCadena($_POST["precio_en"]):"";
+$id_precio_lis=isset($_POST["id_precio_lis"])? limpiarCadena($_POST["id_precio_lis"]):"";
+$presentation=isset($_POST["presentation"])? limpiarCadena($_POST["presentation"]):"";
+$idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
+$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
+$unidad=isset($_POST["unit"])? limpiarCadena($_POST["unit"]):"";
+$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':

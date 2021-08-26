@@ -11,10 +11,10 @@ Class Articulo
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen)
+	public function insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$id_precio_lis,$presentation,$idusuario,$idcategoria,$unidad,$stock)
 	{
-		$sql="INSERT INTO articulo (idcategoria,codigo,nombre,stock,descripcion,imagen,condicion)
-		VALUES ('$idcategoria','$codigo','$nombre','$stock','$descripcion','$imagen','1')";
+		$sql="INSERT INTO producto (imagen,codigo,nombre,descripcion,inventario_min,precio_en,id_precio_lis,presentation,idusuario,idcategoria,unit,stock)
+		VALUES ('$imagen','$codigo','$nombre','$descripcion','$inventario_min','$precio_en,'$id_precio_lis','$presentation','$idusuario','$idcategoria','$unidad','$stock','1','1')";
 		return ejecutarConsulta($sql);
 	}
 

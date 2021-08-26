@@ -29,7 +29,7 @@ if ($_SESSION['almacen']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tbllistado1" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
@@ -37,6 +37,11 @@ if ($_SESSION['almacen']==1)
                             <th>Código</th>
                             <th>Stock</th>
                             <th>Imagen</th>
+                            <th>Inventario Minimo</th>
+                            <th>Precio de Entrada</th>
+                            <th>Listado de precios</th>
+                            <th>Unidad</th>
+                            <th>Presentacion</th>
                             <th>Estado</th>
                           </thead>
                           <tbody>                            
@@ -48,6 +53,11 @@ if ($_SESSION['almacen']==1)
                             <th>Código</th>
                             <th>Stock</th>
                             <th>Imagen</th>
+                            <th>Inventario Minimo</th>
+                            <th>Precio de Entrada</th>
+                            <th>Listado de precios</th>
+                            <th>Unidad</th>
+                            <th>Presentacion</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>
@@ -63,6 +73,25 @@ if ($_SESSION['almacen']==1)
                             <label>Categoría(*):</label>
                             <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Inventario Minimo</label>
+                            <input type="number" class="form-control" name="inventario_min" id="inventario_min" placeholder="Inventario Minimo" required>
+                          </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Precio de Entrada</label>
+                                <input type="number" class="form-control" name="precio_en" id="precio_en" placeholder="Precio de Entrada" required>
+                            </div> 
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Presentacion</label>
+                                <input type="text" class="form-control" name="presentation" id="presentation" placeholder="Presentacion" required>
+                            </div> 
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Listado de Precios</label>
+                                <select id="id_precio_lis" name="id_precio_lis" class="form-control selectpicker" data-live-search="true" required>
+                                    <option value="1">52</option>
+                                    <option value="2">53</option>
+                                </select>
+                            </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Stock(*):</label>
                             <input type="number" class="form-control" name="stock" id="stock" required>
@@ -111,7 +140,7 @@ require 'footer.php';
 ?>
 <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script>
 <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
-<script type="text/javascript" src="scripts/articulo.js"></script>
+<script type="text/javascript" src="scripts/articulo1.js"></script>
 <?php 
 }
 ob_end_flush();

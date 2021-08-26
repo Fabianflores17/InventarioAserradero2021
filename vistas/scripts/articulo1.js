@@ -61,7 +61,7 @@ function cancelarform()
 //Función Listar
 function listar()
 {
-	tabla=$('#tbllistado').dataTable(
+	tabla=$('#tbllistado1').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
