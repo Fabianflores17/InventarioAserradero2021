@@ -10,12 +10,10 @@ $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
 $inventario_min=isset($_POST["inventario_min"])? limpiarCadena($_POST["inventario_min"]):"";
 $precio_en=isset($_POST["precio_en"])? limpiarCadena($_POST["precio_en"]):"";
-$id_precio_lis=isset($_POST["id_precio_lis"])? limpiarCadena($_POST["id_precio_lis"]):"";
 $presentation=isset($_POST["presentation"])? limpiarCadena($_POST["presentation"]):"";
 $idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
 $idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
 $unit=isset($_POST["unit"])? limpiarCadena($_POST["unit"]):"";
-$stock=isset($_POST["stock"])? limpiarCadena($_POST["stock"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -34,7 +32,7 @@ switch ($_GET["op"]){
 			}
 		}
 		if (empty($idarticulo)){
-			$rspta=$articulo->insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$id_precio_lis,$presentation,$idusuario,$idarticulo,$unidad,$stock);
+			$rspta=$articulo->insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idusuario,$idcategoria,$unit);
 			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
 		}
 		else {
@@ -71,16 +69,15 @@ switch ($_GET["op"]){
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idarticulo.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-primary" onclick="activar('.$reg->idarticulo.')"><i class="fa fa-check"></i></button>',
  				"1"=>$reg->nombre,
- 				"2"=>$reg->categoria,
+ 				"2"=>$reg->idcategoria,
  				"3"=>$reg->codigo,
- 				"4"=>$reg->stock,
+ 				"4"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
  				"5"=>$reg->inventario_min,
  				"6"=>$reg->precio_en,
  				"7"=>$reg->id_precio_lis,
  				"8"=>$reg->unit,
  				"9"=>$reg->presentation,
- 				"10"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
- 				"11"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
+ 				"10"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
  				'<span class="label bg-red">Desactivado</span>'
  				);
  		}

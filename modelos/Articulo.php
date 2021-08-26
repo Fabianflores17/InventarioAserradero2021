@@ -11,17 +11,17 @@ Class Articulo
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$id_precio_lis,$presentation,$idusuario,$idcategoria,$unidad,$stock)
+	public function insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idusuario,$idcategoria,$unit)
 	{
-		$sql="INSERT INTO producto (imagen,codigo,nombre,descripcion,inventario_min,precio_en,id_precio_lis,presentation,idcategoria,unit,stock)
-        VALUES ('$imagen','$codigo','$nombre','$descripcion','$inventario_min','$precio_en,'$id_precio_lis','$presentation','$idcategoria','$unit','$stock','1')";
+		$sql="INSERT INTO producto (imagen,codigo,nombre,descripcion,inventario_min,precio_en,presentation,idusuario,idcategoria,unit,condicion)
+        VALUES ('$imagen','$codigo','$nombre','$descripcion','$inventario_min','$precio_en','$presentation','$idusuario','$idcategoria','$unit','1')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
 	public function editar($idarticulo,$idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen)
 	{
-		$sql="UPDATE producto SET id='$idcategoria',codigo='$codigo',nombre='$nombre',stock='$stock',descripcion='$descripcion',imagen='$imagen' WHERE idarticulo='$idarticulo'";
+		$sql="UPDATE producto SET id='$idcategoria',codigo='$codigo',nombre='$nombre',stock='$stock',descripcion='$descripcion',imagen='$imagen' WHERE id '$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -48,8 +48,9 @@ Class Articulo
 
 	//Implementar un método para listar los registros
 	public function listar()
-	{
-		$sql="SELECT a.id,a.idcategoria,c.nombre as categoria,a.inventario_min,a.precio_en,a.presentation,a.id_precio_lis,a.unit,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
+    {		
+       // $sql="SELECT * from producto";
+        $sql="SELECT a.idcategoria,c.nombre as categoria,a.inventario_min,a.precio_en,a.presentation,a.unit,a.codigo,a.nombre,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
 		return ejecutarConsulta($sql);		
 	}
 

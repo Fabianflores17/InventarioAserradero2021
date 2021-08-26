@@ -35,7 +35,6 @@ if ($_SESSION['almacen']==1)
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Código</th>
-                            <th>Stock</th>
                             <th>Imagen</th>
                             <th>Inventario Minimo</th>
                             <th>Precio de Entrada</th>
@@ -51,7 +50,6 @@ if ($_SESSION['almacen']==1)
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Código</th>
-                            <th>Stock</th>
                             <th>Imagen</th>
                             <th>Inventario Minimo</th>
                             <th>Precio de Entrada</th>
@@ -67,8 +65,9 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre(*):</label>
                             <input type="hidden" name="idarticulo" id="idarticulo">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
-                          </div>
+                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required> 
+                            <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $_SESSION["idusuario"];?>">
+                            </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
                             <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
@@ -89,21 +88,6 @@ if ($_SESSION['almacen']==1)
                                 <label>Unidad</label>
                                 <input type="text"class="form-control" name="unit" id="unit" placeholde="Unidad de medida" required >
                             </div>
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <label>Usuario</label>
-                                <select id="idusuario" name="idusuario" class="form-control selectpicker" data-live-search="true" required></select>
-                            </div>
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <label>Listado de Precios</label>
-                                <select id="id_precio_lis" name="id_precio_lis" class="form-control selectpicker" data-live-search="true" required>
-                                    <option value="1">52</option>
-                                    <option value="2">53</option>
-                                </select>
-                            </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Stock(*):</label>
-                            <input type="number" class="form-control" name="stock" id="stock" required>
-                          </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
                             <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
