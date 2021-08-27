@@ -65,14 +65,13 @@ if (strlen(session_id()) < 1)
                   <li class="user-header">
                     <img src="../files/usuarios/<?php echo $_SESSION['imagen']; ?>" class="img-circle" alt="User Image">
                     <p>
-                      www.incanatoit.com - Desarrollando Software
-                      <small>www.youtube.com/jcarlosad7</small>
+                              Sistema de Inventario
                     </p>
                   </li>
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-
+                    
                     <div class="pull-right">
                       <a href="../ajax/usuario.php?op=salir" class="btn btn-default btn-flat">Cerrar</a>
                     </div>
@@ -115,6 +114,24 @@ if (strlen(session_id()) < 1)
               <ul class="treeview-menu">
                 <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
                 <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
+                <li><a href="almacen.php"><i class="fa fa-circle-o"></i> Almacen</a></li>
+              </ul>
+            </li>';
+            }
+            ?>
+
+            <?php
+            if ($_SESSION['caja']==1)
+            {
+              echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Caja</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="ingresocuentas.php"><i class="fa fa-circle-o"></i> Ingreso </a></li>
+                <li><a href="cuentas.php"><i class="fa fa-circle-o"></i> Cuentas</a></li>
               </ul>
             </li>';
             }

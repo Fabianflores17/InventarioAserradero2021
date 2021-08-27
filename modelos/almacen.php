@@ -2,7 +2,7 @@
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
-Class Categoria
+Class Almacen
 {
 	//Implementamos nuestro constructor
 	public function __construct()
@@ -11,51 +11,51 @@ Class Categoria
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($nombre,$descripcion)
+	public function insertar($nombre,$direccion,$telefono,$email,$tipo_almacen)
 	{
-		$sql="INSERT INTO categoria (nombre,descripcion,condicion,created_at)
-		VALUES ('$nombre','$descripcion','1',NOW())";
+		$sql="INSERT INTO almacen (nombre,direccion,telefono,email,is_principal)
+		VALUES ('$nombre','$direccion','$telefono','$email','$tipo_almacen')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idcategoria,$nombre,$descripcion)
+	public function editar($idalmacen,$nombre,$direccion,$telefono,$email,$tipo_almacen)
 	{
-		$sql="UPDATE categoria SET nombre='$nombre',descripcion='$descripcion' WHERE idcategoria='$idcategoria'";
+		$sql="UPDATE almacen SET nombre='$nombre',direccion='$direccion',telefono='$telefono',email='$email',is_principal='$tipo_almacen'  WHERE idalmacen='$idalmacen'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para desactivar categorías
-	public function desactivar($idcategoria)
+	public function desactivar($idalmacen)
 	{
-		$sql="UPDATE categoria SET condicion='0' WHERE idcategoria='$idcategoria'";
+		$sql="UPDATE almacen SET condiciion='0' WHERE idalmacen='$idalmacen'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para activar categorías
-	public function activar($idcategoria)
+	public function activar($idalmacen)
 	{
-		$sql="UPDATE categoria SET condicion='1' WHERE idcategoria='$idcategoria'";
+		$sql="UPDATE almacen SET condicion='1' WHERE idalmacen='$idalmacen'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idcategoria)
+	public function mostrar($idalmacen)
 	{
-		$sql="SELECT * FROM categoria WHERE idcategoria='$idcategoria'";
+		$sql="SELECT * FROM almacen WHERE idalmacen='$idalmacen'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT * FROM categoria";
+		$sql="SELECT * FROM almacen";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{
-		$sql="SELECT * FROM categoria where condicion=1";
+		$sql="SELECT * FROM almacen where condicion=1";
 		return ejecutarConsulta($sql);
 	}
 }

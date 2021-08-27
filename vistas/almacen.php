@@ -23,7 +23,7 @@ if ($_SESSION['almacen']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Categoría <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">almacen <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -34,16 +34,20 @@ if ($_SESSION['almacen']==1)
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>email</th>
+                            <th>tipo de almacen</th>
                           </thead>
                           <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
                             <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>email</th>
+                            <th>tipo de almacen</th>
                           </tfoot>
                         </table>
                     </div>
@@ -51,13 +55,32 @@ if ($_SESSION['almacen']==1)
                         <form name="formulario" id="formulario" method="POST">
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre:</label>
-                            <input type="hidden" name="idcategoria" id="idcategoria">
+                            <input type="hidden" name="idalmacen" id="idalmacen">
                             <input type="text" class="form-control" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Descripción:</label>
-                            <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
+                            <label>Direccion:</label>
+                            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="256" placeholder="Direccion">
                           </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Telefono:</label>
+                            <input type="text" class="form-control" name="telefono" id="telefono" maxlength="256" placeholder="ingrese numero de telefono">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Email:</label>
+                            <input type="email" class="form-control" name="email" id="email" maxlength="256" placeholder="Correo electronico">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Tipo Almacen:</label>
+                            <select class="form-control select-picker" name="tipo_almacen" id="tipo_almacen" required>
+                              <option value="1">Principal</option>
+                              <option value="0">secundario</option>
+                            </select>
+                          </div>
+
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 
@@ -82,7 +105,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/categoria.js"></script>
+<script type="text/javascript" src="scripts/almacen.js"></script>
 <?php
 }
 ob_end_flush();

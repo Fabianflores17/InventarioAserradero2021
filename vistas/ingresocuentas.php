@@ -11,7 +11,7 @@ else
 {
 require 'header.php';
 
-if ($_SESSION['almacen']==1)
+if ($_SESSION['caja']==1)
 {
 ?>
 <!--Contenido-->
@@ -23,7 +23,7 @@ if ($_SESSION['almacen']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Categoría <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Caja <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -33,7 +33,7 @@ if ($_SESSION['almacen']==1)
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
-                            <th>Nombre</th>
+                            <th>Cantidad</th>
                             <th>Descripción</th>
                             <th>Estado</th>
                           </thead>
@@ -41,7 +41,7 @@ if ($_SESSION['almacen']==1)
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Nombre</th>
+                            <th>Cantidad</th>
                             <th>Descripción</th>
                             <th>Estado</th>
                           </tfoot>
@@ -50,14 +50,15 @@ if ($_SESSION['almacen']==1)
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Nombre:</label>
-                            <input type="hidden" name="idcategoria" id="idcategoria">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required>
+                            <label>Monto ingresado:</label>
+                            <input type="hidden" name="idcaja" id="idcaja">
+                            <input type="text" class="form-control" name="cantida" id="cantida" maxlength="50" placeholder="Cantidad" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
                             <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
                           </div>
+
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 
@@ -82,7 +83,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/categoria.js"></script>
+<script type="text/javascript" src="scripts/cuentas.js"></script>
 <?php
 }
 ob_end_flush();

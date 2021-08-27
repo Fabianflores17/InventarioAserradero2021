@@ -29,7 +29,7 @@ if ($_SESSION['escritorio']==1)
   $totalesc='';
   while ($regfechac= $compras10->fetch_object()) {
     $fechasc=$fechasc.'"'.$regfechac->fecha .'",';
-    $totalesc=$totalesc.$regfechac->total .','; 
+    $totalesc=$totalesc.$regfechac->total .',';
   }
 
   //Quitamos la última coma
@@ -42,7 +42,7 @@ if ($_SESSION['escritorio']==1)
   $totalesv='';
   while ($regfechav= $ventas12->fetch_object()) {
     $fechasv=$fechasv.'"'.$regfechav->fecha .'",';
-    $totalesv=$totalesv.$regfechav->total .','; 
+    $totalesv=$totalesv.$regfechav->total .',';
   }
 
   //Quitamos la última coma
@@ -52,14 +52,14 @@ if ($_SESSION['escritorio']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">        
+      <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
             <div class="row">
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Escritorio </h1>
+                          <h1 class="box-title">Escritorio  </h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -86,7 +86,7 @@ if ($_SESSION['escritorio']==1)
                                 <h4 style="font-size:17px;">
                                   <strong>S/ <?php echo $totalv; ?></strong>
                                 </h4>
-                                <p>Ventas</p>
+                                <p>Ventas as</p>
                               </div>
                               <div class="icon">
                                 <i class="ion ion-bag"></i>
@@ -136,7 +136,7 @@ require 'footer.php';
 ?>
 <script type="text/javascript" src="scripts/categoria.js"></script>
 <script src="../public/js/chart.min.js"></script>
-<script src="../public/js/Chart.bundle.min.js"></script> 
+<script src="../public/js/Chart.bundle.min.js"></script>
 <script type="text/javascript">
 var ctx = document.getElementById("compras").getContext('2d');
 var compras = new Chart(ctx, {
@@ -235,9 +235,7 @@ var ventas = new Chart(ctx, {
 </script>
 
 
-<?php 
+<?php
 }
 ob_end_flush();
 ?>
-
-

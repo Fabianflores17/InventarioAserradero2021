@@ -15,7 +15,7 @@ if ($_SESSION['almacen']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">        
+      <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -37,9 +37,10 @@ if ($_SESSION['almacen']==1)
                             <th>Código</th>
                             <th>Stock</th>
                             <th>Imagen</th>
+                            <th>Bodega</th>
                             <th>Estado</th>
                           </thead>
-                          <tbody>                            
+                          <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
@@ -48,6 +49,7 @@ if ($_SESSION['almacen']==1)
                             <th>Código</th>
                             <th>Stock</th>
                             <th>Imagen</th>
+                            <th>Bodega</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>
@@ -62,6 +64,10 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
                             <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Categoría(*):</label>
+                            <select id="idalmacen" name="idalmacen" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Stock(*):</label>
@@ -111,8 +117,8 @@ require 'footer.php';
 ?>
 <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script>
 <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
-<script type="text/javascript" src="scripts/articulo.js"></script>
-<?php 
+<script type="text/javascript" src="scripts/articulos2.0.js"></script>
+<?php
 }
 ob_end_flush();
 ?>

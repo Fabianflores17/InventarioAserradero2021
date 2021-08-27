@@ -13,6 +13,13 @@ require 'header.php';
 
 if ($_SESSION['ventas']==1)
 {
+  require_once "../modelos/Consultas.php";
+  $consulta = new Consultas();
+
+
+  $rsptav = $consulta->Totalventas();
+  $regv=$rsptav->fetch_object();
+  $totalv=$regv->total_venta;
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -54,7 +61,9 @@ if ($_SESSION['ventas']==1)
                             <th>Estado</th>
                           </tfoot>
                         </table>
+                            <p style="font-size:40px;">Total Q.<?php echo $totalv; ?></p>
                     </div>
+
 
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
@@ -111,7 +120,7 @@ if ($_SESSION['ventas']==1)
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                    <th><h4 id="total">Q/. 0.00</h4><input type="hidden" name="total_venta" id="total_venta"></th>
                                 </tfoot>
                                 <tbody>
 
@@ -193,7 +202,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/venta.js"></script>
+<script type="text/javascript" src="scripts/ventas.js"></script>
 
 <?php
 }

@@ -16,7 +16,7 @@ if ($_SESSION['compras']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">        
+      <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -41,7 +41,7 @@ if ($_SESSION['compras']==1)
                             <th>Total Compra</th>
                             <th>Estado</th>
                           </thead>
-                          <tbody>                            
+                          <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
@@ -61,7 +61,7 @@ if ($_SESSION['compras']==1)
                             <label>Proveedor(*):</label>
                             <input type="hidden" name="idingreso" id="idingreso">
                             <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
-                              
+
                             </select>
                           </div>
                           <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -89,7 +89,7 @@ if ($_SESSION['compras']==1)
                             <input type="text" class="form-control" name="impuesto" id="impuesto" required="">
                           </div>
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <a data-toggle="modal" href="#myModal">           
+                            <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
                             </a>
                           </div>
@@ -110,10 +110,10 @@ if ($_SESSION['compras']==1)
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
+                                    <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th>
                                 </tfoot>
                                 <tbody>
-                                  
+
                                 </tbody>
                             </table>
                           </div>
@@ -153,7 +153,7 @@ if ($_SESSION['compras']==1)
                 <th>Imagen</th>
             </thead>
             <tbody>
-              
+
             </tbody>
             <tfoot>
               <th>Opciones</th>
@@ -167,10 +167,10 @@ if ($_SESSION['compras']==1)
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        </div>        
+        </div>
       </div>
     </div>
-  </div>  
+  </div>
   <!-- Fin modal -->
 <?php
 }
@@ -182,9 +182,7 @@ else
 require 'footer.php';
 ?>
 <script type="text/javascript" src="scripts/ingreso.js"></script>
-<?php 
+<?php
 }
 ob_end_flush();
 ?>
-
-

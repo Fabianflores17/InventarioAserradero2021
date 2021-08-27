@@ -1,5 +1,5 @@
-<?php 
-if (strlen(session_id()) < 1) 
+<?php
+if (strlen(session_id()) < 1)
   session_start();
 
 require_once "../modelos/Venta.php";
@@ -63,7 +63,7 @@ switch ($_GET["op"]){
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">S/.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th> 
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
                                 </tfoot>';
 	break;
 
@@ -90,7 +90,7 @@ switch ($_GET["op"]){
  				"3"=>$reg->usuario,
  				"4"=>$reg->tipo_comprobante,
  				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
- 				"6"=>$reg->total_venta,
+ 				"6"=>'<P>Q.'.$reg->total_venta.'</P>',
  				"7"=>($reg->estado=='Aceptado')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
