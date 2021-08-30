@@ -119,7 +119,7 @@ function mostrar(idarticulo)
 		data = JSON.parse(data);		
 		mostrarform(true);
 
-		$("#idcategoria").val(data.idcategoria);
+    	$("#idcategoria").val(data.idcategoria);
 		$('#idcategoria').selectpicker('refresh');
 		$("#codigo").val(data.codigo);
 		$("#nombre").val(data.nombre);

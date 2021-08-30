@@ -19,9 +19,10 @@ Class Articulo
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idarticulo,$idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen)
+	public function editar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idcategoria,$unit,$idarticulo)
 	{
-		$sql="UPDATE producto SET id='$idcategoria',codigo='$codigo',nombre='$nombre',stock='$stock',descripcion='$descripcion',imagen='$imagen' WHERE id '$idarticulo'";
+        $sql="UPDATE producto SET imagen='$imagen',codigo='$codigo',nombre='$nombre',descripcion='$descripcion',
+            inventario_min='$inventario_min',precio_en='$precio_en',presentation='$presentation',idcategoria='$idcategoria',unit='$unit' WHERE id = '$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -50,21 +51,25 @@ Class Articulo
 	public function listar()
     {		
        // $sql="SELECT * from producto";
-        $sql="SELECT a.idcategoria,c.nombre as categoria,a.inventario_min,a.precio_en,a.presentation,a.unit,a.codigo,a.nombre,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
+        $sql="SELECT a.idcategoria,c.nombre as categoria,a.inventario_min,a.precio_en,a.presentation,a.unit,a.codigo,a.nombre,a.descripcion,a.imagen,a.condicion 
+            FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria";
 		return ejecutarConsulta($sql);		
 	}
 
 	//Implementar un método para listar los registros activos
 	public function listarActivos()
 	{
-		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
+        $sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.inventario_min,a.descripcion,a.imagen,a.condicion,
+            a.presentation,a.precio_en,a.unit FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
 		return ejecutarConsulta($sql);		
 	}
 
 	//Implementar un método para listar los registros activos, su último precio y el stock (vamos a unir con el último registro de la tabla detalle_ingreso)
 	public function listarActivosVenta()
 	{
-		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,(SELECT precio_venta FROM detalle_ingreso WHERE idarticulo=a.idarticulo order by iddetalle_ingreso desc limit 0,1) as precio_venta,a.descripcion,a.imagen,a.condicion FROM articulo a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
+        $sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,(SELECT precio_venta FROM detalle_ingreso WHERE
+            idarticulo=a.idarticulo order by iddetalle_ingreso desc limit 0,1) as precio_venta,a.descripcion,a.imagen,a.condicion FROM articulo a 
+            INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
 		return ejecutarConsulta($sql);		
 	}
 }
