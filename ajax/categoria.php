@@ -12,6 +12,10 @@ switch ($_GET["op"]){
 		if (empty($idcategoria)){
 			$rspta=$categoria->insertar($nombre,$descripcion);
 			echo $rspta ? "Categoría registrada" : "Categoría no se pudo registrar";
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
 		}
 		else {
 			$rspta=$categoria->editar($idcategoria,$nombre,$descripcion);

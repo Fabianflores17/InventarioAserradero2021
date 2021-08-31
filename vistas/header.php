@@ -138,6 +138,24 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
+            if ($_SESSION['Productos']==1)
+            {
+              echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Almacén</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
+                <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
+              </ul>
+            </li>';
+            }
+            ?>
+
+
+            <?php
             if ($_SESSION['compras']==1)
             {
               echo '<li class="treeview">

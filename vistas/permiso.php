@@ -15,7 +15,7 @@ if ($_SESSION['acceso']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">        
+      <div class="content-wrapper">
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -33,14 +33,14 @@ if ($_SESSION['acceso']==1)
                           <thead>
                             <th>Nombre</th>
                           </thead>
-                          <tbody>                            
+                          <tbody>
                           </tbody>
                           <tfoot>
                             <th>Nombre</th>
                           </tfoot>
                         </table>
                     </div>
-                    
+
                     <!--Fin centro -->
                   </div><!-- /.box -->
               </div><!-- /.col -->
@@ -58,7 +58,7 @@ else
 require 'footer.php';
 ?>
 <script type="text/javascript" src="scripts/Permiso.js"></script>
-<?php 
+<?php
 }
 ob_end_flush();
 ?>

@@ -35,9 +35,15 @@ if ($_SESSION['almacen']==1)
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Código</th>
-                            <th>Stock</th>
                             <th>Imagen</th>
+<<<<<<< HEAD
                             <th>Bodega</th>
+=======
+                            <th>Inventario Minimo</th>
+                            <th>Precio de Entrada</th>
+                            <th>Unidad</th>
+                            <th>Presentacion</th>
+>>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
                             <th>Estado</th>
                           </thead>
                           <tbody>
@@ -47,9 +53,15 @@ if ($_SESSION['almacen']==1)
                             <th>Nombre</th>
                             <th>Categoría</th>
                             <th>Código</th>
-                            <th>Stock</th>
                             <th>Imagen</th>
+<<<<<<< HEAD
                             <th>Bodega</th>
+=======
+                            <th>Inventario Minimo</th>
+                            <th>Precio de Entrada</th>
+                            <th>Unidad</th>
+                            <th>Presentacion</th>
+>>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
                             <th>Estado</th>
                           </tfoot>
                         </table>
@@ -59,20 +71,38 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre(*):</label>
                             <input type="hidden" name="idarticulo" id="idarticulo">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
-                          </div>
+                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required> 
+                            <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $_SESSION["idusuario"];?>">
+                            </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
                             <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+<<<<<<< HEAD
                             <label>Categoría(*):</label>
                             <select id="idalmacen" name="idalmacen" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Stock(*):</label>
                             <input type="number" class="form-control" name="stock" id="stock" required>
+=======
+                            <label>Inventario Minimo</label>
+                            <input type="number" class="form-control" name="inventario_min" id="inventario_min" placeholder="Inventario Minimo" required>
+>>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
                           </div>
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Precio de Entrada</label>
+                                <input type="number" class="form-control" name="precio_en" id="precio_en" placeholder="Precio de Entrada" required>
+                            </div> 
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Presentacion</label>
+                                <input type="text" class="form-control" name="presentation" id="presentation" placeholder="Presentacion" required>
+                            </div> 
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Unidad</label>
+                                <input type="text"class="form-control" name="unit" id="unit" placeholde="Unidad de medida" required >
+                            </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
                             <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
@@ -118,7 +148,11 @@ require 'footer.php';
 <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script>
 <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
 <script type="text/javascript" src="scripts/articulos2.0.js"></script>
+<<<<<<< HEAD
 <?php
+=======
+<?php 
+>>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
 }
 ob_end_flush();
 ?>

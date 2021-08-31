@@ -124,7 +124,7 @@ else
 require 'footer.php';
 ?>
 
-<script type="text/javascript" src="scripts/usuarios2.js"></script>
+<script type="text/javascript" src="scripts/usuarios.js"></script>
 <?php
 }
 ob_end_flush();
