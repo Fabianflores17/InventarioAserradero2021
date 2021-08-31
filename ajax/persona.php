@@ -1,25 +1,26 @@
-<?php 
+<?php
 require_once "../modelos/Persona.php";
 
 $persona=new Persona();
 
 $idpersona=isset($_POST["idpersona"])? limpiarCadena($_POST["idpersona"]):"";
-$tipo_persona=isset($_POST["tipo_persona"])? limpiarCadena($_POST["tipo_persona"]):"";
+$tipo_person=isset($_POST["tipo_persona"])? limpiarCadena($_POST["tipo_persona"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
-$tipo_documento=isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
-$num_documento=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
+$apellido=isset($_POST["apellido"])? limpiarCadena($_POST["apellido"]):"";
+$nit=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
 $direccion=isset($_POST["direccion"])? limpiarCadena($_POST["direccion"]):"";
 $telefono=isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
+$telefono1=isset($_POST["telefono1"])? limpiarCadena($_POST["telefono1"]):"";
 $email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idpersona)){
-			$rspta=$persona->insertar($tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email);
+			$rspta=$persona->insertar($tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email);
 			echo $rspta ? "Persona registrada" : "Persona no se pudo registrar";
 		}
 		else {
-			$rspta=$persona->editar($idpersona,$tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email);
+			$rspta=$persona->editar($idpersona,$tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email);
 			echo $rspta ? "Persona actualizada" : "Persona no se pudo actualizar";
 		}
 	break;
@@ -70,10 +71,12 @@ switch ($_GET["op"]){
  				"0"=>'<button class="btn btn-warning" onclick="mostrar('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-danger" onclick="eliminar('.$reg->idpersona.')"><i class="fa fa-trash"></i></button>',
  				"1"=>$reg->nombre,
- 				"2"=>$reg->tipo_documento,
- 				"3"=>$reg->num_documento,
+				"2"=>$reg->apellido,
+ 				"3"=>$reg->nit,
  				"4"=>$reg->telefono,
- 				"5"=>$reg->email
+ 				"5"=>$reg->telefono1,
+ 				"6"=>$reg->email,
+				"7"=>$reg->direccion
  				);
  		}
  		$results = array(

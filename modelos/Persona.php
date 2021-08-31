@@ -1,27 +1,28 @@
-<?php 
+<?php
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
 Class Persona
 {
+
 	//Implementamos nuestro constructor
 	public function __construct()
 	{
-
+   //$created_at = "NOW()";
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email)
+	public function insertar($tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email)
 	{
-		$sql="INSERT INTO persona (tipo_persona,nombre,tipo_documento,num_documento,direccion,telefono,email)
-		VALUES ('$tipo_persona','$nombre','$tipo_documento','$num_documento','$direccion','$telefono','$email')";
+		$sql="INSERT INTO persona (tipo_person,nombre,apellido,nit,direccion,telefono,telefono1,email)
+		VALUES ('$tipo_person','$nombre','$apellido','$nit','$direccion','$telefono','$telefono1','$email')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idpersona,$tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email)
+	public function editar($idpersona,$tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email)
 	{
-		$sql="UPDATE persona SET tipo_persona='$tipo_persona',nombre='$nombre',tipo_documento='$tipo_documento',num_documento='$num_documento',direccion='$direccion',telefono='$telefono',email='$email' WHERE idpersona='$idpersona'";
+		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',nit='$nit',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email' WHERE idpersona='$idpersona'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -42,15 +43,21 @@ Class Persona
 	//Implementar un método para listar los registros
 	public function listarp()
 	{
-		$sql="SELECT * FROM persona WHERE tipo_persona='Proveedor'";
-		return ejecutarConsulta($sql);		
+		$sql="SELECT * FROM persona WHERE tipo_person='2'";
+		return ejecutarConsulta($sql);
 	}
 
-	//Implementar un método para listar los registros 
-	public function listarc()
+	public function listaremp()
 	{
-		$sql="SELECT * FROM persona WHERE tipo_persona='Cliente'";
-		return ejecutarConsulta($sql);		
+		$sql="SELECT * FROM persona WHERE tipo_person='3'";
+		return ejecutarConsulta($sql);
+	}
+
+	//Implementar un método para listar los registros
+	public function listarc()
+	{  //1 = cliente,  2 = proveedor,  3 = colaborador
+		$sql="SELECT * FROM persona where tipo_person ='1'";
+		return ejecutarConsulta($sql);
 	}
 }
 

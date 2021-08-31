@@ -15,9 +15,11 @@ function init(){
 function limpiar()
 {
 	$("#nombre").val("");
+	$("#apellido").val("");
 	$("#num_documento").val("");
 	$("#direccion").val("");
 	$("#telefono").val("");
+	$("#telefono1").val("");
 	$("#email").val("");
 	$("#idpersona").val("");
 }
@@ -110,11 +112,13 @@ function mostrar(idpersona)
 		mostrarformclient(true);
 
 		$("#nombre").val(data.nombre);
+		$("#apellido").val(data.apellido);
 		$("#tipo_documento").val(data.tipo_documento);
 		$("#tipo_documento").selectpicker('refresh');
-		$("#num_documento").val(data.num_documento);
+		$("#num_documento").val(data.nit);
 		$("#direccion").val(data.direccion);
 		$("#telefono").val(data.telefono);
+		$("#telefono1").val(data.telefono1);
 		$("#email").val(data.email);
  		$("#idpersona").val(data.idpersona);
 
