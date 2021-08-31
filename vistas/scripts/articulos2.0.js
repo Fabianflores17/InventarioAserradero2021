@@ -61,7 +61,7 @@ function cancelarform()
 //Función Listar
 function listar()
 {
-	tabla=$('#tabla').dataTable(
+	tabla=$('#tbllistado').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -112,23 +112,26 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idarticulo)
+function mostrar(idproducto)
 {
-	$.post("../ajax/articulo.php?op=mostrar",{idarticulo : idarticulo}, function(data, status)
+	$.post("../ajax/articulo.php?op=mostrar",{idarticulo : idproducto}, function(data, status)
 	{
 		data = JSON.parse(data);		
 		mostrarform(true);
 
-    	$("#idcategoria").val(data.idcategoria);
-		$('#idcategoria').selectpicker('refresh');
+	
+
+	    $("#idcategoria").val(data.idcategoria);
+        $('#idcategoria').selectpicker('refresh');
 		$("#codigo").val(data.codigo);
 		$("#nombre").val(data.nombre);
-		$("#stock").val(data.stock);
 		$("#descripcion").val(data.descripcion);
+		$("#unidad").val(data.unit);
+		$("#presentacion").val(data.presentation);
 		$("#imagenmuestra").show();
 		$("#imagenmuestra").attr("src","../files/articulos/"+data.imagen);
 		$("#imagenactual").val(data.imagen);
- 		$("#idarticulo").val(data.idarticulo);
+ 		$("#idarticulo").val(data.idproducto);
  		generarbarcode();
 
  	})

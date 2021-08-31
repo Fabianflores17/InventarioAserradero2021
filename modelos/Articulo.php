@@ -22,28 +22,28 @@ Class Articulo
 	public function editar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idcategoria,$unit,$idarticulo)
 	{
         $sql="UPDATE producto SET imagen='$imagen',codigo='$codigo',nombre='$nombre',descripcion='$descripcion',
-            inventario_min='$inventario_min',precio_en='$precio_en',presentation='$presentation',idcategoria='$idcategoria',unit='$unit' WHERE id = '$idarticulo'";
+            inventario_min='$inventario_min',precio_en='$precio_en',presentation='$presentation',idcategoria='$idcategoria',unit='$unit' WHERE idproducto = '$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para desactivar registros
 	public function desactivar($idarticulo)
 	{
-		$sql="UPDATE producto SET condicion='0' WHERE id='$idarticulo'";
+		$sql="UPDATE producto SET condicion='0' WHERE idproducto ='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para activar registros
 	public function activar($idarticulo)
 	{
-		$sql="UPDATE producto SET condicion='1' WHERE id='$idarticulo'";
+		$sql="UPDATE producto SET condicion='1' WHERE idproducto ='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idarticulo)
 	{
-		$sql="SELECT * FROM producto WHERE id='$idarticulo'";
+		$sql="SELECT * FROM producto WHERE idproducto = '$idarticulo'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 

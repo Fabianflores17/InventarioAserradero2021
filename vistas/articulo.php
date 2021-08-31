@@ -29,7 +29,7 @@ if ($_SESSION['almacen']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tabla" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
@@ -38,7 +38,6 @@ if ($_SESSION['almacen']==1)
                             <th>Imagen</th>
                             <th>Inventario Minimo</th>
                             <th>Precio de Entrada</th>
-                            <th>Listado de precios</th>
                             <th>Unidad</th>
                             <th>Presentacion</th>
                             <th>Estado</th>
@@ -53,7 +52,6 @@ if ($_SESSION['almacen']==1)
                             <th>Imagen</th>
                             <th>Inventario Minimo</th>
                             <th>Precio de Entrada</th>
-                            <th>Listado de precios</th>
                             <th>Unidad</th>
                             <th>Presentacion</th>
                             <th>Estado</th>

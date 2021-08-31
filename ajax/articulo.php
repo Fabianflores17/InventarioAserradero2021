@@ -64,20 +64,19 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="mostrar('.$reg->id.')"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-danger" onclick="desactivar('.$reg->id.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->id.')"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-primary" onclick="activar('.$reg->id.')"><i class="fa fa-check"></i></button>',
+ 				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idproducto.')"><i class="fa fa-pencil"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="desactivar('.$reg->idproducto.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idproducto.')"><i class="fa fa-pencil"></i></button>'.
+ 					' <button class="btn btn-primary" onclick="activar('.$reg->idproducto.'`)"><i class="fa fa-check"></i></button>',
  				"1"=>$reg->nombre,
  				"2"=>$reg->categoria,
  				"3"=>$reg->codigo,
  				"4"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
  				"5"=>$reg->inventario_min,
  				"6"=>$reg->precio_en,
- 				"7"=>$reg->id_precio_lis,
- 				"8"=>$reg->unit,
- 				"9"=>$reg->presentation,
- 				"10"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
+ 				"7"=>$reg->unit,
+ 				"8"=>$reg->presentation,
+ 				"9"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
  				'<span class="label bg-red">Desactivado</span>'
  				);
  		}
