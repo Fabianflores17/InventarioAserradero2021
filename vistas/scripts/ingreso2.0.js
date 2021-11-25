@@ -163,14 +163,14 @@ function mostrar(idingreso)
 		data = JSON.parse(data);		
 		mostrarform(true);
 
-		$("#idproveedor").val(data.idproveedor);
-		$("#idproveedor").selectpicker('refresh');
+		$("#idproveedor2").val(data.idpersona);
+		$("#idproveedor2").selectpicker('refresh');
 		$("#tipo_comprobante").val(data.tipo_comprobante);
 		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie_comprobante);
-		$("#num_comprobante").val(data.num_comprobante);
+		$("#serie_comprobante").val(data.serie);
+		$("#num_comprobante").val(data.codigo_factura);
 		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.impuesto);
+		$("#impuesto").val(data.iva);
 		$("#idingreso").val(data.idingreso);
 
 		//Ocultar y mostrar los botones
@@ -273,7 +273,7 @@ function agregarDetalle(idarticulo,articulo)
   	for (var i = 0; i <sub.length; i++) {
 		total += document.getElementsByName("subtotal")[i].value;
 	}
-	$("#total").html("S/. " + total);
+	$("#total").html("Q/. " + total);
     $("#total_compra").val(total);
     evaluar();
   }

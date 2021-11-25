@@ -7,7 +7,7 @@ require_once "../modelos/Ingreso.php";
 $ingreso=new Ingreso();
 
 $idingreso=isset($_POST["idingreso"])? limpiarCadena($_POST["idingreso"]):"";
-$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):"";
+$idproveedor=isset($_POST["idproveedor2"])? limpiarCadena($_POST["idproveedor2"]):"";
 $idusuario=$_SESSION["idusuario"];
 $tipo_comprobante=isset($_POST["tipo_comprobante"])? limpiarCadena($_POST["tipo_comprobante"]):"";
 $serie_comprobante=isset($_POST["serie_comprobante"])? limpiarCadena($_POST["serie_comprobante"]):"";
@@ -25,6 +25,15 @@ switch ($_GET["op"]){
 		else {
 		}
 	break;
+
+//	case 'guardaryeditar':
+//		if (empty($idingreso)){
+//			$rspta=$ingreso->insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_compra,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_compra"],$_POST["precio_venta"]);
+//			echo $rspta ? "Ingreso registrado" : "No se pudieron registrar todos los datos del ingreso";
+//		}
+//		else {
+//		}
+//	break;
 
 	case 'anular':
 		$rspta=$ingreso->anular($idingreso);
@@ -54,8 +63,8 @@ switch ($_GET["op"]){
 
 		while ($reg = $rspta->fetch_object())
 				{
-					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->precio_compra.'</td><td>'.$reg->precio_venta.'</td><td>'.$reg->precio_compra*$reg->cantidad.'</td></tr>';
-					$total=$total+($reg->precio_compra*$reg->cantidad);
+					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->price_compra.'</td><td>'.$reg->idprecio_lis.'</td><td>'.$reg->precio_compra*$reg->cantidad.'</td></tr>';
+					$total=$total+($reg->price_compra*$reg->cantidad);
 				}
 		echo '<tfoot>
                                     <th>TOTAL</th>
@@ -63,7 +72,7 @@ switch ($_GET["op"]){
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">S/.'.$total.'</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
+                                    <th><h4 id="total">Q/.'.$total.'</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
                                 </tfoot>';
 	break;
 
@@ -74,16 +83,16 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->estado=='Aceptado')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
+ 				"0"=>($reg->estado=='1')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->idingreso.')"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>',
  				"1"=>$reg->fecha,
- 				"2"=>$reg->proveedor,
- 				"3"=>$reg->usuario,
- 				"4"=>$reg->tipo_comprobante,
- 				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
- 				"6"=>$reg->total_compra,
- 				"7"=>($reg->estado=='Aceptado')?'<span class="label bg-green">Aceptado</span>':
+				"2"=>$reg->usuario,
+ 				"3"=>$reg->proveedor,
+				"4"=>$reg->proveedor,
+				"5"=>$reg->proveedor,
+				"6"=>$reg->total,
+ 				"7"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}
@@ -118,11 +127,11 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button class="btn btn-warning" onclick="agregarDetalle('.$reg->idarticulo.',\''.$reg->nombre.'\')"><span class="fa fa-plus"></span></button>',
+ 				"0"=>'<button class="btn btn-warning" onclick="agregarDetalle('.$reg->idproducto.',\''.$reg->nombre.'\')"><span class="fa fa-plus"></span></button>',
  				"1"=>$reg->nombre,
  				"2"=>$reg->categoria,
  				"3"=>$reg->codigo,
- 				"4"=>$reg->stock,
+ 				"4"=>$reg->descripcion,
  				"5"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >"
  				);
  		}

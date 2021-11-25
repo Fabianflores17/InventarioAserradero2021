@@ -15,14 +15,14 @@ if ($_SESSION['almacen']==1)
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
+      <div class="content-wrapper">        
         <!-- Main content -->
         <section class="content">
             <div class="row">
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Artículo <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button> <a href="../reportes/rptarticulos.php" target="_blank"><button class="btn btn-info">Reporte</button></a></h1>
+                          <h1 class="box-title">Artículo <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button> </h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -32,36 +32,26 @@ if ($_SESSION['almacen']==1)
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
                             <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
+                            <th>Unidad de medida</th>
+                            <th>Presentación</th>
                             <th>Imagen</th>
-<<<<<<< HEAD
-                            <th>Bodega</th>
-=======
-                            <th>Inventario Minimo</th>
-                            <th>Precio de Entrada</th>
-                            <th>Unidad</th>
-                            <th>Presentacion</th>
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
                             <th>Estado</th>
                           </thead>
-                          <tbody>
+                          <tbody>                            
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
                             <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Categoría</th>
+                            <th>Unidad de medida</th>
+                            <th>Presentación</th>
                             <th>Imagen</th>
-<<<<<<< HEAD
-                            <th>Bodega</th>
-=======
-                            <th>Inventario Minimo</th>
-                            <th>Precio de Entrada</th>
-                            <th>Unidad</th>
-                            <th>Presentacion</th>
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
                             <th>Estado</th>
                           </tfoot>
                         </table>
@@ -71,41 +61,27 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre(*):</label>
                             <input type="hidden" name="idarticulo" id="idarticulo">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required> 
-                            <input type="hidden" name="idusuario" id="idusuario" value="<?php echo $_SESSION["idusuario"];?>">
-                            </div>
+                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
+                          </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
                             <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-<<<<<<< HEAD
-                            <label>Categoría(*):</label>
-                            <select id="idalmacen" name="idalmacen" class="form-control selectpicker" data-live-search="true" required></select>
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Stock(*):</label>
-                            <input type="number" class="form-control" name="stock" id="stock" required>
-=======
-                            <label>Inventario Minimo</label>
-                            <input type="number" class="form-control" name="inventario_min" id="inventario_min" placeholder="Inventario Minimo" required>
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
-                          </div>
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <label>Precio de Entrada</label>
-                                <input type="number" class="form-control" name="precio_en" id="precio_en" placeholder="Precio de Entrada" required>
-                            </div> 
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <label>Presentacion</label>
-                                <input type="text" class="form-control" name="presentation" id="presentation" placeholder="Presentacion" required>
-                            </div> 
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <label>Unidad</label>
-                                <input type="text"class="form-control" name="unit" id="unit" placeholde="Unidad de medida" required >
-                            </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
                             <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Unidad:</label>
+                            <input type="text" class="form-control" name="unidad" id="unidad" maxlength="256" placeholder="unidad">
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Presentación:</label>
+                            <input type="text" class="form-control" name="presentacion" id="presentacion" maxlength="256" placeholder="Presentacion del producto">
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Cantidad:</label>
+                            <input type="text" class="form-control" name="cantidad" id="cantidad" maxlength="256" placeholder="cantidad de productos">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Imagen:</label>
@@ -148,11 +124,7 @@ require 'footer.php';
 <script type="text/javascript" src="../public/js/JsBarcode.all.min.js"></script>
 <script type="text/javascript" src="../public/js/jquery.PrintArea.js"></script>
 <script type="text/javascript" src="scripts/articulos2.0.js"></script>
-<<<<<<< HEAD
-<?php
-=======
 <?php 
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
 }
 ob_end_flush();
 ?>

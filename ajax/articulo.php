@@ -1,24 +1,17 @@
-<?php
+<?php 
 require_once "../modelos/Articulo.php";
 
 $articulo=new Articulo();
 
 $idarticulo=isset($_POST["idarticulo"])? limpiarCadena($_POST["idarticulo"]):"";
-$imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
+$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
 $codigo=isset($_POST["codigo"])? limpiarCadena($_POST["codigo"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
+$presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):"";
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
-<<<<<<< HEAD
+$unidad=isset($_POST["unidad"])? limpiarCadena($_POST["unidad"]):"";
+$cantidad=isset($_POST["cantidad"])? limpiarCadena($_POST["cantidad"]):"";
 $imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
-$idalmacen=isset($_POST["idalmacen"])? limpiarCadena($_POST["idalmacen"]):"";
-=======
-$inventario_min=isset($_POST["inventario_min"])? limpiarCadena($_POST["inventario_min"]):"";
-$precio_en=isset($_POST["precio_en"])? limpiarCadena($_POST["precio_en"]):"";
-$presentation=isset($_POST["presentation"])? limpiarCadena($_POST["presentation"]):"";
-$idusuario=isset($_POST["idusuario"])? limpiarCadena($_POST["idusuario"]):"";
-$idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
-$unit=isset($_POST["unit"])? limpiarCadena($_POST["unit"]):"";
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -27,7 +20,7 @@ switch ($_GET["op"]){
 		{
 			$imagen=$_POST["imagenactual"];
 		}
-		else
+		else 
 		{
 			$ext = explode(".", $_FILES["imagen"]["name"]);
 			if ($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg" || $_FILES['imagen']['type'] == "image/png")
@@ -37,19 +30,11 @@ switch ($_GET["op"]){
 			}
 		}
 		if (empty($idarticulo)){
-<<<<<<< HEAD
-			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen,$idalmacen);
+			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad);
 			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
 		}
 		else {
-			$rspta=$articulo->editar($idarticulo,$idcategoria,$codigo,$nombre,$stock,$descripcion,$imagen,$idalmacen);
-=======
-			$rspta=$articulo->insertar($imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idusuario,$idcategoria,$unit);
-			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
-		}
-		else {
-			$rspta=$articulo->editar($idarticulo,$imagen,$codigo,$nombre,$descripcion,$inventario_min,$precio_en,$presentation,$idusuario,$idcategoria,$unit);
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
+			$rspta=$articulo->editar($idarticulo,$idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen);
 			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
 		}
 	break;
@@ -80,23 +65,15 @@ switch ($_GET["op"]){
  				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idproducto.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-danger" onclick="desactivar('.$reg->idproducto.')"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idproducto.')"><i class="fa fa-pencil"></i></button>'.
- 					' <button class="btn btn-primary" onclick="activar('.$reg->idproducto.'`)"><i class="fa fa-check"></i></button>',
- 				"1"=>$reg->nombre,
- 				"2"=>$reg->categoria,
- 				"3"=>$reg->codigo,
-<<<<<<< HEAD
- 				"4"=>$reg->stock,
- 				"5"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
-				"6"=>$reg->almacen,
- 				"7"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
-=======
- 				"4"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
- 				"5"=>$reg->inventario_min,
- 				"6"=>$reg->precio_en,
- 				"7"=>$reg->unit,
- 				"8"=>$reg->presentation,
- 				"9"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
->>>>>>> 597df40616a8e776a98a53bd15e5a5377a1cec66
+ 					' <button class="btn btn-primary" onclick="activar('.$reg->idproducto.')"><i class="fa fa-check"></i></button>',
+ 				"1"=>$reg->codigo,
+				"2"=>$reg->nombre,
+ 				"3"=>$reg->descripcion,
+ 				"4"=>$reg->idcategoria,
+				"5"=>$reg->unit,
+				"6"=>$reg->presentation,
+				"7"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",
+ 				"8"=>($reg->condicion)?'<span class="label bg-green">Activado</span>':
  				'<span class="label bg-red">Desactivado</span>'
  				);
  		}
@@ -118,18 +95,6 @@ switch ($_GET["op"]){
 		while ($reg = $rspta->fetch_object())
 				{
 					echo '<option value=' . $reg->idcategoria . '>' . $reg->nombre . '</option>';
-				}
-	break;
-	
-	case "selectAlmacen":
-		require_once "../modelos/almacen.php";
-		$almacen = new Almacen();
-
-		$rspta = $almacen->select();
-
-		while ($reg = $rspta->fetch_object())
-				{
-					echo '<option value=' . $reg->idalmacen . '>' . $reg->nombre . '</option>';
 				}
 	break;
 }
