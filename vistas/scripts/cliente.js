@@ -7,7 +7,7 @@ function init(){
 
 	$("#formulario").on("submit",function(e)
 	{
-		guardaryeditar(e);
+		guardaryeditar(e);	
 	})
 }
 
@@ -15,11 +15,9 @@ function init(){
 function limpiar()
 {
 	$("#nombre").val("");
-	$("#apellido").val("");
 	$("#num_documento").val("");
 	$("#direccion").val("");
 	$("#telefono").val("");
-	$("#telefono1").val("");
 	$("#email").val("");
 	$("#idpersona").val("");
 }
@@ -58,7 +56,7 @@ function listar()
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [
+	    buttons: [		          
 		            'copyHtml5',
 		            'excelHtml5',
 		            'csvHtml5',
@@ -68,9 +66,9 @@ function listar()
 				{
 					url: '../ajax/persona.php?op=listarc',
 					type : "get",
-					dataType : "json",
+					dataType : "json",						
 					error: function(e){
-						console.log(e.responseText);
+						console.log(e.responseText);	
 					}
 				},
 		"bDestroy": true,
@@ -94,8 +92,8 @@ function guardaryeditar(e)
 	    processData: false,
 
 	    success: function(datos)
-	    {
-	          bootbox.alert(datos);
+	    {                    
+	          bootbox.alert(datos);	          
 	          mostrarform(false);
 	          tabla.ajax.reload();
 	    }
@@ -108,20 +106,18 @@ function mostrar(idpersona)
 {
 	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)
 	{
-		data = JSON.parse(data);
+		data = JSON.parse(data);		
 		mostrarform(true);
 
 		$("#nombre").val(data.nombre);
-		$("#apellido").val(data.apellido);
 		$("#tipo_documento").val(data.tipo_documento);
 		$("#tipo_documento").selectpicker('refresh');
 		$("#num_documento").val(data.num_documento);
 		$("#direccion").val(data.direccion);
 		$("#telefono").val(data.telefono);
-		"#telefono1").val(data.telefono1);
 		$("#email").val(data.email);
  		$("#idpersona").val(data.idpersona);
-
+		
 
  	})
 }
@@ -135,7 +131,7 @@ function eliminar(idpersona)
         	$.post("../ajax/persona.php?op=eliminar", {idpersona : idpersona}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});
+        	});	
         }
 	})
 }

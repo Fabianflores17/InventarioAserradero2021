@@ -7,19 +7,13 @@ function init(){
 
 	$("#formulario").on("submit",function(e)
 	{
-		guardaryeditar(e);
+		guardaryeditar(e);	
 	})
 
 	//Cargamos los items al select categoria
 	$.post("../ajax/articulo.php?op=selectCategoria", function(r){
-	           $("#idcategoria").html(r);
+	            $("#idcategoria").html(r);
 	            $('#idcategoria').selectpicker('refresh');
-
-});
-
-	$.post("../ajax/articulo.php?op=selectAlmacen", function(r){
-							$("#idalmacen").html(r);
-							$('#idalmacen').selectpicker('refresh');
 
 	});
 	$("#imagenmuestra").hide();
@@ -72,7 +66,7 @@ function listar()
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [
+	    buttons: [		          
 		            'copyHtml5',
 		            'excelHtml5',
 		            'csvHtml5',
@@ -82,9 +76,9 @@ function listar()
 				{
 					url: '../ajax/articulo.php?op=listar',
 					type : "get",
-					dataType : "json",
+					dataType : "json",						
 					error: function(e){
-						console.log(e.responseText);
+						console.log(e.responseText);	
 					}
 				},
 		"bDestroy": true,
@@ -108,8 +102,8 @@ function guardaryeditar(e)
 	    processData: false,
 
 	    success: function(datos)
-	    {
-	          bootbox.alert(datos);
+	    {                    
+	          bootbox.alert(datos);	          
 	          mostrarform(false);
 	          tabla.ajax.reload();
 	    }
@@ -118,17 +112,17 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idproducto)
+function mostrar(idarticulo)
 {
-	$.post("../ajax/articulo.php?op=mostrar",{idarticulo : idproducto}, function(data, status)
+	$.post("../ajax/articulo.php?op=mostrar",{idarticulo : idarticulo}, function(data, status)
 	{
-		data = JSON.parse(data);
+		data = JSON.parse(data);		
 		mostrarform(true);
 
 	
 
-	    $("#idcategoria").val(data.idcategoria);
-        $('#idcategoria').selectpicker('refresh');
+	   $("#idcategoria").val(data.idcategoria);
+       $('#idcategoria').selectpicker('refresh');
 		$("#codigo").val(data.codigo);
 		$("#nombre").val(data.nombre);
 		$("#descripcion").val(data.descripcion);
@@ -152,7 +146,7 @@ function desactivar(idarticulo)
         	$.post("../ajax/articulo.php?op=desactivar", {idarticulo : idarticulo}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});
+        	});	
         }
 	})
 }
@@ -166,7 +160,7 @@ function activar(idarticulo)
         	$.post("../ajax/articulo.php?op=activar", {idarticulo : idarticulo}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});
+        	});	
         }
 	})
 }

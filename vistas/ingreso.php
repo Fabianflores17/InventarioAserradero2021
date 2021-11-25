@@ -55,15 +55,26 @@ if ($_SESSION['compras']==1)
                           </tfoot>
                         </table>
                     </div>
-                    <div class="panel-body" style="height: 400px;" id="formularioregistros">
+                    <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <label>Proveedor(*):</label>
+                        <input type="hidden" name="idingreso" id="idingreso">
+                            <select name="idproveedor2" id="idproveedor2" class="form-control selectpicker" required="">
+                               <option value="1">Torinilleria</option>
+                               <option value="2">Madedera</option>
+                               <option value="3">Tornilleria chico</option>
+                            </select>
+                          </div>
+                       <!--
+                         este es el codigo para traer a los proveedores 
+                         <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <label>Proveedor(*):</label>
                             <input type="hidden" name="idingreso" id="idingreso">
                             <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
 
                             </select>
-                          </div>
+                          </div>-->
                           <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <label>Fecha(*):</label>
                             <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
@@ -71,9 +82,9 @@ if ($_SESSION['compras']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
                             <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
-                               <option value="Boleta">Boleta</option>
-                               <option value="Factura">Factura</option>
-                               <option value="Ticket">Ticket</option>
+                               <option value="1">Boleta</option>
+                               <option value="2">Factura</option>
+                               <option value="3">Ticket</option>
                             </select>
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -110,7 +121,7 @@ if ($_SESSION['compras']==1)
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">S/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th>
+                                    <th><h4 id="total">Q/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th>
                                 </tfoot>
                                 <tbody>
 
@@ -181,7 +192,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso.js"></script>
+<script type="text/javascript" src="scripts/ingreso2.0.js"></script>
 <?php
 }
 ob_end_flush();

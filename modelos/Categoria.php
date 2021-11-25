@@ -38,7 +38,7 @@ Class Categoria
 		$sql="UPDATE categoria SET condicion='1' WHERE idcategoria='$idcategoria'";
 		return ejecutarConsulta($sql);
 	}
-  
+
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idcategoria)
 	{

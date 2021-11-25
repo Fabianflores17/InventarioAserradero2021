@@ -1,13 +1,13 @@
 var tabla;
 
 //Función que se ejecuta al inicio
-function inicio(){
-	mostrarclientes(0);
+function init(){
+	mostrarformclient(false);
 	listar();
 
-	$("#formularioclientes").on("submit",function(e)
+	$("#formulariocliente").on("submit",function(e)
 	{
-		guardaryeditar(e);
+		guardaryeditarCliente(e);
 	})
 }
 
@@ -15,28 +15,30 @@ function inicio(){
 function limpiar()
 {
 	$("#nombre").val("");
+	$("#apellido").val("");
 	$("#num_documento").val("");
 	$("#direccion").val("");
 	$("#telefono").val("");
+	$("#telefono1").val("");
 	$("#email").val("");
 	$("#idpersona").val("");
 }
 
 //Función mostrar formulario
-function mostrarclientes(flag)
+function mostrarformclient(flag)
 {
 	limpiar();
 	if (flag)
 	{
-		$("#listadoregistros").hide();
-		$("#formularioregistrosclientes").show();
+		$("#listadoregistroscliente").hide();
+		$("#formularioregistroscliente").show();
 		$("#btnGuardarcliente").prop("disabled",false);
-		$("#btnagregarcliente	").hide();
+		$("#btnagregarcliente").hide();
 	}
 	else
 	{
-		$("#listadoregistros").show();
-		$("#formularioregistrosclientes").hide();
+		$("#listadoregistroscliente").show();
+		$("#formularioregistroscliente").hide();
 		$("#btnagregarcliente").show();
 	}
 }
@@ -45,13 +47,13 @@ function mostrarclientes(flag)
 function cancelarform()
 {
 	limpiar();
-	mostrarclientes(0);
+	mostrarformclient(false);
 }
 
 //Función Listar
 function listar()
 {
-	tabla=$('#tbllistado').dataTable(
+	tabla=$('#tbllistadocliente').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -78,11 +80,11 @@ function listar()
 }
 //Función para guardar o editar
 
-function guardaryeditar(e)
+function guardaryeditarCliente(e)
 {
 	e.preventDefault(); //No se activará la acción predeterminada del evento
 	$("#btnGuardarcliente").prop("disabled",true);
-	var formData = new FormData($("#formularioregistrosclientes")[0]);
+	var formData = new FormData($("#formulariocliente")[0]);
 
 	$.ajax({
 		url: "../ajax/persona.php?op=guardaryeditar",
@@ -94,7 +96,7 @@ function guardaryeditar(e)
 	    success: function(datos)
 	    {
 	          bootbox.alert(datos);
-	          mostrarclientes(0);
+	          mostrarformclient(false);
 	          tabla.ajax.reload();
 	    }
 
@@ -107,14 +109,16 @@ function mostrar(idpersona)
 	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)
 	{
 		data = JSON.parse(data);
-		mostrarclientes(1);
+		mostrarformclient(true);
 
 		$("#nombre").val(data.nombre);
+		$("#apellido").val(data.apellido);
 		$("#tipo_documento").val(data.tipo_documento);
 		$("#tipo_documento").selectpicker('refresh');
-		$("#num_documento").val(data.num_documento);
+		$("#num_documento").val(data.nit);
 		$("#direccion").val(data.direccion);
 		$("#telefono").val(data.telefono);
+		$("#telefono1").val(data.telefono1);
 		$("#email").val(data.email);
  		$("#idpersona").val(data.idpersona);
 
@@ -136,4 +140,4 @@ function eliminar(idpersona)
 	})
 }
 
-inicio();
+init();
