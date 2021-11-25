@@ -33,14 +33,9 @@ if ($_SESSION['compras']==1)
                           <thead>
                             <th>Opciones</th>
                             <th>Nombre</th>
-<<<<<<< HEAD
                             <th>Apellido</th>
                               <th>Documento</th>
                             <th>Celular</th>
-=======
-                            <th>Documento</th>
-                            <th>Número</th>
->>>>>>> master
                             <th>Teléfono</th>
                             <th>Email</th>
                           </thead>
@@ -49,14 +44,9 @@ if ($_SESSION['compras']==1)
                           <tfoot>
                             <th>Opciones</th>
                             <th>Nombre</th>
-<<<<<<< HEAD
                             <th>Apellido</th>
                               <th>Documento</th>
                             <th>Celular</th>
-=======
-                            <th>Documento</th>
-                            <th>Número</th>
->>>>>>> master
                             <th>Teléfono</th>
                             <th>Email</th>
                           </tfoot>
@@ -64,7 +54,6 @@ if ($_SESSION['compras']==1)
                     </div>
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-<<<<<<< HEAD
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre:</label>
                             <input type="hidden" name="idpersona" id="idpersona">
@@ -99,35 +88,6 @@ if ($_SESSION['compras']==1)
                             <input type="text" class="form-control" name="telefono1" id="telefono1" maxlength="20" placeholder="Teléfono2">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-=======
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Nombre:</label>
-                            <input type="hidden" name="idpersona" id="idpersona">
-                            <input type="hidden" name="tipo_persona" id="tipo_persona" value="Proveedor">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del proveedor" required>
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Documento:</label>
-                            <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
-                              <option value="DNI">NIT</option>
-                              <option value="RUC">CUI</option>
-                              <option value="CEDULA">DPI</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Número Documento:</label>
-                            <input type="text" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="Documento">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Dirección:</label>
-                            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Teléfono:</label>
-                            <input type="text" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
->>>>>>> master
                             <label>Email:</label>
                             <input type="email" class="form-control" name="email" id="email" maxlength="50" placeholder="Email">
                           </div>
@@ -155,11 +115,7 @@ else
 }
 require 'footer.php';
 ?>
-<<<<<<< HEAD
 <script type="text/javascript" src="scripts/proveedor3.js"></script>
-=======
-<script type="text/javascript" src="scripts/proveedor.js"></script>
->>>>>>> master
 <?php
 }
 ob_end_flush();

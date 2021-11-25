@@ -94,12 +94,9 @@ if ($_SESSION['escritorio']==1)
                               <a href="venta.php" class="small-box-footer">Ventas <i class="fa fa-arrow-circle-right"></i></a>
                             </div>
                         </div>
-<<<<<<< HEAD
 
                         
 
-=======
->>>>>>> master
                     </div>
                     <div class="panel-body">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
