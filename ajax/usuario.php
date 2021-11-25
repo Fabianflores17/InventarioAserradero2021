@@ -157,8 +157,13 @@ switch ($_GET["op"]){
 			in_array(5,$valores)?$_SESSION['acceso']=1:$_SESSION['acceso']=0;
 			in_array(6,$valores)?$_SESSION['consultac']=1:$_SESSION['consultac']=0;
 			in_array(7,$valores)?$_SESSION['consultav']=1:$_SESSION['consultav']=0;
+<<<<<<< HEAD
 			in_array(8,$valores)?$_SESSION['caja']=1:$_SESSION['caja']=0;
 		  in_array(9,$valores)?$_SESSION['Planilla']=1:$_SESSION['Planilla']=0;
+=======
+			in_array(7,$valores)?$_SESSION['caja']=1:$_SESSION['caja']=0;
+			in_array(10,$valores)?$_SESSION['planilla']=1:$_SESSION['planilla']=0;
+>>>>>>> master
 
 	    }
 	    echo json_encode($fetch);

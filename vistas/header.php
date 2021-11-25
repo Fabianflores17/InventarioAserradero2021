@@ -71,7 +71,11 @@ if (strlen(session_id()) < 1)
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
+<<<<<<< HEAD
 
+=======
+                    
+>>>>>>> master
                     <div class="pull-right">
                       <a href="../ajax/usuario.php?op=salir" class="btn btn-default btn-flat">Cerrar</a>
                     </div>
@@ -172,16 +176,29 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
+<<<<<<< HEAD
             if ($_SESSION['Planilla']==1)
             {
               echo '<li class="treeview">
               <a href="#">
                 <i class="fa fa-group"></i>
+=======
+            if ($_SESSION['planilla']==1)
+            {
+              echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-address-book"></i>
+>>>>>>> master
                 <span>Planilla</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+<<<<<<< HEAD
                 <li><a href="colaborador.php"><i class="fa fa-circle-o"></i> Colaborador</a></li>
+=======
+                <li><a href="venta.php"><i class="fa fa-circle-o"></i> Prueba</a></li>
+                <li><a href="cliente.php"><i class="fa fa-circle-o"></i>dos</a></li>
+>>>>>>> master
               </ul>
             </li>';
             }

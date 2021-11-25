@@ -26,6 +26,18 @@ switch ($_GET["op"]){
 		}
 	break;
 
+<<<<<<< HEAD
+=======
+//	case 'guardaryeditar':
+//		if (empty($idingreso)){
+//			$rspta=$ingreso->insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_compra,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_compra"],$_POST["precio_venta"]);
+//			echo $rspta ? "Ingreso registrado" : "No se pudieron registrar todos los datos del ingreso";
+//		}
+//		else {
+//		}
+//	break;
+
+>>>>>>> master
 	case 'anular':
 		$rspta=$ingreso->anular($idingreso);
  		echo $rspta ? "Ingreso anulado" : "Ingreso no se puede anular";
@@ -54,8 +66,13 @@ switch ($_GET["op"]){
 
 		while ($reg = $rspta->fetch_object())
 				{
+<<<<<<< HEAD
 					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->precio_compra.'</td><td>'.$reg->precio_venta.'</td><td>'.$reg->precio_compra*$reg->cantidad.'</td></tr>';
 					$total=$total+($reg->precio_compra*$reg->cantidad);
+=======
+					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->price_compra.'</td><td>'.$reg->idprecio_lis.'</td><td>'.$reg->precio_compra*$reg->cantidad.'</td></tr>';
+					$total=$total+($reg->price_compra*$reg->cantidad);
+>>>>>>> master
 				}
 		echo '<tfoot>
                                     <th>TOTAL</th>
@@ -74,6 +91,7 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
+<<<<<<< HEAD
  				"0"=>($reg->estado=='Aceptado')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->idingreso.')"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>',
@@ -84,6 +102,18 @@ switch ($_GET["op"]){
  				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
  				"6"=>$reg->total_compra,
  				"7"=>($reg->estado=='Aceptado')?'<span class="label bg-green">Aceptado</span>':
+=======
+ 				"0"=>($reg->estado=='1')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->idingreso.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>',
+ 				"1"=>$reg->fecha,
+				"2"=>$reg->usuario,
+ 				"3"=>$reg->proveedor,
+				"4"=>$reg->proveedor,
+				"5"=>$reg->proveedor,
+				"6"=>$reg->total,
+ 				"7"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
+>>>>>>> master
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}
