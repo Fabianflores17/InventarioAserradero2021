@@ -171,7 +171,7 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
-            if ($_SESSION['planilla']==1)
+            if ($_SESSION['Planilla']==1)
             {
               echo '<li class="treeview">
               <a href="#">
