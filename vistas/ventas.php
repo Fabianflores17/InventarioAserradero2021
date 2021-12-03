@@ -17,9 +17,9 @@ if ($_SESSION['ventas']==1)
   $consulta = new Consultas();
 
 
-  $rsptav = $consulta->Totalventas();
-  $regv=$rsptav->fetch_object();
-  $totalv=$regv->total_venta;
+  // $rsptav = $consulta->Totalventas();
+  // $regv=$rsptav->fetch_object();
+  // $totalv=$regv->total_venta;
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->

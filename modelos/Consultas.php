@@ -45,28 +45,28 @@ Class Consultas
 		$sql="SELECT DATE_FORMAT(created_at,'%M') as fecha,SUM(total) as total FROM transaccion GROUP by MONTH(created_at) ORDER BY created_at DESC limit 0,10";
 		return ejecutarConsulta($sql);
 	}
-//	public function Totalventas()
-//	{
-//		$sql="SELECT SUM(DISTINCT v.total_venta-d.descuento) as total_venta FROM venta v right JOIN detalle_venta as d ON v.idventa=d.idventa WHERE v.estado='Aceptado'";
-//		return ejecutarConsulta($sql);
-//	}
-public function Totalventas()
-	{
-		$sql="SELECT SUM(total_venta) as total_venta FROM venta WHERE estado='Aceptado'";
-		return ejecutarConsulta($sql);
-}
+	// public function Totalventas()
+	// {
+	// 	$sql="SELECT SUM(DISTINCT v.total_venta-d.descuento) as total_venta FROM venta v right JOIN detalle_venta as d ON v.idventa=d.idventa WHERE v.estado='Aceptado'";
+	// 	return ejecutarConsulta($sql);
+	// }
+	public function Totalventas()
+		{
+			$sql="SELECT SUM(total_venta) as total_venta FROM venta WHERE estado='Aceptado'";
+			return ejecutarConsulta($sql);
+	}
 
-public function Totalcajaingresos()
-	{
-		$sql="SELECT SUM(cantida) as total_ingreso FROM caja";
-		return ejecutarConsulta($sql);
-}
+	public function Totalcajaingresos()
+		{
+			$sql="SELECT SUM(cantida) as total_ingreso FROM caja";
+			return ejecutarConsulta($sql);
+	}
 
-public function TotalCompra()
-	{
-		$sql="SELECT SUM(total_compra) as compras FROM ingreso WHERE estado='Aceptado'";
-		return ejecutarConsulta($sql);
-}
+	public function TotalCompra()
+		{
+			$sql="SELECT SUM(total_compra) as compras FROM ingreso WHERE estado='Aceptado'";
+			return ejecutarConsulta($sql);
+	}
 
 
 }
