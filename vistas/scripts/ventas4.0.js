@@ -222,6 +222,7 @@ function agregarDetalle(idarticulo,articulo,precio_venta)
   {
   	var cantidad=1;
     var descuento=0;
+    var precio_venta=1;
 
     if (idarticulo!="")
     {
@@ -236,7 +237,7 @@ function agregarDetalle(idarticulo,articulo,precio_venta)
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
     	'</tr>';
     	cont++;
-    	detalles=detalles+1;
+    	detalles=detalles+1;//Loadin
     	$('#detalles').append(fila);
     	modificarSubototales();
     }
