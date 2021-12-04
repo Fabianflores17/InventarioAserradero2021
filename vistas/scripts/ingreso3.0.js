@@ -11,8 +11,8 @@ function init(){
 	});
 	//Cargamos los items al select proveedor
 	$.post("../ajax/ingreso.php?op=selectProveedor", function(r){
-	            $("#idproveedor").html(r);
-	            $('#idproveedor').selectpicker('refresh');
+	            $("#idproveedor2").html(r);
+	            $('#idproveedor2').selectpicker('refresh');
 	});
 	
 }

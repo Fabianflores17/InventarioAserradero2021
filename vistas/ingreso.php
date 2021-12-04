@@ -61,9 +61,9 @@ if ($_SESSION['compras']==1)
                         <label>Proveedor(*):</label>
                         <input type="hidden" name="idingreso" id="idingreso">
                             <select name="idproveedor2" id="idproveedor2" class="form-control selectpicker" required="">
-                               <option value="1">Torinilleria</option>
+                               <!-- <option value="1">Torinilleria</option>
                                <option value="2">Madedera</option>
-                               <option value="3">Tornilleria chico</option>
+                               <option value="3">Tornilleria chico</option> -->
                             </select>
                           </div>
                        <!--
@@ -192,7 +192,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso2.0.js"></script>
+<script type="text/javascript" src="scripts/ingreso3.0.js"></script>
 <?php
 }
 ob_end_flush();
