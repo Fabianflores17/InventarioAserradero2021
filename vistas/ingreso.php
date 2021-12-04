@@ -189,7 +189,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso3.0.js"></script>
+<script type="text/javascript" src="scripts/ingreso4.0.js"></script>
 <?php
 }
 ob_end_flush();

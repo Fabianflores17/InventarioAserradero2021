@@ -70,7 +70,7 @@ if ($_SESSION['ventas']==1)
                           <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione un Cliente--" data-live-search="true" >
+                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" >
                             </select>
                           </div>
                           <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -207,8 +207,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventas4.0.js"></script>
-
+<script type="text/javascript" src="scripts/ventas7.0.js"></script>
 <?php
 }
 ob_end_flush();

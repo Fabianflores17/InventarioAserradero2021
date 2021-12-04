@@ -7,29 +7,29 @@ function init(){
 
 	$("#formulario").on("submit",function(e)
 	{
-		guardaryeditar(e);	
+		guardaryeditar(e);
 	});
-	//Cargamos los items al select proveedor
-	$.post("../ajax/ingreso.php?op=selectProveedor", function(r){
-	            $("#idproveedor2").html(r);
-	            $('#idproveedor2').selectpicker('refresh');
+	//Cargamos los items al select cliente
+	$.post("../ajax/venta.php?op=selectCliente", function(r){
+	            $("#idcliente").html(r);
+	            $('#idcliente').selectpicker('refresh');
 	});
-	
 }
 
 //Función limpiar
 function limpiar()
 {
-	$("#idproveedor").val("");
-	$("#proveedor").val("");
+	$("#idcliente").val("");
+	$('#idcliente').selectpicker('refresh');
+	$("#cliente").val("");
 	$("#serie_comprobante").val("");
 	$("#num_comprobante").val("");
 	$("#impuesto").val("0");
 
-	$("#total_compra").val("");
+	$("#total_venta").val("");
 	$(".filas").remove();
 	$("#total").html("0");
-	
+
 	//Obtenemos la fecha actual
 	var now = new Date();
 	var day = ("0" + now.getDate()).slice(-2);
@@ -56,8 +56,8 @@ function mostrarform(flag)
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
-		detalles=0;
 		$("#btnAgregarArt").show();
+		detalles=0;
 	}
 	else
 	{
@@ -65,7 +65,6 @@ function mostrarform(flag)
 		$("#formularioregistros").hide();
 		$("#btnagregar").show();
 	}
-
 }
 
 //Función cancelarform
@@ -83,7 +82,7 @@ function listar()
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [		          
+	    buttons: [
 		            'copyHtml5',
 		            'excelHtml5',
 		            'csvHtml5',
@@ -91,11 +90,11 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/ingreso.php?op=listar',
+					url: '../ajax/venta.php?op=listar',
 					type : "get",
-					dataType : "json",						
+					dataType : "json",
 					error: function(e){
-						console.log(e.responseText);	
+						console.log(e.responseText);
 					}
 				},
 		"bDestroy": true,
@@ -113,16 +112,16 @@ function listarArticulos()
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [		          
-		            
+	    buttons: [
+
 		        ],
 		"ajax":
 				{
-					url: '../ajax/ingreso.php?op=listarArticulos',
+					url: '../ajax/venta.php?op=listarArticulosVenta',
 					type : "get",
-					dataType : "json",						
+					dataType : "json",
 					error: function(e){
-						console.log(e.responseText);	
+						console.log(e.responseText);
 					}
 				},
 		"bDestroy": true,
@@ -139,15 +138,15 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/ingreso.php?op=guardaryeditar",
+		url: "../ajax/venta.php?op=guardaryeditar",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
 	    processData: false,
 
 	    success: function(datos)
-	    {                    
-	          bootbox.alert(datos);	          
+	    {
+	          bootbox.alert(datos);
 	          mostrarform(false);
 	          listar();
 	    }
@@ -156,22 +155,22 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idingreso)
+function mostrar(idventa)
 {
-	$.post("../ajax/ingreso.php?op=mostrar",{idingreso : idingreso}, function(data, status)
+	$.post("../ajax/venta.php?op=mostrar",{idventa : idventa}, function(data, status)
 	{
-		data = JSON.parse(data);		
+		data = JSON.parse(data);
 		mostrarform(true);
 
-		$("#idproveedor2").val(data.idpersona);
-		$("#idproveedor2").selectpicker('refresh');
+		$("#idcliente").val(data.idcliente);
+		$("#idcliente").selectpicker('refresh');
 		$("#tipo_comprobante").val(data.tipo_comprobante);
 		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie);
-		$("#num_comprobante").val(data.codigo_factura);
+		$("#serie_comprobante").val(data.serie_comprobante);
+		$("#num_comprobante").val(data.num_comprobante);
 		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.iva);
-		$("#idingreso").val(data.idingreso);
+		$("#impuesto").val(data.impuesto);
+		$("#idventa").val(data.idventa);
 
 		//Ocultar y mostrar los botones
 		$("#btnGuardar").hide();
@@ -179,21 +178,21 @@ function mostrar(idingreso)
 		$("#btnAgregarArt").hide();
  	});
 
- 	$.post("../ajax/ingreso.php?op=listarDetalle&id="+idingreso,function(r){
+ 	$.post("../ajax/venta.php?op=listarDetalle&id="+idventa,function(r){
 	        $("#detalles").html(r);
 	});
 }
 
 //Función para anular registros
-function anular(idingreso)
+function anular(idventa)
 {
-	bootbox.confirm("¿Está Seguro de anular el ingreso?", function(result){
+	bootbox.confirm("¿Está Seguro de anular la venta?", function(result){
 		if(result)
         {
-        	$.post("../ajax/ingreso.php?op=anular", {idingreso : idingreso}, function(e){
+        	$.post("../ajax/venta.php?op=anular", {idventa : idventa}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
-        	});	
+        	});
         }
 	})
 }
@@ -212,34 +211,34 @@ function marcarImpuesto()
   	var tipo_comprobante=$("#tipo_comprobante option:selected").text();
   	if (tipo_comprobante=='Factura')
     {
-        $("#impuesto").val(impuesto); 
+        $("#impuesto").val(impuesto);
     }
     else
     {
-        $("#impuesto").val("0"); 
+        $("#impuesto").val("0");
     }
   }
 
-function agregarDetalle(idarticulo,articulo)
+function agregarDetalle(idarticulo,articulo,precio_venta)
   {
   	var cantidad=1;
-    var precio_compra=1;
+    var descuento=0;
     var precio_venta=1;
 
     if (idarticulo!="")
     {
-    	var subtotal=cantidad*precio_compra;
+    	var subtotal=cantidad*precio_venta;
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" name="precio_compra[]" id="precio_compra[]" value="'+precio_compra+'"></td>'+
-    	'<td><input type="number" name="precio_venta[]" value="'+precio_venta+'"></td>'+
+    	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+    	'<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
     	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
     	'</tr>';
     	cont++;
-    	detalles=detalles+1;
+    	detalles=detalles+1;//Loadin
     	$('#detalles').append(fila);
     	modificarSubototales();
     }
@@ -252,15 +251,17 @@ function agregarDetalle(idarticulo,articulo)
   function modificarSubototales()
   {
   	var cant = document.getElementsByName("cantidad[]");
-    var prec = document.getElementsByName("precio_compra[]");
+    var prec = document.getElementsByName("precio_venta[]");
+    var desc = document.getElementsByName("descuento[]");
     var sub = document.getElementsByName("subtotal");
 
     for (var i = 0; i <cant.length; i++) {
     	var inpC=cant[i];
     	var inpP=prec[i];
+    	var inpD=desc[i];
     	var inpS=sub[i];
 
-    	inpS.value=inpC.value * inpP.value;
+    	inpS.value=(inpC.value * inpP.value)-inpD.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
     }
     calcularTotales();
@@ -274,7 +275,7 @@ function agregarDetalle(idarticulo,articulo)
 		total += document.getElementsByName("subtotal")[i].value;
 	}
 	$("#total").html("Q/. " + total);
-    $("#total_compra").val(total);
+    $("#total_venta").val(total);
     evaluar();
   }
 
@@ -285,7 +286,7 @@ function agregarDetalle(idarticulo,articulo)
     }
     else
     {
-      $("#btnGuardar").hide(); 
+      $("#btnGuardar").hide();
       cont=0;
     }
   }
@@ -294,7 +295,7 @@ function agregarDetalle(idarticulo,articulo)
   	$("#fila" + indice).remove();
   	calcularTotales();
   	detalles=detalles-1;
-  	evaluar();
+  	evaluar()
   }
 
 init();
