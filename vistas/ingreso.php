@@ -60,10 +60,7 @@ if ($_SESSION['compras']==1)
                         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <label>Proveedor(*):</label>
                         <input type="hidden" name="idingreso" id="idingreso">
-                            <select name="idproveedor2" id="idproveedor2" class="form-control selectpicker" required="">
-                               <!-- <option value="1">Torinilleria</option>
-                               <option value="2">Madedera</option>
-                               <option value="3">Tornilleria chico</option> -->
+                            <select name="idproveedor2" id="idproveedor2" class="form-control selectpicker" title="--Seleccione un Proveedor--" required="">
                             </select>
                           </div>
                        <!--
@@ -81,7 +78,7 @@ if ($_SESSION['compras']==1)
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--" required="">
                                <option value="1">Boleta</option>
                                <option value="2">Factura</option>
                                <option value="3">Ticket</option>

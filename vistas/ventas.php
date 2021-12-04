@@ -70,7 +70,7 @@ if ($_SESSION['ventas']==1)
                           <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" data-live-search="true" >
+                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione un Cliente--" data-live-search="true" >
                             </select>
                           </div>
                           <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -79,7 +79,7 @@ if ($_SESSION['ventas']==1)
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
                                <option value="1">Boleta</option>
                                <option value="2">Factura</option>
                                <option value="3">Ticket</option>
