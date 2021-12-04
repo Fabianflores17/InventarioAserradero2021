@@ -43,7 +43,10 @@ Class Ingreso
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idingreso)
 	{
-		$sql="SELECT i.idingreso,i.fecha,i.idpersona,i.tipo_comprobante,codigo_factura,serie,iva,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado FROM transaccion i INNER JOIN persona p ON i.idpersona=p.idpersona INNER JOIN usuario u ON i.idusuario=u.idusuario WHERE i.idingreso='$idingreso'";
+		$sql="SELECT i.idingreso,i.fecha,i.idpersona,i.tipo_comprobante,codigo_factura,serie,iva,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
+		FROM transaccion i 
+		INNER JOIN persona p ON i.idpersona=p.idpersona 
+		INNER JOIN usuario u ON i.idusuario=u.idusuario WHERE i.idingreso='$idingreso'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 

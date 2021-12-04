@@ -81,7 +81,7 @@ switch ($_GET["op"]){
  			}
 
  			$data[]=array(
- 				"0"=>(($reg->estado=='Aceptado')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'.
+ 				"0"=>(($reg->estado=='0')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->idventa.')"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>').
  					'<a target="_blank" href="'.$url.$reg->idventa.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
@@ -91,7 +91,7 @@ switch ($_GET["op"]){
  				"4"=>$reg->tipo_comprobante,
  				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
  				"6"=>'<P>Q.'.$reg->total_venta.'</P>',
- 				"7"=>($reg->estado=='Aceptado')?'<span class="label bg-green">Aceptado</span>':
+ 				"7"=>($reg->estado=='0')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}

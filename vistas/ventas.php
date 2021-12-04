@@ -80,9 +80,9 @@ if ($_SESSION['ventas']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
                             <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
-                               <option value="Boleta">Boleta</option>
-                               <option value="Factura">Factura</option>
-                               <option value="Ticket">Ticket</option>
+                               <option value="1">Boleta</option>
+                               <option value="2">Factura</option>
+                               <option value="3">Ticket</option>
                             </select>
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
@@ -97,6 +97,11 @@ if ($_SESSION['ventas']==1)
                             <label>Impuesto:</label>
                             <input type="text" class="form-control" name="impuesto" id="impuesto" >
                           </div>
+                          <!-- <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Tipo de Pago(*):</label>
+                              <select id="tipo_pago" name="tipo_pago" class="form-control selectpicker" data-live-search="true" >
+                              </select>
+                          </div> -->
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -149,7 +154,7 @@ if ($_SESSION['ventas']==1)
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" style="width: 50% !important;">
+    <div class="modal-dialog" style="width: 40% !important;">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
