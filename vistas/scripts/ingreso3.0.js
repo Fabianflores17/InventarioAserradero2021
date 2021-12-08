@@ -14,7 +14,11 @@ function init(){
 	            $("#idproveedor").html(r);
 	            $('#idproveedor').selectpicker('refresh');
 	});
-	
+	$.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
+		$("#tipo_pago").html(r);
+		$('#tipo_pago').selectpicker('refresh');
+});
+
 }
 
 //Función limpiar
@@ -163,14 +167,16 @@ function mostrar(idingreso)
 		data = JSON.parse(data);		
 		mostrarform(true);
 
-		$("#idproveedor2").val(data.idpersona);
-		$("#idproveedor2").selectpicker('refresh');
+		$("#idproveedor").val(data.idpersona);
+		$("#idproveedor").selectpicker('refresh');
 		$("#tipo_comprobante").val(data.tipo_comprobante);
 		$("#tipo_comprobante").selectpicker('refresh');
 		$("#serie_comprobante").val(data.serie);
 		$("#num_comprobante").val(data.codigo_factura);
 		$("#fecha_hora").val(data.fecha);
 		$("#impuesto").val(data.iva);
+		$("#tipo_pago").val(data.tipo_pago);
+		$("#tipo_pago").selectpicker('refresh');
 		$("#idingreso").val(data.idingreso);
 
 		//Ocultar y mostrar los botones
