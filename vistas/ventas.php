@@ -207,7 +207,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventas7.0.js"></script>
+<script type="text/javascript" src="scripts/ventas1.1.js"></script>
 <?php
 }
 ob_end_flush();

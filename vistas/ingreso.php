@@ -60,8 +60,9 @@ if ($_SESSION['compras']==1)
                         <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <label>Proveedor(*):</label>
                         <input type="hidden" name="idingreso" id="idingreso">
-                            <select name="idproveedor2" id="idproveedor2" class="form-control selectpicker" title="--Seleccione un Proveedor--" required="">
+                            <select name="idproveedor2" id="idproveedor2" onchange="selecionarAlmacen();" class="form-control selectpicker" title="--Seleccione un Proveedor--" required="">
                             </select>
+                            <span class="prueba" id="prueba"></span>
                           </div>
                        <!--
                          este es el codigo para traer a los proveedores 
@@ -189,7 +190,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso4.0.js"></script>
+<script type="text/javascript" src="scripts/ingreso1.1.js"></script>
 <?php
 }
 ob_end_flush();

@@ -145,7 +145,8 @@ function guardaryeditar(e)
 	    processData: false,
 
 	    success: function(datos)
-	    {
+	    {	
+
 	          bootbox.alert(datos);
 	          mostrarform(false);
 	          listar();
