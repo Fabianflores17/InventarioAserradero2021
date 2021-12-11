@@ -14,6 +14,10 @@ function init(){
 	            $("#idproveedor").html(r);
 	            $('#idproveedor').selectpicker('refresh');
 	});
+	$.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
+		$("#tipo_pago").html(r);
+		$('#tipo_pago').selectpicker('refresh');
+});
 	
 }
 

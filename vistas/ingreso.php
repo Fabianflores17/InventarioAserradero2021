@@ -32,35 +32,36 @@ if ($_SESSION['compras']==1)
                     <div class="panel-body table-responsive" id="listadoregistros">
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
-                            <th>Opciones</th>
-                            <th>Fecha</th>
+                          <th>Opciones</th>
                             <th>Proveedor</th>
+                            <th>serie</th>
+                            <th>Numero factura</th>
+                            <th>Tolal compra</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
-                            <th>Número</th>
-                            <th>Total Compra</th>
+                            <th>Fecha Compra</th>
                             <th>Estado</th>
                           </thead>
                           <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Fecha</th>
                             <th>Proveedor</th>
+                            <th>serie</th>
+                            <th>Numero factura</th>
+                            <th>Tolal compra</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
-                            <th>Número</th>
-                            <th>Total Compra</th>
+                            <th>Fecha Compra</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>
                     </div>
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                        <label>Proveedor(*):</label>
-                        <input type="hidden" name="idingreso" id="idingreso">
-                            <select name="idproveedor2" id="idproveedor2" onchange="selecionarAlmacen();" class="form-control selectpicker" title="--Seleccione un Proveedor--" required="">
+                        <div class="form-group col-lg-6 col-md-8 col-sm-8 col-xs-12">
+                            <label>Proveedor(*):</label>
+                            <input type="hidden" name="idingreso" id="idingreso">
+                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
+
                             </select>
                             <span class="prueba" id="prueba"></span>
                           </div>
@@ -97,7 +98,22 @@ if ($_SESSION['compras']==1)
                             <label>Impuesto:</label>
                             <input type="text" class="form-control" name="impuesto" id="impuesto" required="">
                           </div>
-                          <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                            <label>Tipo Pago(*):</label>
+                           <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker"  required="">
+                           </select>
+                          </div>
+                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                            <label>Forma de Pago(*):</label>
+                            <select name="form_pago" id="form_pago" class="form-control selectpicker" required="">
+                               <option value="1">Efectivo</option>
+                               <option value="2">Deposito</option>
+                               <option value="3">Cheque</option>
+                               <option value="4">Abastecimiento</option>
+                            </select>
+                          </div>
+                
+                          <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
                             </a>
@@ -190,7 +206,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso1.1.js"></script>
+<script type="text/javascript" src="scripts/ingreso3.0.js"></script>
 <?php
 }
 ob_end_flush();

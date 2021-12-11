@@ -1,10 +1,13 @@
 <?php 
+if (strlen(session_id()) < 1) 
+session_start();
 require_once "../modelos/Articulo.php";
 
 $articulo=new Articulo();
 
 $idarticulo=isset($_POST["idarticulo"])? limpiarCadena($_POST["idarticulo"]):"";
 $idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
+$idusuario=$_SESSION["idusuario"];
 $codigo=isset($_POST["codigo"])? limpiarCadena($_POST["codigo"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):"";
@@ -30,11 +33,11 @@ switch ($_GET["op"]){
 			}
 		}
 		if (empty($idarticulo)){
-			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad);
+			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad,$idusuario);
 			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
 		}
 		else {
-			$rspta=$articulo->editar($idarticulo,$idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen);
+			$rspta=$articulo->editar($idarticulo,$idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario);
 			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
 		}
 	break;
@@ -69,7 +72,7 @@ switch ($_GET["op"]){
  				"1"=>$reg->codigo,
 				"2"=>$reg->nombre,
  				"3"=>$reg->descripcion,
- 				"4"=>$reg->idcategoria,
+ 				"4"=>$reg->categoria,
 				"5"=>$reg->unit,
 				"6"=>$reg->presentation,
 				"7"=>"<img src='../files/articulos/".$reg->imagen."' height='50px' width='50px' >",

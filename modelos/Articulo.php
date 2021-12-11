@@ -11,10 +11,10 @@ Class Articulo
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad)
+	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad,$idusuario)
 	{
-		$sql="INSERT INTO producto (idcategoria,codigo,nombre,presentation,unit,descripcion,imagen,kind,condicion)
-		VALUES ('$idcategoria','$codigo','$nombre','$presentacion','$unidad','$descripcion','$imagen','1','1')";
+		$sql="INSERT INTO producto (idcategoria,codigo,nombre,presentation,unit,descripcion,imagen,kind,condicion,idusuario)
+		VALUES ('$idcategoria','$codigo','$nombre','$presentacion','$unidad','$descripcion','$imagen','1','1','$idusuario')";
 		//return ejecutarConsulta($sql);
 		$idproductonew=ejecutarConsulta_retornarID($sql);
 
@@ -60,7 +60,8 @@ Class Articulo
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT * FROM producto";
+		$sql="SELECT a.idproducto,a.codigo,a.nombre,a.descripcion,a.imagen,a.unit,a.presentation,a.condicion,c.nombre as categoria 
+		FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
 		return ejecutarConsulta($sql);		
 	}
 

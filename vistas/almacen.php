@@ -38,6 +38,7 @@ if ($_SESSION['almacen']==1)
                             <th>Telefono</th>
                             <th>email</th>
                             <th>tipo de almacen</th>
+                            <th>Estado</th>
                           </thead>
                           <tbody>
                           </tbody>
@@ -48,6 +49,7 @@ if ($_SESSION['almacen']==1)
                             <th>Telefono</th>
                             <th>email</th>
                             <th>tipo de almacen</th>
+                            <th>Estado</th>
                           </tfoot>
                         </table>
                     </div>

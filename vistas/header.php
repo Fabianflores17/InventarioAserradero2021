@@ -114,6 +114,8 @@ if (strlen(session_id()) < 1)
                 <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
                 <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
                 <li><a href="almacen.php"><i class="fa fa-circle-o"></i> Almacen</a></li>
+                <li><a href="traspaso.php"><i class="fa fa-circle-o"></i>Traspaso</a></li>
+                <li><a href="almacenes.php"><i class="fa fa-circle-o"></i>Bodegas</a></li>
               </ul>
             </li>';
             }
