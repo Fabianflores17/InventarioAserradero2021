@@ -45,7 +45,7 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->is_principal)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idalmacen.')"><i class="fa fa-pencil"></i></button>'.
+ 				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="mostrar('.$reg->idalmacen.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-danger" onclick="desactivar('.$reg->idalmacen.')"><i class="fa fa-close"></i></button>':
  					'<button class="btn btn-warning" onclick="mostrar('.$reg->idalmacen.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-primary" onclick="activar('.$reg->idalmacen.')"><i class="fa fa-check"></i></button>',
@@ -53,8 +53,10 @@ switch ($_GET["op"]){
  				"2"=>$reg->direccion,
 				"3"=>$reg->telefono,
 				"4"=>$reg->email,
- 				"5"=>($reg->is_principal)?'<span class="label bg-green">Principal</span>':
- 				'<span class="label bg-red">Secundario</span>'
+				"5"=>($reg->is_principal)?'<span class="label bg-green">Principal</span>':
+ 				'<span class="label bg-red">Secundario</span>',
+ 				"6"=>($reg->condicion)?'<span class="label bg-green">Activo</span>':
+ 				'<span class="label bg-red">Desactivado</span>'
  				);
  		}
  		$results = array(

@@ -54,6 +54,32 @@ Class Almacen
 		$sql="SELECT * FROM almacen";
 		return ejecutarConsulta($sql);
 	}
+	//Implementar un método para listar los productos
+	public function listarproduct($idalmacen)
+	{
+		$sql="SELECT Datos.idproducto, o.idalmacen,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
+		From ( Select distinct idproducto From operacion ) as Datos 
+		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
+		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 
+		Left join ( Select idproducto, Sum(cantidad) as Salidas from operacion WHERE tipo_operacion_id='2' AND idalmacen='$idalmacen' 
+		Group by idproducto) as Salidas On Datos.idproducto = Salidas.idproducto 
+		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
+		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
+		INNER JOIN operacion o ON o.idproducto=p.idproducto 
+		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto";
+		return ejecutarConsulta($sql);
+
+		// $sql="SELECT a.idproducto,a.codigo,a.nombre,a.descripcion,a.imagen,a.unit,a.presentation,a.condicion,c.nombre as categoria, o.idalmacen, SUM(o.cantidad) as stock
+		// FROM producto a 
+		// INNER JOIN categoria c ON a.idcategoria=c.idcategoria 
+		// INNER JOIN operacion o On a.idproducto=o.idproducto
+		// WHERE a.condicion='1' and o.tipo_operacion_id='1' and o.idalmacen='$idalmacen' group by o.idproducto ";
+		// return ejecutarConsulta($sql);
+	}
+
+
+
+	
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{

@@ -69,13 +69,8 @@ if ($_SESSION['ventas']==1)
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Documento:</label>
                             <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
-<<<<<<< HEAD
                               <option value="1">NIT</option>
                               <option value="2">DPI</option>
-=======
-                              <option value="NIT">NIT</option>
-                              <option value="DPI">DPI</option>
->>>>>>> master
                             </select>
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
@@ -122,11 +117,7 @@ else
 }
 require 'footer.php';
 ?>
-<<<<<<< HEAD
 <script type="text/javascript" src="scripts/cliente3.js"></script>
-=======
-<script type="text/javascript" src="scripts/cliente20.js"></script>
->>>>>>> master
 <?php
 }
 ob_end_flush();

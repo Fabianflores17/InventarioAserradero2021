@@ -12,22 +12,14 @@ Class Persona
 	}
 
 	//Implementamos un método para insertar registros
-<<<<<<< HEAD
 	public function insertar($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
 	{
 		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email)
 		VALUES ('$tipo_person','$nombre','$apellido','$tipo_docum','$nit','$direccion','$telefono','$telefono1','$email')";
-=======
-	public function insertar($tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email)
-	{
-		$sql="INSERT INTO persona (tipo_person,nombre,apellido,nit,direccion,telefono,telefono1,email)
-		VALUES ('$tipo_person','$nombre','$apellido','$nit','$direccion','$telefono','$telefono1','$email')";
->>>>>>> master
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-<<<<<<< HEAD
 	public function editar($idpersona,$tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
 	{
 		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email' WHERE idpersona='$idpersona'";
@@ -46,11 +38,6 @@ Class Persona
 	public function editarCo($idpersona,$tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$email,$cargo)
 	{
 		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',email='$email',cargo='$cargo' WHERE idpersona='$idpersona'";
-=======
-	public function editar($idpersona,$tipo_person,$nombre,$apellido,$nit,$direccion,$telefono,$telefono1,$email)
-	{
-		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',nit='$nit',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email' WHERE idpersona='$idpersona'";
->>>>>>> master
 		return ejecutarConsulta($sql);
 	}
 
@@ -75,11 +62,7 @@ Class Persona
 		return ejecutarConsulta($sql);
 	}
 
-<<<<<<< HEAD
 	public function listarco()
-=======
-	public function listaremp()
->>>>>>> master
 	{
 		$sql="SELECT * FROM persona WHERE tipo_person='3'";
 		return ejecutarConsulta($sql);

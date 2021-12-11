@@ -23,7 +23,7 @@ if ($_SESSION['compras']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Ingreso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Traspaso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -57,8 +57,8 @@ if ($_SESSION['compras']==1)
                     </div>
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                        <div class="form-group col-lg-6 col-md-8 col-sm-8 col-xs-12">
-                            <label>Proveedor(*):</label>
+                        <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
+                            <label>Almacen Origen(*):</label>
                             <input type="hidden" name="idingreso" id="idingreso">
                             <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
 
@@ -73,45 +73,12 @@ if ($_SESSION['compras']==1)
 
                             </select>
                           </div>-->
-                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label>Fecha(*):</label>
-                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
-                               <option value="1">Boleta</option>
-                               <option value="2">Factura</option>
-                               <option value="3">Ticket</option>
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Serie:</label>
-                            <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Número:</label>
-                            <input type="text" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" required="">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" class="form-control" name="impuesto" id="impuesto" required="">
-                          </div>
                           <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
-                            <label>Tipo Pago(*):</label>
+                            <label>Alamacen destino(*):</label>
                            <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker"  required="">
                            </select>
                           </div>
-                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
-                            <label>Forma de Pago(*):</label>
-                            <select name="form_pago" id="form_pago" class="form-control selectpicker" required="">
-                               <option value="1">Efectivo</option>
-                               <option value="2">Deposito</option>
-                               <option value="3">Cheque</option>
-                               <option value="4">Abastecimiento</option>
-                            </select>
-                          </div>
-                
+                        
                           <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -205,7 +172,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso3.0.js"></script>
+<script type="text/javascript" src="scripts/traspaso.js"></script>
 <?php
 }
 ob_end_flush();

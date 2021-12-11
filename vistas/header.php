@@ -71,11 +71,6 @@ if (strlen(session_id()) < 1)
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
-<<<<<<< HEAD
-
-=======
-                    
->>>>>>> master
                     <div class="pull-right">
                       <a href="../ajax/usuario.php?op=salir" class="btn btn-default btn-flat">Cerrar</a>
                     </div>
@@ -119,6 +114,8 @@ if (strlen(session_id()) < 1)
                 <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
                 <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
                 <li><a href="almacen.php"><i class="fa fa-circle-o"></i> Almacen</a></li>
+                <li><a href="traspaso.php"><i class="fa fa-circle-o"></i>Traspaso</a></li>
+                <li><a href="almacenes.php"><i class="fa fa-circle-o"></i>Bodegas</a></li>
               </ul>
             </li>';
             }
@@ -176,29 +173,16 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
-<<<<<<< HEAD
             if ($_SESSION['Planilla']==1)
             {
               echo '<li class="treeview">
               <a href="#">
                 <i class="fa fa-group"></i>
-=======
-            if ($_SESSION['planilla']==1)
-            {
-              echo '<li class="treeview">
-              <a href="#">
-                <i class="fa fa-address-book"></i>
->>>>>>> master
                 <span>Planilla</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-<<<<<<< HEAD
                 <li><a href="colaborador.php"><i class="fa fa-circle-o"></i> Colaborador</a></li>
-=======
-                <li><a href="venta.php"><i class="fa fa-circle-o"></i> Prueba</a></li>
-                <li><a href="cliente.php"><i class="fa fa-circle-o"></i>dos</a></li>
->>>>>>> master
               </ul>
             </li>';
             }
