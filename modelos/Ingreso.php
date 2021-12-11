@@ -23,7 +23,7 @@ Class Ingreso
 
 		while ($num_elementos < count($idarticulo))
 		{
-			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,idprecio_lis,tipo_operacion_id) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_compra[$num_elementos]','$precio_venta[$num_elementos]','1')";
+			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_compra[$num_elementos]','$precio_venta[$num_elementos]','1','1')";
 			ejecutarConsulta($sql_detalle) or $sw = false;
 			$num_elementos=$num_elementos + 1;
 		}

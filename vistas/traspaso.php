@@ -23,7 +23,7 @@ if ($_SESSION['compras']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Traspaso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Traspaso 2.0 <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -32,26 +32,21 @@ if ($_SESSION['compras']==1)
                     <div class="panel-body table-responsive" id="listadoregistros">
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
-                          <th>Opciones</th>
-                            <th>Proveedor</th>
-                            <th>serie</th>
-                            <th>Numero factura</th>
-                            <th>Tolal compra</th>
+                           <th>Opciones</th>
+                            <th>Almacen origen</th>
+                            <th>Almacen destino</th>
                             <th>Usuario</th>
-                            <th>Fecha Compra</th>
-                            <th>Estado</th>
+                            <th>Fecha</th>
+                           
+                        
                           </thead>
                           <tbody>
                           </tbody>
                           <tfoot>
-                            <th>Opciones</th>
-                            <th>Proveedor</th>
-                            <th>serie</th>
-                            <th>Numero factura</th>
-                            <th>Tolal compra</th>
+                          <th>Almacen origen</th>
+                            <th>Almacen destino</th>
                             <th>Usuario</th>
-                            <th>Fecha Compra</th>
-                            <th>Estado</th>
+                            <th>Fecha</th>
                           </tfoot>
                         </table>
                     </div>
@@ -59,29 +54,24 @@ if ($_SESSION['compras']==1)
                         <form name="formulario" id="formulario" method="POST">
                         <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
                             <label>Almacen Origen(*):</label>
-                            <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
-
+                            <input type="hidden" name="idtransaccion" id="idtransaccion">
+                            <select onchange="listarArticulos();" title="Seleccione el almacen" id="idalmacen" name="idalmacen" class="form-control selectpicker" data-live-search="true" required>
                             </select>
                           </div>
-                       <!--
-                         este es el codigo para traer a los proveedores 
-                         <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <label>Proveedor(*):</label>
-                            <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
-
-                            </select>
-                          </div>-->
-                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                   
+                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <label>Alamacen destino(*):</label>
-                           <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker"  required="">
+                           <select name="idalmacen2" id="idalmacen2" title="Seleccione el almacen" class="form-control selectpicker"  required="">
                            </select>
                           </div>
-                        
+                          
                           <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
+                            <!--<label>Almacen Origen(*):</label>
+                            <input type="hidden" name="idingreso" id="idingreso">
+                            <select  id="idalmacen" name="idalmacen" class="form-control selectpicker" data-live-search="true" required>
+                            </select>-->
+                            <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
                             </a>
                           </div>
 
@@ -90,9 +80,9 @@ if ($_SESSION['compras']==1)
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
                                     <th>Artículo</th>
+                                    <th>stock</th>
                                     <th>Cantidad</th>
-                                    <th>Precio Compra</th>
-                                    <th>Precio Venta</th>
+                                    <th>precio compra</th>
                                     <th>Subtotal</th>
                                 </thead>
                                 <tfoot>
@@ -137,22 +127,20 @@ if ($_SESSION['compras']==1)
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
                 <th>Opciones</th>
+                <th>Codigo</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Código</th>
                 <th>Stock</th>
-                <th>Imagen</th>
+                <th>precio Entrada</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
-              <th>Opciones</th>
+            <th>Opciones</th>
+                <th>Codigo</th>
                 <th>Nombre</th>
-                <th>Categoría</th>
-                <th>Código</th>
                 <th>Stock</th>
-                <th>Imagen</th>
+                <th>precio Entrada</th>
             </tfoot>
           </table>
         </div>

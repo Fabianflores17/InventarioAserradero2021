@@ -57,7 +57,7 @@ Class Almacen
 	//Implementar un método para listar los productos
 	public function listarproduct($idalmacen)
 	{
-		$sql="SELECT Datos.idproducto, o.idalmacen,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
+		$sql="SELECT Datos.idproducto, o.idalmacen,p.codigo,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
 		From ( Select distinct idproducto From operacion ) as Datos 
 		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
 		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 

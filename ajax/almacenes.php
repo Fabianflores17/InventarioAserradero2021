@@ -32,8 +32,7 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->condicion)?'<button class="btn btn-warning" onclick="error('.$reg->idalmacen.')"><i class="fa fa-eye"></i></button>':
- 					'<button class="btn btn-warning" onclick="error('.$reg->idalmacen.')"><i class="fa fa-eye"></i></button>',
+ 				"0"=>$reg->codigo,
  				"1"=>$reg->nombre,
  				"2"=>$reg->categoria,
 				"3"=>$reg->stock,

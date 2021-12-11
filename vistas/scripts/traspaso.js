@@ -9,14 +9,14 @@ function init(){
 	{
 		guardaryeditar(e);	
 	});
-	//Cargamos los items al select proveedor
-	$.post("../ajax/ingreso.php?op=selectProveedor", function(r){
-	            $("#idproveedor").html(r);
-	            $('#idproveedor').selectpicker('refresh');
+	//Cargamos los items al select Almacen
+	$.post("../ajax/traspaso.php?op=selectTipo_pago", function(r){
+	            $("#idalmacen").html(r);
+	            $('#idalmacen').selectpicker('refresh');
 	});
-	$.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
-		$("#tipo_pago").html(r);
-		$('#tipo_pago').selectpicker('refresh');
+	$.post("../ajax/traspaso.php?op=selectalmacen", function(r){
+		$("#idalmacen2").html(r);
+		$('#idalmacen2').selectpicker('refresh');
 });
 
 }
@@ -24,11 +24,9 @@ function init(){
 //Función limpiar
 function limpiar()
 {
-	$("#idproveedor").val("");
-	$("#proveedor").val("");
-	$("#serie_comprobante").val("");
-	$("#num_comprobante").val("");
-	$("#impuesto").val("0");
+	$("#idalmacen").val("");
+	$("#idalmacen2").val("");
+
 
 	$("#total_compra").val("");
 	$(".filas").remove();
@@ -57,6 +55,7 @@ function mostrarform(flag)
 		//$("#btnGuardar").prop("disabled",false);
 		$("#btnagregar").hide();
 		listarArticulos();
+	//	 mostrar();
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -95,7 +94,7 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/ingreso.php?op=listar',
+					url: '../ajax/traspaso.php?op=listar',
 					type : "get",
 					dataType : "json",						
 					error: function(e){
@@ -112,6 +111,8 @@ function listar()
 //Función ListarArticulos
 function listarArticulos()
 {
+	let almacen = document.getElementById("idalmacen");
+	let selecAlmacen = almacen.value
 	tabla=$('#tblarticulos').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
@@ -122,7 +123,7 @@ function listarArticulos()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/ingreso.php?op=listarArticulos',
+					url: '../ajax/traspaso.php?op=listarproductos&idalmacen='+selecAlmacen,
 					type : "get",
 					dataType : "json",						
 					error: function(e){
@@ -143,7 +144,7 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/ingreso.php?op=guardaryeditar",
+		url: "../ajax/traspaso.php?op=guardaryeditar",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
@@ -160,34 +161,40 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idingreso)
+function mostrar(idalmacen)
 {
-	$.post("../ajax/ingreso.php?op=mostrar",{idingreso : idingreso}, function(data, status)
+	$.post("../ajax/traspaso.php?op=mostrar",{idalmacen : idalmacen}, function(data, status)
 	{
-		data = JSON.parse(data);		
+		data = JSON.parse(data);
 		mostrarform(true);
 
-		$("#idproveedor").val(data.idpersona);
-		$("#idproveedor").selectpicker('refresh');
-		$("#tipo_comprobante").val(data.tipo_comprobante);
-		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie);
-		$("#num_comprobante").val(data.codigo_factura);
-		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.iva);
-		$("#tipo_pago").val(data.tipo_pago);
-		$("#tipo_pago").selectpicker('refresh');
-		$("#idingreso").val(data.idingreso);
+ 		$("#idalmacen").val(data.idalmacen);
+		$("#idalmacen").selectpicker('refresh');
 
-		//Ocultar y mostrar los botones
-		$("#btnGuardar").hide();
-		$("#btnCancelar").show();
-		$("#btnAgregarArt").hide();
- 	});
-
- 	$.post("../ajax/ingreso.php?op=listarDetalle&id="+idingreso,function(r){
-	        $("#detalles").html(r);
-	});
+ 	 })
+	     $.post("../ajax/traspaso.php?op=listarproductos&idalmacen="+idalmacen,function(r){
+			tabla=$('#tblarticulos').dataTable(
+			{
+				"aProcessing": true,//Activamos el procesamiento del datatables
+				"aServerSide": true,//Paginación y filtrado realizados por el servidor
+				dom: 'Bfrtip',//Definimos los elementos del control de tabla
+				buttons: [		          
+							
+						],
+				"ajax":
+						{
+							url: '../ajax/traspaso.php?op=listarproductos&idalmacen='+idalmacen,
+							type : "get",
+							dataType : "json",						
+							error: function(e){
+								console.log(e.responseText);	
+							}
+						},
+				"bDestroy": true,
+				"iDisplayLength": 5,//Paginación
+				"order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+			}).DataTable();
+});
 }
 
 //Función para anular registros
@@ -226,11 +233,12 @@ function marcarImpuesto()
     }
   }
 
-function agregarDetalle(idarticulo,articulo)
+function agregarDetalle(idarticulo,articulo,total,precio_compra)
   {
-  	var cantidad=1;
-    var precio_compra=0;
-    var precio_venta=0;
+  	var cantidad=0;
+   // var precio_compra=0;
+	//var stock;
+    //var precio_venta=0;
 
     if (idarticulo!="")
     {
@@ -238,9 +246,9 @@ function agregarDetalle(idarticulo,articulo)
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+		'<td><input type="hidden" name="total[]" value="'+idarticulo+'">'+total+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" name="precio_compra[]" id="precio_compra[]" value="'+precio_compra+'"></td>'+
-    	'<td><input type="number" name="precio_venta[]" value="'+precio_venta+'"></td>'+
+    	'<td><input type="hidden" name="precio_compra[]"  value="'+precio_compra+'">'+precio_compra+'</td>'+
     	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
     	'</tr>';
