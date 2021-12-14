@@ -67,15 +67,20 @@ Class Ingreso
 
 
 	//Implementar un método para mostrar los datos de un registro a modificar
-	public function mostrar($idalmacen)
+	public function mostraringreso($idingreso)
 	{
-		$sql="SELECT * from almacen WHERE idalmacen='$idalmacen'";
+		$sql="SELECT DISTINCT i.idingreso,al.idalmacen as origen,u.idusuario,u.nombre as usuario, a.idalmacen as destino,i.estado 
+		FROM transaccion i 
+		INNER JOIN usuario u ON i.idusuario=u.idusuario 
+		INNER JOIN operacion o ON i.idingreso=o.transaccion_id 
+		INNER JOIN almacen a ON i.almacen_to_id=a.idalmacen 
+		inner join almacen al ON i.almacen_des_id=al.idalmacen WHERE i.tipo_operacion_id='6' and i.idingreso='$idingreso'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	public function listarDetalle($idingreso)
 	{
-		$sql="SELECT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.price_compra,o.idprecio_lis 
+		$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.price_compra,o.idprecio_lis 
 		FROM operacion o inner join producto p on o.idproducto=p.idproducto where o.transaccion_id='$idingreso'";
 		return ejecutarConsulta($sql);
 	}
@@ -83,7 +88,7 @@ Class Ingreso
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT DISTINCT i.idingreso,al.nombre as origen,u.idusuario,u.nombre as usuario, a.nombre as destino,i.estado FROM transaccion i 
+		$sql="SELECT DISTINCT i.idingreso,al.nombre as origen,a.idalmacen,u.idusuario,u.nombre as usuario, a.nombre as destino,i.estado FROM transaccion i 
 		INNER JOIN usuario u ON i.idusuario=u.idusuario 
 		INNER JOIN operacion o ON i.idingreso=o.transaccion_id 
 		INNER JOIN almacen a ON i.almacen_to_id=a.idalmacen 

@@ -13,17 +13,18 @@ Class Ingreso
 	//Implementamos un método para insertar registros
 	public function insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$tipo_pago,$form_pago,$total_compra,$idarticulo,$cantidad,$precio_compra,$precio_venta)
 	{
-		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,estado)
-		VALUES ('$idproveedor','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$tipo_pago','$form_pago','$total_compra','1')";
+		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
+		VALUES ('$idproveedor','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$tipo_pago','$form_pago','$total_compra','1','1')";
 		//return ejecutarConsulta($sql);
-		$idingresonew=ejecutarConsulta_retornarID($sql);
+	  	$idingresonew=ejecutarConsulta_retornarID($sql);
 
 		$num_elementos=0;
 		$sw=true;
 
 		while ($num_elementos < count($idarticulo))
 		{
-			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_compra[$num_elementos]','$precio_venta[$num_elementos]','1','1')";
+			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,idprecio_lis,tipo_operacion_id,idalmacen) 
+			VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_compra[$num_elementos]','$precio_venta[$num_elementos]','1','1')";
 			ejecutarConsulta($sql_detalle) or $sw = false;
 			$num_elementos=$num_elementos + 1;
 		}
@@ -43,7 +44,7 @@ Class Ingreso
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idingreso)
 	{
-		$sql="SELECT i.idingreso,i.fecha,i.idpersona,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
+		$sql="SELECT i.idingreso,i.fecha,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
 		FROM transaccion i 
 		INNER JOIN persona p ON i.idpersona=p.idpersona 
 		INNER JOIN usuario u ON i.idusuario=u.idusuario 

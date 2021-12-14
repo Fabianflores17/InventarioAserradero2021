@@ -60,10 +60,10 @@ if ($_SESSION['compras']==1)
                         <div class="form-group col-lg-6 col-md-8 col-sm-8 col-xs-12">
                             <label>Proveedor(*):</label>
                             <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
+                            <select id="idproveedor" name="idproveedor" title="Seleccione proveedor" class="form-control selectpicker" data-live-search="true" required>
 
                             </select>
-                            <span class="prueba" id="prueba"></span>
+              
                           </div>
                        <!--
                          este es el codigo para traer a los proveedores 
@@ -80,7 +80,7 @@ if ($_SESSION['compras']==1)
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--" required="">
+                            <select name="tipo_comprobante" id="tipo_comprobante" title="selecciones tipo comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--" required="">
                                <option value="1">Boleta</option>
                                <option value="2">Factura</option>
                                <option value="3">Ticket</option>
@@ -100,12 +100,12 @@ if ($_SESSION['compras']==1)
                           </div>
                           <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
                             <label>Tipo Pago(*):</label>
-                           <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker"  required="">
+                           <select name="tipo_pago" id="tipo_pago" title="seleccione tipo de pago" class="form-control selectpicker"  required="">
                            </select>
                           </div>
                           <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
                             <label>Forma de Pago(*):</label>
-                            <select name="form_pago" id="form_pago" class="form-control selectpicker" required="">
+                            <select name="form_pago" id="form_pago" title="seleccione forma de pago" class="form-control selectpicker" required="">
                                <option value="1">Efectivo</option>
                                <option value="2">Deposito</option>
                                <option value="3">Cheque</option>

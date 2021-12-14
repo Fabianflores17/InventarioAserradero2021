@@ -69,7 +69,7 @@ Class Persona
 	}
 
 	//Implementar un método para listar los registros
-	public function listarc()
+	public function listarC()
 	{  //1 = cliente,  2 = proveedor,  3 = colaborador
 		$sql="SELECT * FROM persona where tipo_person ='1'";
 		return ejecutarConsulta($sql);

@@ -11,22 +11,11 @@ Class Articulo
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad,$idusuario)
+	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario)
 	{
 		$sql="INSERT INTO producto (idcategoria,codigo,nombre,presentation,unit,descripcion,imagen,kind,condicion,idusuario)
 		VALUES ('$idcategoria','$codigo','$nombre','$presentacion','$unidad','$descripcion','$imagen','1','1','$idusuario')";
-		//return ejecutarConsulta($sql);
-		$idproductonew=ejecutarConsulta_retornarID($sql);
-
-		$sw=true;
-
-		if($idproductonew!="0")
-		{
-			$sql_detalle = "INSERT INTO operacion (idproducto,cantidad,tipo_operacion_id) VALUES('$idproductonew', '$cantidad','1')";
-			ejecutarConsulta($sql_detalle) or $sw = false;	
-		}
-
-		return $sw;
+		return ejecutarConsulta($sql);	
 	}
 	
 	//Implementamos un método para editar registros
@@ -80,7 +69,10 @@ Class Articulo
 	// }
 	public function listarActivosVenta()
 	{
-		$sql="SELECT a.idproducto,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre, a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
+		$sql="SELECT a.idproducto,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre, a.descripcion,a.imagen,a.condicion 
+		FROM producto a 
+		INNER JOIN categoria c ON a.idcategoria=c.idcategoria 
+		WHERE a.condicion='1'";
 		return ejecutarConsulta($sql);	
 	
 	}

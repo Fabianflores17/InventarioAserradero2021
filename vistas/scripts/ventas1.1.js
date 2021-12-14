@@ -14,6 +14,14 @@ function init(){
 	            $("#idcliente").html(r);
 	            $('#idcliente').selectpicker('refresh');
 	});
+	$.post("../ajax/venta.php?op=selectalmacen", function(r){
+		$("#idalmacen").html(r);
+		$('#idalmacen').selectpicker('refresh');
+	});
+	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
+		$("#tipo_pago").html(r);
+		$('#tipo_pago').selectpicker('refresh');
+});
 }
 
 //Función limpiar
@@ -25,6 +33,10 @@ function limpiar()
 	$("#serie_comprobante").val("");
 	$("#num_comprobante").val("");
 	$("#impuesto").val("0");
+	$("#idalmacen").val("");
+	$("#idalmacen").selectpicker('refresh');
+	$("#tipo_pago").val("");
+	$("#tipo_pago").selectpicker('refresh')
 
 	$("#total_venta").val("");
 	$(".filas").remove();
@@ -107,21 +119,23 @@ function listar()
 //Función ListarArticulos
 function listarArticulos()
 {
+	let almacen = document.getElementById("idalmacen");
+	let selecAlmacen = almacen.value
 	tabla=$('#tblarticulos').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [
-
+	    buttons: [		          
+		            
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listarArticulosVenta',
+					url: '../ajax/venta.php?op=listarproductos&idalmacen='+selecAlmacen,
 					type : "get",
-					dataType : "json",
+					dataType : "json",						
 					error: function(e){
-						console.log(e.responseText);
+						console.log(e.responseText);	
 					}
 				},
 		"bDestroy": true,
@@ -172,7 +186,10 @@ function mostrar(idventa)
 		$("#fecha_hora").val(data.fecha);
 		$("#impuesto").val(data.impuesto);
 		$("#idventa").val(data.idventa);
-
+		$("#idalmacen").val(data.idalmacen);
+		$("#idalmacen").selectpicker('refresh');
+		$("#tipo_pago").val(data.tipo_pago);
+		$("#tipo_pago").selectpicker('refresh');
 		//Ocultar y mostrar los botones
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -220,7 +237,7 @@ function marcarImpuesto()
     }
   }
 
-function agregarDetalle(idarticulo,articulo,precio_venta)
+function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   {
   	var cantidad=1;
     var descuento=0;
@@ -232,6 +249,7 @@ function agregarDetalle(idarticulo,articulo,precio_venta)
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
     	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
     	'<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
@@ -255,15 +273,22 @@ function agregarDetalle(idarticulo,articulo,precio_venta)
     var prec = document.getElementsByName("precio_venta[]");
     var desc = document.getElementsByName("descuento[]");
     var sub = document.getElementsByName("subtotal");
+	var stock = document.getElementsByName("stock[]")
 
     for (var i = 0; i <cant.length; i++) {
     	var inpC=cant[i];
     	var inpP=prec[i];
     	var inpD=desc[i];
     	var inpS=sub[i];
+		var inpSt=stock[i];
+		if(inpC.value<=inpSt.value){
 
     	inpS.value=(inpC.value * inpP.value)-inpD.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
+		}
+		else{
+			alert("La cantidad ingresada es mayor al stock disponible");
+		}
     }
     calcularTotales();
 

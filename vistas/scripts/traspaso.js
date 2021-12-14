@@ -25,7 +25,9 @@ function init(){
 function limpiar()
 {
 	$("#idalmacen").val("");
+	$('#idalmacen').selectpicker('refresh');
 	$("#idalmacen2").val("");
+	$('#idalmacen2').selectpicker('refresh');
 
 
 	$("#total_compra").val("");
@@ -161,41 +163,35 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function mostrar(idalmacen)
+function mostrar(idingreso)
 {
-	$.post("../ajax/traspaso.php?op=mostrar",{idalmacen : idalmacen}, function(data, status)
+	$.post("../ajax/traspaso.php?op=mostrartraspaso",{idingreso : idingreso}, function(data, status)
 	{
-		data = JSON.parse(data);
+		data = JSON.parse(data);		
 		mostrarform(true);
+		
 
- 		$("#idalmacen").val(data.idalmacen);
+		$("#idalmacen").val(data.origen);
 		$("#idalmacen").selectpicker('refresh');
+		
+		$("#idalmacen2").val(data.destino);
+		$("#idalmacen2").selectpicker('refresh');
+	
+	;
+		$("#idingreso").val(data.idingreso);
 
- 	 })
-	     $.post("../ajax/traspaso.php?op=listarproductos&idalmacen="+idalmacen,function(r){
-			tabla=$('#tblarticulos').dataTable(
-			{
-				"aProcessing": true,//Activamos el procesamiento del datatables
-				"aServerSide": true,//Paginación y filtrado realizados por el servidor
-				dom: 'Bfrtip',//Definimos los elementos del control de tabla
-				buttons: [		          
-							
-						],
-				"ajax":
-						{
-							url: '../ajax/traspaso.php?op=listarproductos&idalmacen='+idalmacen,
-							type : "get",
-							dataType : "json",						
-							error: function(e){
-								console.log(e.responseText);	
-							}
-						},
-				"bDestroy": true,
-				"iDisplayLength": 5,//Paginación
-				"order": [[ 0, "desc" ]]//Ordenar (columna,orden)
-			}).DataTable();
-});
+
+		//Ocultar y mostrar los botones
+		$("#btnGuardar").hide();
+		$("#btnCancelar").show();
+		$("#btnAgregarArt").hide();
+ 	});
+
+ 	$.post("../ajax/traspaso.php?op=listarDetalle&id="+idingreso,function(r){
+	        $("#detalles").html(r);
+	});
 }
+
 
 //Función para anular registros
 function anular(idingreso)
@@ -246,16 +242,18 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
-		'<td><input type="hidden" name="total[]" value="'+idarticulo+'">'+total+'</td>'+
+		'<td><input type="hidden" name="total[]" id="total[]" value="'+total+'">'+total+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
     	'<td><input type="hidden" name="precio_compra[]"  value="'+precio_compra+'">'+precio_compra+'</td>'+
     	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
     	'</tr>';
+	
     	cont++;
     	detalles=detalles+1;
     	$('#detalles').append(fila);
     	modificarSubototales();
+		//validar();
     }
     else
     {
@@ -263,20 +261,30 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
     }
   }
 
+
   function modificarSubototales()
   {
+	  
   	var cant = document.getElementsByName("cantidad[]");
-    var prec = document.getElementsByName("precio_compra[]");
-    var sub = document.getElementsByName("subtotal");
+     var prec = document.getElementsByName("precio_compra[]");
+     var sub = document.getElementsByName("subtotal");
+	 var stock = document.getElementsByName("total[]");
 
     for (var i = 0; i <cant.length; i++) {
     	var inpC=cant[i];
     	var inpP=prec[i];
     	var inpS=sub[i];
-
+		var inpSt=stock[i];
+		if(inpC.value<=inpSt.value){
     	inpS.value=inpC.value * inpP.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
+		}
+		else{
+			alert("La cantidad ingresada es mayor al stock disponible");
+}
+//		console.log(inpC.value-inpSt.value);
     }
+	
     calcularTotales();
 
   }
@@ -292,7 +300,34 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
     evaluar();
   }
 
+
+//   function validarstock()
+//   {
+
+// 	var canti= document.getElementsByName("cantidad[]");
+// 	var stock = document.getElementsByName("total[]");
+	
+	
+// 	for (var i = 0; i <canti.length; i++) {
+//     	var inpCant=canti[i];
+//     	var inpStock=stock[i];
+
+// 		if(inpCant.value<inpStock.value){
+		
+// 			alert("Error al ingresar menor");
+		
+    	
+//     }else{
+		
+// 		alert("Error al ingresar mayor");
+// 	}
+//   }
+// }
+
+
   function evaluar(){
+	  
+
   	if (detalles>0)
     {
       $("#btnGuardar").show();

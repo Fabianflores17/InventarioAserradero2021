@@ -67,7 +67,7 @@ if ($_SESSION['ventas']==1)
 
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
                             <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" >
@@ -77,7 +77,7 @@ if ($_SESSION['ventas']==1)
                             <label>Fecha(*):</label>
                             <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
                             <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
                                <option value="1">Boleta</option>
@@ -85,6 +85,15 @@ if ($_SESSION['ventas']==1)
                                <option value="3">Ticket</option>
                             </select>
                           </div>
+                        
+                          
+                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <label>Almacen(*):</label>
+                            <select onchange="listarArticulos();" name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--"required="">
+                            </select>
+                          </div>
+                          
+
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Serie:</label>
                             <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
@@ -97,11 +106,11 @@ if ($_SESSION['ventas']==1)
                             <label>Impuesto:</label>
                             <input type="text" class="form-control" name="impuesto" id="impuesto" >
                           </div>
-                          <!-- <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Tipo de Pago(*):</label>
-                              <select id="tipo_pago" name="tipo_pago" class="form-control selectpicker" data-live-search="true" >
+                              <select id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
                               </select>
-                          </div> -->
+                          </div> 
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -114,6 +123,7 @@ if ($_SESSION['ventas']==1)
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
                                     <th>Artículo</th>
+                                    <th>Stock</th>
                                     <th>Cantidad</th>
                                     <th>Precio Venta</th>
                                     <th>Descuento</th>
@@ -121,6 +131,7 @@ if ($_SESSION['ventas']==1)
                                 </thead>
                                 <tfoot>
                                     <th>TOTAL</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -164,24 +175,18 @@ if ($_SESSION['ventas']==1)
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
                 <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Precio Venta</th>
-                <th>Imagen</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Precio Venta</th>
-                <th>Imagen</th>
             </tfoot>
           </table>
         </div>

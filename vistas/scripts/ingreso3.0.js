@@ -11,8 +11,8 @@ function init(){
 	});
 	//Cargamos los items al select proveedor
 	$.post("../ajax/ingreso.php?op=selectProveedor", function(r){
-	            $("#idproveedor2").html(r);
-	            $('#idproveedor2').selectpicker('refresh');
+	            $("#idproveedor").html(r);
+	            $('#idproveedor').selectpicker('refresh');
 	});
 	$.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
@@ -24,12 +24,17 @@ function init(){
 //Función limpiar
 function limpiar()
 {
-	$("#idproveedor2").val("");
-	$('#idproveedor2').selectpicker('refresh');
+	$("#idproveedor").val("");
+	$('#idproveedor').selectpicker('refresh');
 	$("#proveedor").val("");
 	$("#serie_comprobante").val("");
 	$("#num_comprobante").val("");
 	$("#impuesto").val("0");
+	$("#tipo_pago").val("");
+	$('#tipo_pago').selectpicker('refresh');
+	$("#form_pago").val("");
+	$('#form_pago').selectpicker('refresh');
+
 
 	$("#total_compra").val("");
 	$(".filas").remove();
@@ -178,6 +183,8 @@ function mostrar(idingreso)
 		$("#impuesto").val(data.iva);
 		$("#tipo_pago").val(data.tipo_pago);
 		$("#tipo_pago").selectpicker('refresh');
+		$("#form_pago").val(data.forma_pago);
+		$("#form_pago").selectpicker('refresh');
 		$("#idingreso").val(data.idingreso);
 
 		//Ocultar y mostrar los botones

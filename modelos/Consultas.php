@@ -24,7 +24,7 @@ Class Consultas
 
 	public function totalcomprahoy()
 	{
-		$sql="SELECT IFNULL(SUM(total),0) as total_compra FROM transaccion WHERE DATE(created_at)=curdate()";
+		$sql="SELECT IFNULL(SUM(total),0) as total_compra FROM transaccion WHERE DATE(created_at)=curdate() and tipo_operacion_id='1'";
 		return ejecutarConsulta($sql);
 	}
 
