@@ -14,6 +14,8 @@ $presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
 $unidad=isset($_POST["unidad"])? limpiarCadena($_POST["unidad"]):"";
 $imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
+$tipoproduc=isset($_POST["tipo_produc"])? limpiarCadena($_POST["tipo_produc"]):"";
+
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -32,12 +34,12 @@ switch ($_GET["op"]){
 			}
 		}
 		if (empty($idarticulo)){
-			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario);
+			$rspta=$articulo->insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario,$tipoproduc);
 			echo $rspta ? "Artículo registrado" : "Artículo no se pudo registrar";
 		}
 		else {
 			$rspta=$articulo->editar($idarticulo,$idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario);
-			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
+			echo $rspta ? "Artículo actualizado".$tipoproduc : "Artículo no se pudo actualizar";
 		}
 	break;
 

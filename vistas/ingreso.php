@@ -126,12 +126,12 @@ if ($_SESSION['compras']==1)
                                     <th>Artículo</th>
                                     <th>Cantidad</th>
                                     <th>Precio Compra</th>
-                                    <th>Precio Venta</th>
+            
                                     <th>Subtotal</th>
                                 </thead>
                                 <tfoot>
                                     <th>TOTAL</th>
-                                    <th></th>
+                                 
                                     <th></th>
                                     <th></th>
                                     <th></th>

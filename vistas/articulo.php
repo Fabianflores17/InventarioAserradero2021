@@ -94,6 +94,14 @@ if ($_SESSION['almacen']==1)
                             <div id="print">
                               <svg id="barcode"></svg>
                             </div>
+                            
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Tipo de producto(*):</label>
+                            <select name="tipo_produc" id="tipo_produc" class="form-control selectpicker" title="--Seleccione Tipo Producto--"required="">
+                               <option value="1">complemento</option>
+                               <option value="2">producto</option>
+                            </select>
                           </div>
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>

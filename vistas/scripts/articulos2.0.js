@@ -131,7 +131,10 @@ function mostrar(idarticulo)
 		$("#imagenmuestra").show();
 		$("#imagenmuestra").attr("src","../files/articulos/"+data.imagen);
 		$("#imagenactual").val(data.imagen);
+		$("#tipo_produc").val(data.tipo_producto);
+		$('#tipo_produc').selectpicker('refresh');
  		$("#idarticulo").val(data.idproducto);
+		
  		generarbarcode();
 
  	})

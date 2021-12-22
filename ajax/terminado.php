@@ -2,29 +2,26 @@
 if (strlen(session_id()) < 1)
   session_start();
 
-require_once "../modelos/Venta.php";
+require_once "../modelos/terminado.php";
 
 $venta=new Venta();
 
 $idventa=isset($_POST["idventa"])? limpiarCadena($_POST["idventa"]):"";
-$idcliente=isset($_POST["idcliente"])? limpiarCadena($_POST["idcliente"]):"";
+$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):"";
 $idalmacen=isset($_POST["idalmacen"])? limpiarCadena($_POST["idalmacen"]):"";
-$idpago=isset($_POST["tipo_pago"])? limpiarCadena($_POST["tipo_pago"]):"";
+$cantidadgenerada=isset($_POST["q"])? limpiarCadena($_POST["q"]):"";
+$gastoope=isset($_POST["gop"])? limpiarCadena($_POST["gop"]):"";
+$gastoadmin=isset($_POST["gad"])? limpiarCadena($_POST["gad"]):"";
+$gastolog=isset($_POST["glo"])? limpiarCadena($_POST["glo"]):"";
+$totalunit=isset($_POST["totalunitario"])? limpiarCadena($_POST["totalunitario"]):"";
 $idusuario=$_SESSION["idusuario"];
-$tipo_comprobante=isset($_POST["tipo_comprobante"])? limpiarCadena($_POST["tipo_comprobante"]):"";
-$serie_comprobante=isset($_POST["serie_comprobante"])? limpiarCadena($_POST["serie_comprobante"]):"";
-$num_comprobante=isset($_POST["num_comprobante"])? limpiarCadena($_POST["num_comprobante"]):"";
-$fecha_hora=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
-$impuesto=isset($_POST["impuesto"])? limpiarCadena($_POST["impuesto"]):"";
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
-$fecha_pro=isset($_POST["fecha_pro"])? limpiarCadena($_POST["fecha_pro"]):"";
-$total_pago=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idventa)){
-			$rspta=$venta->insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_venta"],$_POST["descuento"]);
-			echo $rspta ? "Venta registrada" : "No se pudieron registrar todos los datos de la venta";
+			$rspta=$venta->insertar($idproducto,$idusuario,$idalmacen,$totalunit,$cantidadgenerada,$total_venta,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_venta"],$_POST["descuento"]);
+			echo $rspta ? "Venta registrada": "No se pudieron registrar todos los datos de la venta";
 			// echo $rspta ? "<script type='text/JavaScript'> location.reload(); </script>";
 			
 		}
@@ -63,22 +60,20 @@ switch ($_GET["op"]){
 		$rspta = $venta->listarDetalle($id);
 		$total=0;
 		echo '<thead style="background-color:#A9D0F5">
-                                    <th>Opciones</th>
                                     <th>Artículo</th>
                                     <th>Cantidad</th>
-                                    <th>Precio Venta</th>
-                                    <th>Descuento</th>
+                                    <th>Costo</th>
+                                    <th>Descripcion</th>
                                     <th>Subtotal</th>
                                 </thead>';
 
 		while ($reg = $rspta->fetch_object())
 				{
-					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->precio_venta.'</td><td>'.$reg->descuento.'</td><td>'.$reg->subtotal.'</td></tr>';
-					$total=$total+($reg->precio_venta*$reg->cantidad-$reg->descuento);
+					echo '<tr class="filas"><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->price_compra.'</td><td>'.$reg->descuento.'</td><td>'.$reg->cantidad*$reg->price_compra.'</td></tr>';
+					$total=$total+($reg->price_compra*$reg->cantidad);
 				}
 		echo '<tfoot>
                                     <th>TOTAL</th>
-                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -122,29 +117,20 @@ switch ($_GET["op"]){
  		//Vamos a declarar un array
  		$data= Array();
 
- 		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
- 				$url='../reportes/exTicket.php?id=';
- 			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
-
+ 	
+		 while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>(($reg->estado=='0')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-danger" onclick="anular('.$reg->idventa.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'),
+ 				"0"=>(($reg->estado=='1')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->idingreso.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'),
  					//'<a target="_blank" href="'.$url.$reg->idventa.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
- 				"1"=>$reg->fecha,
- 				"2"=>$reg->cliente,
- 				"3"=>$reg->usuario,
- 				"4"=>$reg->tipo_comprobante,
- 				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
- 				"6"=>'<P id="totalventa">Q.'.$reg->total_venta.'</P>',
- 				"7"=>($reg->estado=='0')?'<span class="label bg-green">Aceptado</span>':
+ 				"1"=>$reg->producto,
+ 				"2"=>$reg->usuario,
+ 				"3"=>$reg->cantidad,
+ 				"4"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
- 		}
+			}
  		$results = array(
  			"sEcho"=>1, //Información para el datatables
  			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
@@ -166,34 +152,19 @@ switch ($_GET["op"]){
  			else{
  				$url='../reportes/exFactura.php?id=';
  			}
-			date_default_timezone_set('America/Guatemala');
-			$fecha=date('Y-m-d');	
-			$date1 = new DateTime("$fecha");
-			$date2 = new DateTime("$reg->fechaventa");
-			$diff = $date1->diff($date2);
-		
-			$dias='3';	
-			//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
-			//$dias1='-7';
-			//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
-			$data[]=array(
- 				"0"=>(($reg->estado=='0')?'<button id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
+
+ 			$data[]=array(
+ 				"0"=>(($reg->estado=='0')?'<button class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
- 					'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
- 					//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 					'<button class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
+ 					//'<a target="_blank" href="'.$url.$reg->idventa.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
  				"1"=>$reg->fechaventa,
  				"2"=>$reg->cliente,
  				"3"=>$reg->usuario,
  				"4"=>'<P>Q.'.$reg->totales.'</P>',
- 				"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
- 				'<span class="label bg-red">Pendiente Pago</span>',
-				"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
-				// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
-				// '<span class="label bg-red">Pendiente Pago</span>'	
-				
-				//"6"=>($fechapro==true)? '<span class="label bg-green">Plazo por vencer</span>':
-				//'<span class="label bg-red"></span>'
-			);
+ 				"5"=>($reg->totales=='0')?'<span class="label bg-green">Pagado</span>':
+ 				'<span class="label bg-red">Pendiente Pago</span>'
+ 				);
  		}
  		$results = array(
  			"sEcho"=>1, //Información para el datatables
@@ -218,15 +189,15 @@ switch ($_GET["op"]){
 	break;
 
 
-	case 'selectalmacen':
-		require_once "../modelos/almacen.php";
-		$almacen = new Almacen();
+	case 'selectproducto':
+		require_once "../modelos/Articulo.php";
+		$articulo = new Articulo();
 
-		$rspta = $almacen->listaralmacen();
+		$rspta = $articulo->listararticulot();
 
 		while ($reg = $rspta->fetch_object())
 				{
-				echo '<option value='. $reg->idalmacen.'>'. $reg->nombre . '</option>';
+				echo '<option value='. $reg->idproducto.'>'. $reg->nombre . '</option>';
 				}
 	break;
 

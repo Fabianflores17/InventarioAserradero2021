@@ -30,7 +30,7 @@ Class Consultas
 
 	public function totalventahoy()
 	{
-		$sql="SELECT IFNULL(SUM(total),0) as total_venta FROM transaccion WHERE DATE(created_at)=curdate()";
+		$sql="SELECT IFNULL(SUM(total),0) as total_venta FROM transaccion WHERE DATE(created_at)=curdate() and tipo_operacion_id='2'";
 		return ejecutarConsulta($sql);
 	}
 

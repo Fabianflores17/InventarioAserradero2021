@@ -13,13 +13,7 @@ require 'header.php';
 
 if ($_SESSION['ventas']==1)
 {
-  require_once "../modelos/Consultas.php";
-  $consulta = new Consultas();
-
-
-  $rsptav = $consulta->Totalventas();
-  $regv=$rsptav->fetch_object();
-  $totalv=$regv->total_venta;
+ 
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -30,7 +24,7 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Venta <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Ficha Técnica <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -39,54 +33,36 @@ if ($_SESSION['ventas']==1)
                     <div class="panel-body table-responsive" id="listadoregistros">
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
-                            <th>Opciones</th>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Usuario</th>
-                            <th>Documento</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
+                          <th>Opciones</th>
+                            <th>Producto</th>
+                            <th>Usuarip</th>
+                            <th>Cantidad</th>
                             <th>Estado</th>
                           </thead>
                           <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Fecha</th>
-                            <th>Proveedor</th>
-                            <th>Usuario</th>
-                            <th>Documento</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
+                            <th>Producto</th>
+                            <th>Usuarip</th>
+                            <th>Cantidad</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>
-                            <p style="font-size:40px;">Total Q.<?php echo $totalv; ?></p>
+                            
                     </div>
 
 
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
                           <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
-                            <label>Cliente(*):</label>
+                            <label>Producto Termiando(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" >
+                            <select id="idproducto" name="idproducto" class="form-control selectpicker" title="--Seleccione el producto--" data-live-search="true" required="" >
                             </select>
                           </div>
-                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label>Fecha(*):</label>
-                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
-                          </div>
-                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
-                               <option value="1">Boleta</option>
-                               <option value="2">Factura</option>
-                               <option value="3">Ticket</option>
-                            </select>
-                          </div>
-                        
                           
+                        
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Almacen(*):</label>
                             <select onchange="listarArticulos();" name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--"required="">
@@ -95,26 +71,33 @@ if ($_SESSION['ventas']==1)
                           
 
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Serie:</label>
-                            <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
+                            <label>Cantidad Producida:</label>
+                            <input type="number" class="form-control" name="q" id="q"  placeholder="cantidad">
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Número:</label>
-                            <input type="text" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" >
-                          </div>
-                          <div class="form-group col-lg-1 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" class="form-control" name="impuesto" id="impuesto" >
+                            <label>Insumos M.O. x Unidad:</label>
+                            <input type="text" class="form-control" name="totalxproduc" id="totalxproduc" placeholder="Número" disabled>
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Tipo de Pago(*):</label>
-                              <select  onchange="fechaprorroga();" id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
-                              </select>
-                          </div> 
-                          <div id="fecha_pro" class=" form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Fecha Prorroga(*):</label>
-                            <input type="date" class="form-control" name="fecha_pro" id="fecha_pro" >
+                            <label>% Gastos de operacion:</label>
+                            <input type="number" class="form-control" name="gop" id="gop" >
                           </div>
+
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>% Gastos de admin:</label>
+                            <input type="number" class="form-control" name="gad" id="gad" >
+                          </div>
+
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>% Gastos de Log:</label>
+                            <input type="number" class="form-control" name="glo" id="glo" >
+                          </div>
+
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Total:</label>
+                            <input type="number" step="any" class="form-control" name="totalunitario" id="totalunitario" >
+                          </div>
+                          
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -129,8 +112,8 @@ if ($_SESSION['ventas']==1)
                                     <th>Artículo</th>
                                     <th>Stock</th>
                                     <th>Cantidad</th>
-                                    <th>Precio Venta</th>
-                                    <th>Descuento</th>
+                                    <th>Costo</th>
+                                    <th>Comentario</th>
                                     <th>Subtotal</th>
                                 </thead>
                                 <tfoot>
@@ -182,6 +165,7 @@ if ($_SESSION['ventas']==1)
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Stock</th>
+                <th>precio</th>
             </thead>
             <tbody>
 
@@ -191,6 +175,7 @@ if ($_SESSION['ventas']==1)
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Stock</th>
+                <th>precio</th>
             </tfoot>
           </table>
         </div>
@@ -216,7 +201,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventas1.1.js"></script>
+<script type="text/javascript" src="scripts/articuloterminado.js"></script>
 <?php
 }
 ob_end_flush();
