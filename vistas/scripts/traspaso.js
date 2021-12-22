@@ -284,6 +284,8 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
 		}
 		else{
 			alert("La cantidad ingresada es mayor al stock disponible");
+            location.reload();
+            
 
 }
 //		console.log(inpC.value-inpSt.value);

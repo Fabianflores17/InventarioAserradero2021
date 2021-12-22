@@ -30,7 +30,7 @@ Class Ingreso
 			VALUES ('$idoperacion','$idingresonew', '$idarticulo[$num_elementos]','$idalmacen[$num_elementos]' ,'$cantidad[$num_elementos]','$precio_compra[$num_elementos]','2','1')";
 			ejecutarConsulta($sql_detalles);
 			$sql_detalles2 = "INSERT INTO operacion (operation_from_id,transaccion_id,idproducto,idalmacen,cantidad,price_compra,tipo_operacion_id,is_traspase) 
-			VALUES ('$idoperacion','$idingresonew', '$idarticulo[$num_elementos]','$idalmacen2[$num_elementos]' ,'$cantidad[$num_elementos]','$precio_compra[$num_elementos]','1','1')";
+            VALUES ('$idoperacion','$idingresonew', '$idarticulo[$num_elementos]','$idalmacen2' ,'$cantidad[$num_elementos]','$precio_compra[$num_elementos]','1','1')";
 			ejecutarConsulta($sql_detalles2) or $sw = false;
 			$num_elementos=$num_elementos + 1;
 		

@@ -7,7 +7,7 @@ if (strlen(session_id()) < 1)
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ITVentas | www.incanatoit.com</title>
+    <title>Sistema Aserradero |</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.5 -->
@@ -36,11 +36,11 @@ if (strlen(session_id()) < 1)
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a href="escritorio.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>Fe</b>Ventas</span>
+          <span class="logo-mini"><b>D</b>B</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Ferreteria</b></span>
+          <span class="logo-lg"><b>DASHBOARD</b></span>
         </a>
 
         <!-- Header Navbar: style can be found in header.less -->
@@ -174,7 +174,7 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
-            if ($_SESSION['Planilla']==1)
+            if ($_SESSION['caja']==1)
             {
               echo '<li class="treeview">
               <a href="#">
@@ -190,12 +190,12 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
-            if ($_SESSION['Planilla']==1)
+            if ($_SESSION['Ficha']==1)
             {
               echo '<li class="treeview">
               <a href="#">
                 <i class="fa fa-group"></i>
-                <span>Creacion reseta</span>
+                <span>Ficha Tecnica</span>
                  <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">

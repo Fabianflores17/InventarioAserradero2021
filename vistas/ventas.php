@@ -122,7 +122,7 @@ if ($_SESSION['ventas']==1)
 
                           </div>
 
-                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
@@ -169,13 +169,13 @@ if ($_SESSION['ventas']==1)
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" style="width: 40% !important;">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Seleccione un Artículo</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table-responsive">
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
                 <th>Opciones</th>

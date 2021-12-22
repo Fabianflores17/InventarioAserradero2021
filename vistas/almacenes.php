@@ -51,7 +51,7 @@ if ($_SESSION['almacen']==1)
                     </div>
                     
                     <div class="panel-body table-responsive" id="listadoarticulos">
-                    <table id="tbbodega" class="table table-striped table-bordered table-condensed table-hover dataTable" width="1061px">
+                    <table id="tbbodega" class="table table-striped table-bordered table-condensed table-hover dataTable" width="100%">
                           <thead >
                             <th>Codigo</th>
                             <th>Nombre</th>
