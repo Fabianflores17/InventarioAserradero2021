@@ -54,6 +54,12 @@ Class Almacen
 		$sql="SELECT * FROM almacen";
 		return ejecutarConsulta($sql);
 	}
+
+	public function listaralmacen()
+	{
+		$sql="SELECT * FROM almacen";
+		return ejecutarConsulta($sql);
+	}
 	//Implementar un método para listar los registros y mostrar en el select
 	public function select()
 	{

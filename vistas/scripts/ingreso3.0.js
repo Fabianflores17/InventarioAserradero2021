@@ -25,10 +25,16 @@ function init(){
 function limpiar()
 {
 	$("#idproveedor").val("");
+	$('#idproveedor').selectpicker('refresh');
 	$("#proveedor").val("");
 	$("#serie_comprobante").val("");
 	$("#num_comprobante").val("");
 	$("#impuesto").val("0");
+	$("#tipo_pago").val("");
+	$('#tipo_pago').selectpicker('refresh');
+	$("#form_pago").val("");
+	$('#form_pago').selectpicker('refresh');
+
 
 	$("#total_compra").val("");
 	$(".filas").remove();
@@ -177,6 +183,8 @@ function mostrar(idingreso)
 		$("#impuesto").val(data.iva);
 		$("#tipo_pago").val(data.tipo_pago);
 		$("#tipo_pago").selectpicker('refresh');
+		$("#form_pago").val(data.forma_pago);
+		$("#form_pago").selectpicker('refresh');
 		$("#idingreso").val(data.idingreso);
 
 		//Ocultar y mostrar los botones

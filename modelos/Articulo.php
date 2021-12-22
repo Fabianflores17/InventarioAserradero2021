@@ -11,22 +11,11 @@ Class Articulo
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$cantidad,$idusuario)
+	public function insertar($idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen,$idusuario)
 	{
 		$sql="INSERT INTO producto (idcategoria,codigo,nombre,presentation,unit,descripcion,imagen,kind,condicion,idusuario)
 		VALUES ('$idcategoria','$codigo','$nombre','$presentacion','$unidad','$descripcion','$imagen','1','1','$idusuario')";
-		//return ejecutarConsulta($sql);
-		$idproductonew=ejecutarConsulta_retornarID($sql);
-
-		$sw=true;
-
-		if($idproductonew!="0")
-		{
-			$sql_detalle = "INSERT INTO operacion (idproducto,cantidad,tipo_operacion_id) VALUES('$idproductonew', '$cantidad','1')";
-			ejecutarConsulta($sql_detalle) or $sw = false;	
-		}
-
-		return $sw;
+		return ejecutarConsulta($sql);	
 	}
 	
 	//Implementamos un método para editar registros
@@ -73,10 +62,19 @@ Class Articulo
 	}
 
 	//Implementar un método para listar los registros activos, su último precio y el stock (vamos a unir con el último registro de la tabla detalle_ingreso)
+	// public function listarActivosVenta()
+	// {
+	// 	$sql="SELECT a.idproducto,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre(SELECT precio_venta FROM detalle_ingreso WHERE idarticulo=a.idarticulo order by iddetalle_ingreso desc limit 0,1) as precio_venta,a.descripcion,a.imagen,a.condicion FROM producto a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
+	// 	return ejecutarConsulta($sql);		
+	// }
 	public function listarActivosVenta()
 	{
-		$sql="SELECT a.idarticulo,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre,a.stock,(SELECT precio_venta FROM detalle_ingreso WHERE idarticulo=a.idarticulo order by iddetalle_ingreso desc limit 0,1) as precio_venta,a.descripcion,a.imagen,a.condicion FROM articulo a INNER JOIN categoria c ON a.idcategoria=c.idcategoria WHERE a.condicion='1'";
-		return ejecutarConsulta($sql);		
+		$sql="SELECT a.idproducto,a.idcategoria,c.nombre as categoria,a.codigo,a.nombre, a.descripcion,a.imagen,a.condicion 
+		FROM producto a 
+		INNER JOIN categoria c ON a.idcategoria=c.idcategoria 
+		WHERE a.condicion='1'";
+		return ejecutarConsulta($sql);	
+	
 	}
 }
 

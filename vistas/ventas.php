@@ -65,26 +65,35 @@ if ($_SESSION['ventas']==1)
                     </div>
 
 
-                    <div class="panel-body" style="height: 400px;" id="formularioregistros">
+                    <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" data-live-search="true" >
+                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" >
                             </select>
                           </div>
                           <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
                             <label>Fecha(*):</label>
                             <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" required="">
-                               <option value="Boleta">Boleta</option>
-                               <option value="Factura">Factura</option>
-                               <option value="Ticket">Ticket</option>
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
+                               <option value="1">Boleta</option>
+                               <option value="2">Factura</option>
+                               <option value="3">Ticket</option>
                             </select>
                           </div>
+                        
+                          
+                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <label>Almacen(*):</label>
+                            <select onchange="listarArticulos();" name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--"required="">
+                            </select>
+                          </div>
+                          
+
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Serie:</label>
                             <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
@@ -97,6 +106,11 @@ if ($_SESSION['ventas']==1)
                             <label>Impuesto:</label>
                             <input type="text" class="form-control" name="impuesto" id="impuesto" >
                           </div>
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Tipo de Pago(*):</label>
+                              <select id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
+                              </select>
+                          </div> 
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
@@ -104,11 +118,12 @@ if ($_SESSION['ventas']==1)
 
                           </div>
 
-                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
                                     <th>Artículo</th>
+                                    <th>Stock</th>
                                     <th>Cantidad</th>
                                     <th>Precio Venta</th>
                                     <th>Descuento</th>
@@ -116,6 +131,7 @@ if ($_SESSION['ventas']==1)
                                 </thead>
                                 <tfoot>
                                     <th>TOTAL</th>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -149,34 +165,28 @@ if ($_SESSION['ventas']==1)
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" style="width: 65% !important;">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Seleccione un Artículo</h4>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table-responsive">
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
                 <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Precio Venta</th>
-                <th>Imagen</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Precio Venta</th>
-                <th>Imagen</th>
             </tfoot>
           </table>
         </div>
@@ -202,8 +212,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventas.js"></script>
-
+<script type="text/javascript" src="scripts/ventas1.1.js"></script>
 <?php
 }
 ob_end_flush();

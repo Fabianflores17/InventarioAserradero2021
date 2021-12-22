@@ -81,7 +81,7 @@ function listar()
 //	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
 //	    buttons: [
 //		            'copyHtml5',
-//		            'excelHtml5',
+//		            'excelHtml5',S
 //		            'csvHtml5',
 //		            'pdf'
 //		        ],

@@ -65,7 +65,7 @@ if ($_SESSION['almacen']==1)
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
-                            <select id="idcategoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
+                            <select id="idcategoria" title="Seleccione la categoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
@@ -79,10 +79,7 @@ if ($_SESSION['almacen']==1)
                             <label>Presentación:</label>
                             <input type="text" class="form-control" name="presentacion" id="presentacion" maxlength="256" placeholder="Presentacion del producto">
                           </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Cantidad:</label>
-                            <input type="text" class="form-control" name="cantidad" id="cantidad" maxlength="256" placeholder="cantidad de productos">
-                          </div>
+                         
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Imagen:</label>
                             <input type="file" class="form-control" name="imagen" id="imagen">
