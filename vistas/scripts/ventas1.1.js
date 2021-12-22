@@ -18,10 +18,14 @@ function init(){
 		$("#idalmacen").html(r);
 		$('#idalmacen').selectpicker('refresh');
 	});
-	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
+//	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
+//		$("#tipo_pago").html(r);
+//		$('#tipo_pago').selectpicker('refresh');
+//});
+    $.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
 		$('#tipo_pago').selectpicker('refresh');
-});
+    });
 }
 
 //Función limpiar
@@ -281,13 +285,14 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     	var inpD=desc[i];
     	var inpS=sub[i];
 		var inpSt=stock[i];
-		if(inpC.value<=inpSt.value){
+		if(parseInt(inpC.value)<=parseInt(inpSt.value)){
 
     	inpS.value=(inpC.value * inpP.value)-inpD.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
 		}
 		else{
 			alert("La cantidad ingresada es mayor al stock disponible");
+            location.reload();
 		}
     }
     calcularTotales();

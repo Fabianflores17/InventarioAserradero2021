@@ -275,12 +275,16 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
     	var inpP=prec[i];
     	var inpS=sub[i];
 		var inpSt=stock[i];
-		if(inpC.value<=inpSt.value){
+        console.log(inpC.value)
+		if(parseInt(inpC.value) <= parseInt(inpSt.value)){
     	inpS.value=inpC.value * inpP.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
 		}
 		else{
 			alert("La cantidad ingresada es mayor al stock disponible");
+            location.reload();
+            
+
 }
 //		console.log(inpC.value-inpSt.value);
     }
