@@ -303,13 +303,14 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   	var cantidad=1;
     var descuento=0;
     var precio_venta=1;
+	
 
     if (idarticulo!="")
     {
     	var subtotal=cantidad*precio_venta;
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
-    	'<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+    	'<td><input type="hidden" id="id" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
 		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
     	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
@@ -321,12 +322,15 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     	detalles=detalles+1;//Loadin
     	$('#detalles').append(fila);
     	modificarSubototales();
-    }
-    else
+		
+
+	}else
     {
     	alert("Error al ingresar el detalle, revisar los datos del artículo");
     }
   }
+
+
 
   function modificarSubototales()
   {
@@ -334,7 +338,8 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     var prec = document.getElementsByName("precio_venta[]");
     var desc = document.getElementsByName("descuento[]");
     var sub = document.getElementsByName("subtotal");
-	var stock = document.getElementsByName("stock[]")
+	var stock = document.getElementsByName("stock[]");
+
 
     for (var i = 0; i <cant.length; i++) {
     	var inpC=cant[i];
@@ -357,6 +362,8 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     calcularTotales();
 
   }
+
+  
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
   	var total = 0.0;

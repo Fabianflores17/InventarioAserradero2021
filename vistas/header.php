@@ -131,8 +131,8 @@ if (strlen(session_id()) < 1)
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="ingresocuentas.php"><i class="fa fa-circle-o"></i> Ingreso </a></li>
-                <li><a href="cuentas.php"><i class="fa fa-circle-o"></i> Cuentas</a></li>
+                <li><a href="ingresocuentas.php"><i class="fa fa-circle-o"></i> Caja Chica </a></li>
+                <!--<li><a href="cuentas.php"><i class="fa fa-circle-o"></i> Cuentas</a></li>-->
               </ul>
             </li>';
             }
@@ -174,7 +174,7 @@ if (strlen(session_id()) < 1)
             ?>
 
             <?php
-            if ($_SESSION['caja']==1)
+            if ($_SESSION['Planilla']==1)
             {
               echo '<li class="treeview">
               <a href="#">
@@ -184,13 +184,14 @@ if (strlen(session_id()) < 1)
               </a>
               <ul class="treeview-menu">
                 <li><a href="colaborador.php"><i class="fa fa-circle-o"></i> Colaborador</a></li>
+                <li><a href="pago.php"><i class="fa fa-circle-o"></i> Pago Planilla</a></li>
               </ul>
             </li>';
             }
             ?>
 
             <?php
-            if ($_SESSION['Ficha']==1)
+            if ($_SESSION['Articulo']==1)
             {
               echo '<li class="treeview">
               <a href="#">
