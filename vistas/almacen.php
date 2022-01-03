@@ -58,21 +58,21 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre:</label>
                             <input type="hidden" name="idalmacen" id="idalmacen">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required>
+                            <input type="text" class="form-control" autocomplete="off" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Direccion:</label>
-                            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="256" placeholder="Direccion">
+                            <input type="text" class="form-control" autocomplete="off" name="direccion" id="direccion" maxlength="256" placeholder="Direccion">
                           </div>
 
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Telefono:</label>
-                            <input type="text" class="form-control" name="telefono" id="telefono" maxlength="256" placeholder="ingrese numero de telefono">
+                            <input type="text" class="form-control" autocomplete="off" name="telefono" id="telefono" maxlength="256" placeholder="ingrese numero de telefono">
                           </div>
 
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Email:</label>
-                            <input type="email" class="form-control" name="email" id="email" maxlength="256" placeholder="Correo electronico">
+                            <input type="email" class="form-control" autocomplete="off" name="email" id="email" maxlength="256" placeholder="Correo electronico">
                           </div>
 
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">

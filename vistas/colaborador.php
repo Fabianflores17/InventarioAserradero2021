@@ -60,11 +60,11 @@ if ($_SESSION['ventas']==1)
                             <label>Nombre:</label>
                             <input type="hidden" name="idpersona" id="idpersona">
                             <input type="hidden" name="tipo_persona" id="tipo_persona" value="3">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del colaborador" required>
+                            <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del colaborador" required>
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Apellido:</label>
-                            <input type="text" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del colaborador" required>
+                            <input type="text" autocomplete="off" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del colaborador" required>
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Documento:</label>
@@ -74,24 +74,24 @@ if ($_SESSION['ventas']==1)
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Número DPI:</label>
-                            <input type="text" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="DPI">
+                            <input type="text" autocomplete="off" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="DPI">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Dirección:</label>
-                            <input type="text" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
+                            <input type="text" autocomplete="off" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Teléfono:</label>
-                            <input type="text" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
+                            <input type="text" autocomplete="off" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
                           </div>
 
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Email:</label>
-                            <input type="email" class="form-control" name="email" id="email" maxlength="50" placeholder="Email">
+                            <input type="email" autocomplete="off" class="form-control" name="email" id="email" maxlength="50" placeholder="Email">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Cargo:</label>
-                            <input type="text" class="form-control" name="cargo" id="cargo" maxlength="50" placeholder="Cargo/Puesto">
+                            <input type="text" autocomplete="off" class="form-control" name="cargo" id="cargo" maxlength="50" placeholder="Cargo/Puesto">
                           </div>
 
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">

@@ -11,32 +11,29 @@ Class Venta
 	}
 	//transaccion y operacion
 	//Implementamos un método para insertar registros
-	public function insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$idarticulo,$cantidad,$precio_venta,$descuento)
+	public function insertar($idproducto,$idusuario,$idalmacen,$totalunit,$cantidadgenerada,$total_venta,$idarticulo,$cantidad,$precio_venta,$descuento)
 	{
-		$sql_venta="INSERT INTO venta (idcliente,idusuario,tipo_comprobante,serie_comprobante,num_comprobante,fecha_hora,impuesto,total_venta)
-		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$total_venta')";
-		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
-		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$idpago','1','$total_venta','2','1')";
-		//ejecutarConsulta($sql);
-		$idingresonew=ejecutarConsulta_retornarID($sql);
-		$idventa=ejecutarConsulta_retornarID($sql_venta);
+		$sql="INSERT INTO transaccion (idusuario,total,tipo_operacion_id,estado)
+		VALUES ('$idusuario','$total_venta','3','1')";
+		//return ejecutarConsulta($sql);
+	  	$idingresonew=ejecutarConsulta_retornarID($sql);
 
 		$num_elementos=0;
 		$sw=true;
 
+		$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,tipo_operacion_id,idalmacen) 
+		VALUES ('$idingresonew', '$idproducto','$cantidadgenerada','$totalunit','1','$idalmacen')";
+		ejecutarConsulta($sql_detalle);
+
 		while ($num_elementos < count($idarticulo))
 		{
-			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','2','$idalmacen')";
-			$sql_detalle_venta = "INSERT INTO detalle_venta(idventa, idarticulo,cantidad,precio_venta,descuento) VALUES ('$idventa', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]')";
-			ejecutarConsulta($sql_detalle_venta);
-			ejecutarConsulta($sql_detalle) or $sw = false;	
-			$num_elementos=$num_elementos + 1;
-			if($idpago==2){
-				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,created_at)
-				VALUES ('1','$idingresonew','$idcliente','$total_venta','$fecha_pro')";
-					ejecutarConsulta($sql_credito);
-			}
 			
+			$sql_detalles = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,tipo_operacion_id,idalmacen) 
+			VALUES ('$idingresonew','$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','2','$idalmacen')";
+			
+			ejecutarConsulta($sql_detalles) or $sw = false;	
+			$num_elementos=$num_elementos + 1;
+		
 		}
 
 		return $sw;
@@ -61,12 +58,11 @@ Class Venta
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idventa)
 	{
-		$sql="SELECT v.idventa,DATE(v.fecha_hora) as fecha,v.idcliente,o.idalmacen,i.tipo_pago,p.nombre as cliente,u.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado 
-		FROM venta v 
-		INNER JOIN persona p ON v.idcliente=p.idpersona 
-		inner join transaccion i ON i.idpersona=p.idpersona
-		inner join operacion o On o.id=i.idingreso 
-		INNER JOIN usuario u ON v.idusuario=u.idusuario WHERE v.idventa='$idventa'";
+		$sql="SELECT  o.idalmacen,o.idproducto,o.cantidad,o.price_compra
+		FROM transaccion i
+		inner join operacion o On o.transaccion_id=i.idingreso 
+		inner join almacen a ON a.idalmacen=o.idalmacen
+		WHERE o.transaccion_id='$idventa' and o.tipo_operacion_id='1'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -74,7 +70,7 @@ Class Venta
 
 	public function mostrarcredito($idventa)
 	{
-		$sql="SELECT Distinct i.idingreso,i.fecha,c.created_at as fechapro,a.idalmacen,a.nombre as almacen,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as nombrepersona,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
+		$sql="SELECT Distinct i.idingreso,i.fecha,c.created_at as fechapro,a.idalmacen,a.nombre as almacen,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
 		FROM transaccion i 
 		INNER JOIN persona p ON i.idpersona=p.idpersona 
 		INNER JOIN usuario u ON i.idusuario=u.idusuario 
@@ -89,9 +85,10 @@ Class Venta
 
 	public function listarDetalle($idventa)
 	{
-		$sql="SELECT dv.idventa,dv.idarticulo,a.nombre,dv.cantidad,dv.precio_venta,dv.descuento,(dv.cantidad*dv.precio_venta-dv.descuento) as subtotal 
-		FROM detalle_venta dv 
-		INNER JOIN producto a ON dv.idarticulo=a.idproducto WHERE dv.idventa='$idventa'";
+		$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.price_compra,o.idalmacen 
+		FROM operacion o 
+		inner join producto p on o.idproducto=p.idproducto 
+		where o.transaccion_id='$idventa' and o.tipo_operacion_id='2'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -105,10 +102,12 @@ Class Venta
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT v.idventa,DATE(v.fecha_hora) as fecha,v.idcliente,p.nombre as cliente,u.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado 
-		FROM venta v 
-		INNER JOIN persona p ON v.idcliente=p.idpersona 
-		INNER JOIN usuario u ON v.idusuario=u.idusuario ORDER by v.idventa desc";
+		$sql="SELECT DISTINCT i.idingreso, u.nombre as usuario,p.nombre as producto,o.cantidad, i.estado
+		FROM transaccion i 
+		INNER JOIN usuario u ON i.idusuario=u.idusuario
+		inner join operacion o ON o.transaccion_id=i.idingreso 
+		inner join producto p ON p.idproducto=o.idproducto
+		Where i.tipo_operacion_id='3' and o.tipo_operacion_id='1' ORDER by i.idingreso desc";
 		return ejecutarConsulta($sql);		
 	}
 
@@ -122,7 +121,7 @@ Class Venta
 		INNER JOIN credito c ON p.idpersona=c.idpersona
 		left join (select transaccion_id, sum(total) as deuda FROM credito WHERE tipo_pago_id='1' GROUP BY transaccion_id) as deuda On c.transaccion_id=deuda.transaccion_id 
 		left join (select transaccion_id, sum(total) as abono FROM credito WHERE tipo_pago_id='2' GROUP BY transaccion_id) as abono on c.transaccion_id=abono.transaccion_id
-		 where tipo_operacion_id='2'  group by c.transaccion_id";	
+		 where tipo_operacion_id='2' group by c.transaccion_id";	
 		return ejecutarConsulta($sql);		
 	}
 
@@ -147,7 +146,7 @@ Class Venta
 		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
 		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
 		INNER JOIN operacion o ON o.idproducto=p.idproducto 
-		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto";
+		WHERE p.condicion='1' and o.idalmacen='$idalmacen' and tipo_producto='1' group by o.idproducto";
 		return ejecutarConsulta($sql);
 
 	}

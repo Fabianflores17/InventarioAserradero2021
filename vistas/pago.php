@@ -67,16 +67,6 @@ if ($_SESSION['ventas']==1)
 
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
-                            <label>Cliente(*):</label>
-                            <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" >
-                            </select>
-                          </div>
-                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label>Fecha(*):</label>
-                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
-                          </div>
                           <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
                             <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
@@ -86,41 +76,26 @@ if ($_SESSION['ventas']==1)
                             </select>
                           </div>
                         
-                          
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Almacen(*):</label>
-                            <select onchange="listarArticulos();" name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--"required="">
-                            </select>
-                          </div>
-                          
-
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Serie:</label>
-                            <input type="text" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Número:</label>
-                            <input type="text" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" >
-                          </div>
-                          <div class="form-group col-lg-1 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" class="form-control" name="impuesto" id="impuesto" >
-                          </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Tipo de Pago(*):</label>
                               <select  onchange="fechaprorroga();" id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
                               </select>
                           </div> 
-                          <div id="fecha_pro" class=" form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Fecha Prorroga(*):</label>
-                            <input type="date" class="form-control" name="fecha_pro" id="fecha_pro" >
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Seleccione:</label>
+                              <select  onchange="fechaprorroga();" id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
+                              </select>
+                          </div> 
+                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <label>Fecha(*):</label>
+                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
+                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Colaborador</button>
                             </a>
-
                           </div>
+                          <h3 id="totalCaja"></h3>
 
                           <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
@@ -173,7 +148,7 @@ if ($_SESSION['ventas']==1)
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Seleccione un Artículo</h4>
+          <h4 class="modal-title">Seleccione un Colaborador</h4>
         </div>
         <div class="modal-body table-responsive">
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
@@ -216,7 +191,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventas1.1.js"></script>
+<script type="text/javascript" src="scripts/pago.js"></script>
 <?php
 }
 ob_end_flush();

@@ -60,7 +60,7 @@ Class Ingreso
 		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
 		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
 		INNER JOIN operacion o ON o.idproducto=p.idproducto 
-		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto";
+		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto"; 
 		return ejecutarConsulta($sql);
 
 	}

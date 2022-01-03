@@ -2,7 +2,7 @@
 //Incluímos inicialmente la conexión a la base de datos
 require "../config/Conexion.php";
 
-Class Venta
+Class Colaborador
 {
 	//Implementamos nuestro constructor
 	public function __construct()
@@ -136,18 +136,9 @@ Class Venta
 		return ejecutarConsulta($sql);
 	}
 
-	public function listarproduct($idalmacen)
+	public function listarColaborador()
 	{
-		$sql="SELECT Datos.idproducto,p.codigo,o.idalmacen, MAX(o.price_compra) as precio,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
-		From ( Select distinct idproducto From operacion ) as Datos 
-		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
-		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 
-		Left join ( Select idproducto, Sum(cantidad) as Salidas from operacion WHERE tipo_operacion_id='2' AND idalmacen='$idalmacen' 
-		Group by idproducto) as Salidas On Datos.idproducto = Salidas.idproducto 
-		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
-		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
-		INNER JOIN operacion o ON o.idproducto=p.idproducto 
-		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto";
+		$sql="SELECT idpersona, nombre, cargo FROM persona WHERE tipo_person = '3'";
 		return ejecutarConsulta($sql);
 
 	}

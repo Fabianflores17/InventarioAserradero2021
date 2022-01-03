@@ -11,8 +11,9 @@ else
 {
 require 'header.php';
 
-if ($_SESSION['compras']==1)
+if ($_SESSION['ventas']==1)
 {
+ 
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -23,7 +24,7 @@ if ($_SESSION['compras']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Ingreso <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Ficha Técnica <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -33,109 +34,96 @@ if ($_SESSION['compras']==1)
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                           <th>Opciones</th>
-                            <th>Proveedor</th>
-                            <th>serie</th>
-                            <th>Numero factura</th>
-                            <th>Tolal compra</th>
+                            <th>Producto</th>
                             <th>Usuario</th>
-                            <th>Fecha Compra</th>
+                            <th>Cantidad</th>
                             <th>Estado</th>
                           </thead>
                           <tbody>
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Proveedor</th>
-                            <th>serie</th>
-                            <th>Numero factura</th>
-                            <th>Tolal compra</th>
+                            <th>Producto</th>
                             <th>Usuario</th>
-                            <th>Fecha Compra</th>
+                            <th>Cantidad</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>
+                            
                     </div>
+
+
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                        <div class="form-group col-lg-6 col-md-8 col-sm-8 col-xs-12">
-                            <label>Proveedor(*):</label>
-                            <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" title="Seleccione proveedor" class="form-control selectpicker" data-live-search="true" required>
+                          <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
+                            <label>Producto Termiando(*):</label>
+                            <input type="hidden" name="idventa" id="idventa">
+                            <select id="idproducto" name="idproducto" class="form-control selectpicker" title="--Seleccione el producto--" data-live-search="true" required="" >
+                            </select>
+                          </div>
+                          
+                        
+                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <label>Almacen(*):</label>
+                            <select onchange="listarArticulos();" name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--"required="">
+                            </select>
+                          </div>
+                          
 
-                            </select>
-              
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Cantidad Producida:</label>
+                            <input type="number" autocomplete="off" class="form-control" name="q" id="q"  placeholder="cantidad">
                           </div>
-                       <!--
-                         este es el codigo para traer a los proveedores 
-                         <div class="form-group col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                            <label>Proveedor(*):</label>
-                            <input type="hidden" name="idingreso" id="idingreso">
-                            <select id="idproveedor" name="idproveedor" class="form-control selectpicker" data-live-search="true" required>
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Insumos M.O. x Unidad:</label>
+                            <input type="text" class="form-control" name="totalxproduc" id="totalxproduc" placeholder="Número" disabled>
+                          </div>
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>% Gastos de operacion:</label>
+                            <input type="number" class="form-control" name="gop" id="gop" >
+                          </div>
 
-                            </select>
-                          </div>-->
-                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                            <label>Fecha(*):</label>
-                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
-                          </div>
-                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Comprobante(*):</label>
-                            <select name="tipo_comprobante" id="tipo_comprobante" title="selecciones tipo comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--" required="">
-                               <option value="1">Boleta</option>
-                               <option value="2">Factura</option>
-                               <option value="3">Ticket</option>
-                            </select>
-                          </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Serie:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="serie_comprobante" id="serie_comprobante" maxlength="7" placeholder="Serie">
+                            <label>% Gastos de admin:</label>
+                            <input type="number" class="form-control" name="gad" id="gad" >
                           </div>
+
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Número:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" required="">
+                            <label>% Gastos de Log:</label>
+                            <input type="number" class="form-control" name="glo" id="glo" >
                           </div>
+
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="impuesto" id="impuesto" required="">
+                            <label>Total:</label>
+                            <input readonly type="number" step="any" class="form-control" name="totalunitario" id="totalunitario" >
                           </div>
-                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
-                            <label>Tipo Pago(*):</label>
-                           <select name="tipo_pago" id="tipo_pago" title="seleccione tipo de pago" class="form-control selectpicker"  required="">
-                           </select>
-                          </div>
-                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
-                            <label>Forma de Pago(*):</label>
-                            <select name="form_pago" id="form_pago" title="seleccione forma de pago" class="form-control selectpicker" required="">
-                               <option value="1">Efectivo</option>
-                               <option value="2">Deposito</option>
-                               <option value="3">Cheque</option>
-                               <option value="4">Abastecimiento</option>
-                            </select>
-                          </div>
-                
-                          <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">
+                          
+                          <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
                               <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
                             </a>
+
                           </div>
 
-                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
+                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
                                     <th>Artículo</th>
+                                    <th>Stock</th>
                                     <th>Cantidad</th>
-                                    <th>Precio Compra</th>
-            
+                                    <th>Costo</th>
+                                    <th>Comentario</th>
                                     <th>Subtotal</th>
                                 </thead>
                                 <tfoot>
                                     <th>TOTAL</th>
-                                 
                                     <th></th>
                                     <th></th>
                                     <th></th>
-                                    <th><h4 id="total">Q/. 0.00</h4><input type="hidden" name="total_compra" id="total_compra"></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q/. 0.00</h4><input type="hidden" name="total_venta" id="total_venta"></th>
                                 </tfoot>
                                 <tbody>
 
@@ -150,43 +138,44 @@ if ($_SESSION['compras']==1)
                           </div>
                         </form>
                     </div>
+
+
                     <!--Fin centro -->
                   </div><!-- /.box -->
+                  <!--Fin centro -->
+                </div><!-- /.box -->
               </div><!-- /.col -->
           </div><!-- /.row -->
       </section><!-- /.content -->
 
-    </div><!-- /.content-wrapper -->
-  <!--Fin-Contenido-->
+
 
   <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+    <div class="modal-dialog" style="width: 40% !important;">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">Seleccione un Artículo</h4>
         </div>
-        <div class="modal-body table-responsive">
+        <div class="modal-body">
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
             <thead>
                 <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Imagen</th>
+                <th>precio</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Nombre</th>
-                <th>Categoría</th>
                 <th>Código</th>
+                <th>Nombre</th>
                 <th>Stock</th>
-                <th>Imagen</th>
+                <th>precio</th>
             </tfoot>
           </table>
         </div>
@@ -196,7 +185,13 @@ if ($_SESSION['compras']==1)
       </div>
     </div>
   </div>
+
+
+
   <!-- Fin modal -->
+<script type="text/javascript" src="scripts/cliente-venta.js"></script>
+
+
 <?php
 }
 else
@@ -206,7 +201,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ingreso3.0.js"></script>
+<script type="text/javascript" src="scripts/articuloterminado.js"></script>
 <?php
 }
 ob_end_flush();

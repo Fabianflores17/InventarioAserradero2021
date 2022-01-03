@@ -17,6 +17,8 @@ function limpiar()
 	$("#idcaja").val("");
 	$("#cantida").val("");
 	$("#descripcion").val("");
+	$("#tipo_transaccion").val("");
+	$("#tipo_transaccion").selectpicker('refresh');
 }
 
 //Función mostrar formulario
@@ -91,6 +93,7 @@ function guardaryeditar(e)
 	    success: function(datos)
 	    {
 	          bootbox.alert(datos);
+			  setInterval('location.reload()',3000);
 	          mostrarform(false);
 	          tabla.ajax.reload();
 	    }
@@ -99,16 +102,31 @@ function guardaryeditar(e)
 	limpiar();
 }
 
+function validarcuenta(){
+	let validar = document.getElementById("validarcampo");
+	let validar2 = parseInt(validar.innerHTML);
+	let tipo = document.getElementById("tipo_transaccion").value;
+	let cantidad = document.getElementById("cantida").value;
+
+	if(tipo=="2"){
+		if(validar2<cantidad){
+			alert("No existen suficientes fondos",location.reload());
+		}
+	}
+
+}
+
 function mostrar(idcaja)
 {
 	$.post("../ajax/caja.php?op=mostrar",{idcaja : idcaja}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
-
-		$("#cantida").val(data.cantida);
+		$("#tipo_transaccion").val(data.tipo_transacion);
+		$("#tipo_transaccion").selectpicker('refresh');
+		$("#cantida").val(data.monto);
 		$("#descripcion").val(data.descripcion);
- 		$("#idcaja").val(data.idcaja);
+ 		$("#idcaja").val(data.id);
 
  	})
 }

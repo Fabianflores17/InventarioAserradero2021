@@ -74,4 +74,4 @@ Class Ingreso
 	
 }
 
-?>
+?>	

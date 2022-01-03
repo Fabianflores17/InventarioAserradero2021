@@ -61,23 +61,23 @@ if ($_SESSION['almacen']==1)
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre(*):</label>
                             <input type="hidden" name="idarticulo" id="idarticulo">
-                            <input type="text" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
+                            <input type="text" class="form-control" autocomplete="off" name="nombre" id="nombre" maxlength="100" placeholder="Nombre" required>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Categoría(*):</label>
-                            <select id="idcategoria" title="Seleccione la categoria" name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
+                            <select id="idcategoria" title="Seleccione la categoria"  name="idcategoria" class="form-control selectpicker" data-live-search="true" required></select>
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Descripción:</label>
-                            <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
+                            <input type="text" class="form-control" autocomplete="off" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Unidad:</label>
-                            <input type="text" class="form-control" name="unidad" id="unidad" maxlength="256" placeholder="unidad">
+                            <input type="text" class="form-control" autocomplete="off" name="unidad" id="unidad" maxlength="256" placeholder="unidad">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Presentación:</label>
-                            <input type="text" class="form-control" name="presentacion" id="presentacion" maxlength="256" placeholder="Presentacion del producto">
+                            <input type="text" class="form-control" autocomplete="off" name="presentacion" id="presentacion" maxlength="256" placeholder="Presentacion del producto">
                           </div>
                          
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -94,6 +94,14 @@ if ($_SESSION['almacen']==1)
                             <div id="print">
                               <svg id="barcode"></svg>
                             </div>
+                            
+                          </div>
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Tipo de producto(*):</label>
+                            <select name="tipo_produc" id="tipo_produc" class="form-control selectpicker" title="--Seleccione Tipo Producto--"required="">
+                               <option value="1">complemento</option>
+                               <option value="2">producto</option>
+                            </select>
                           </div>
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>

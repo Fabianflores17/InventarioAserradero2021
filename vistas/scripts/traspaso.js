@@ -231,8 +231,8 @@ function marcarImpuesto()
 
 function agregarDetalle(idarticulo,articulo,total,precio_compra)
   {
-  	var cantidad=0;
-   // var precio_compra=0;
+  	 var cantidad=1;
+    // var precio_compra=0;
 	//var stock;
     //var precio_venta=0;
 
@@ -275,8 +275,10 @@ function agregarDetalle(idarticulo,articulo,total,precio_compra)
     	var inpP=prec[i];
     	var inpS=sub[i];
 		var inpSt=stock[i];
-        console.log(inpC.value)
-		if(parseInt(inpC.value) <= parseInt(inpSt.value)){
+		var st=parseInt(inpSt.value);
+		var ct=parseInt(inpC.value);
+		if(ct<=st){
+		
     	inpS.value=inpC.value * inpP.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
 		}

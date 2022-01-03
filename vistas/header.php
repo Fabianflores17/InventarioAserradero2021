@@ -131,8 +131,8 @@ if (strlen(session_id()) < 1)
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="ingresocuentas.php"><i class="fa fa-circle-o"></i> Ingreso </a></li>
-                <li><a href="cuentas.php"><i class="fa fa-circle-o"></i> Cuentas</a></li>
+                <li><a href="ingresocuentas.php"><i class="fa fa-circle-o"></i> Caja Chica </a></li>
+                <!--<li><a href="cuentas.php"><i class="fa fa-circle-o"></i> Cuentas</a></li>-->
               </ul>
             </li>';
             }
@@ -166,6 +166,7 @@ if (strlen(session_id()) < 1)
               </a>
               <ul class="treeview-menu">
                 <li><a href="ventas.php"><i class="fa fa-circle-o"></i> Ventas</a></li>
+                <li><a href="ventascredito.php" onclick="validarfecha();"><i class="fa fa-circle-o"></i> Ventas credito</a></li>
                 <li><a href="cliente.php"><i class="fa fa-circle-o"></i> Clientes</a></li>
               </ul>
             </li>';
@@ -183,6 +184,23 @@ if (strlen(session_id()) < 1)
               </a>
               <ul class="treeview-menu">
                 <li><a href="colaborador.php"><i class="fa fa-circle-o"></i> Colaborador</a></li>
+                <li><a href="pago.php"><i class="fa fa-circle-o"></i> Pago Planilla</a></li>
+              </ul>
+            </li>';
+            }
+            ?>
+
+            <?php
+            if ($_SESSION['Articulo']==1)
+            {
+              echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-group"></i>
+                <span>Ficha Tecnica</span>
+                 <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="articuloterminado.php"><i class="fa fa-circle-o"></i> Reseta</a></li>
               </ul>
             </li>';
             }
