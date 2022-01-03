@@ -2,9 +2,9 @@
 if (strlen(session_id()) < 1)
   session_start();
 
-require_once "../modelos/Venta.php";
+require_once "../modelos/pago.php";
 
-$venta=new Venta();
+$venta=new Colaborador();
 
 $idventa=isset($_POST["idventa"])? limpiarCadena($_POST["idventa"]):"";
 $idcliente=isset($_POST["idcliente"])? limpiarCadena($_POST["idcliente"]):"";
@@ -19,6 +19,7 @@ $impuesto=isset($_POST["impuesto"])? limpiarCadena($_POST["impuesto"]):"";
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
 $fecha_pro=isset($_POST["fecha_pro"])? limpiarCadena($_POST["fecha_pro"]):"";
 $total_pago=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
+
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -241,19 +242,17 @@ switch ($_GET["op"]){
 				}
 	break;
 
-	case 'listarproductos':
-		$idalmacen=$_GET['idalmacen'];
-		$rspta=$venta->listarproduct($idalmacen); 
+	case 'listarColaborador':
+		//$idalmacen=$_GET['idalmacen'];
+		$rspta=$venta->listarColaborador(); 
  		//Vamos a declarar un array
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->idproducto.',\''.$reg->nombre.'\',\''.$reg->stock.'\',\''.$reg->precio.'\');"><span class="fa fa-plus"></span></button>',
- 				"1"=>$reg->codigo,
- 				"2"=>$reg->nombre,
-				"3"=>$reg->stock,
-				"4"=>'<P>Q.'.$reg->precio.'</P>'
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->idpersona.',\''.$reg->nombre.'\',\''.$reg->cargo.'\');"><span class="fa fa-plus"></span></button>',
+ 				"1"=>$reg->nombre,
+ 				"2"=>$reg->cargo
  				);
  		}
  		$results = array(

@@ -70,8 +70,8 @@ if ($_SESSION['ventas']==1)
                         <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" ></select>
-                            </select>
+                            <input type="hidden" id="idcliente" name="idcliente" class="form-control" >
+                            <input readonly id="idcliente1" name="idcliente1" class="form-control" >
                           </div>
                           </div>
                         

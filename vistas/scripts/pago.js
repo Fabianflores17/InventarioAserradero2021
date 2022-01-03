@@ -151,8 +151,8 @@ function listar()
 //Función ListarArticulos
 function listarArticulos()
 {
-	let almacen = document.getElementById("idalmacen");
-	let selecAlmacen = almacen.value
+	// let almacen = document.getElementById("idalmacen");
+	// let selecAlmacen = almacen.value
 	tabla=$('#tblarticulos').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
@@ -163,7 +163,7 @@ function listarArticulos()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listarproductos&idalmacen='+selecAlmacen,
+					url: '../ajax/venta.php?op=listarColaborador',
 					type : "get",
 					dataType : "json",						
 					error: function(e){
