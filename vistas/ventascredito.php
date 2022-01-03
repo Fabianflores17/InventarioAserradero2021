@@ -67,10 +67,10 @@ if ($_SESSION['ventas']==1)
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
                           <div class="col-lg-12">
-                        <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12">
+                        <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12" >
                             <label>Cliente(*):</label>
                             <input type="hidden" name="idventa" id="idventa">
-                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" data-live-search="true" ></select>
+                            <select id="idcliente" name="idcliente" class="form-control selectpicker" title="--Seleccione el Cliente--" >
                             </select>
                           </div>
                           </div>
