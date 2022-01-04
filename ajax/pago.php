@@ -45,8 +45,15 @@ switch ($_GET["op"]){
  		echo $rspta ? "Venta anulada" : "Venta no se puede anular";
 	break;
 
+	
 	case 'mostrar':
 		$rspta=$venta->mostrar($idventa);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
+
+	case 'caja':
+		$rspta=$venta->mostrarcaja();
  		//Codificar el resultado utilizando json
  		echo json_encode($rspta);
 	break;
@@ -215,6 +222,19 @@ switch ($_GET["op"]){
 		while ($reg = $rspta->fetch_object())
 				{
 				echo '<option value=' . $reg->idpersona . '>' . $reg->nombre . '</option>';
+				}
+	break;
+
+
+	case 'selectotal':
+		$rspta = $venta->mostrarcaja();
+
+		while ($reg = $rspta->fetch_object())
+				{
+				echo 
+				'<label>Total(*):</label>
+				<input  id="totalpago" type="text" class="form-control"  value=' . $reg->total . '>'
+				;
 				}
 	break;
 

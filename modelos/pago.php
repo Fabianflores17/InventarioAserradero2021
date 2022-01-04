@@ -143,5 +143,14 @@ Class Colaborador
 
 	}
 
+	public function mostrarcaja()
+	{
+
+	
+		$sql="SELECT (SELECT Sum(monto) From cajachica where tipo_transacion='1') - 
+		(SELECT Sum(monto) From cajachica where tipo_transacion='2') total";	
+		return ejecutarConsulta($sql);		
+	}
+
 }
 ?>

@@ -202,6 +202,10 @@ function guardaryeditar(e)
 	limpiar();
 }
 
+
+
+
+
 function mostrar(idventa)
 {
 	$.post("../ajax/venta.php?op=mostrar",{idventa : idventa}, function(data, status)

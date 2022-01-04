@@ -30,7 +30,7 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Venta <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Pagos Planilla <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -77,13 +77,20 @@ if ($_SESSION['ventas']==1)
                           </div>
                         
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Tipo de Pago(*):</label>
-                              <select  onchange="fechaprorroga();" id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
+                            <label>Forma de Pago(*):</label>
+                              <select onchange="fechaprorroga()" id="forma_pago" name="forma_pago" title="Seleccione forma de pago" class="form-control selectpicker">
+                              <option value="1">Caja chica</option>
+                               <option value="2">Socios</option>
+                               <option value="3">Finanzas</option>
                               </select>
                           </div> 
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="total1">
+                            <!-- <label>Total(*):</label>
+                            <input type="text" class="form-control" name="totalpago" id="totalpago" value="totalpago" required=""> -->
+                          </div>
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12" id="tipo">
                             <label>Seleccione:</label>
-                              <select  onchange="fechaprorroga();" id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
+                              <select  id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
                               </select>
                           </div> 
                           <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12">
@@ -101,10 +108,10 @@ if ($_SESSION['ventas']==1)
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
-                                    <th>Artículo</th>
-                                    <th>Stock</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Venta</th>
+                                    <th>Colaborador</th>
+                                    <th>Cargo</th>
+                                    <th>Dias/Mes</th>
+                                    <th>Pago</th>
                                     <th>Descuento</th>
                                     <th>Subtotal</th>
                                 </thead>
@@ -151,21 +158,19 @@ if ($_SESSION['ventas']==1)
           <h4 class="modal-title">Seleccione un Colaborador</h4>
         </div>
         <div class="modal-body table-responsive">
-          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
+          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
             <thead>
                 <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
-                <th>Stock</th>
+                <th>Cargo</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
-                <th>Stock</th>
+                <th>cargo</th>
             </tfoot>
           </table>
         </div>
