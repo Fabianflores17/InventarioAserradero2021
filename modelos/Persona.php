@@ -14,7 +14,7 @@ Class Persona
 	//Implementamos un método para insertar registros
 	public function insertar($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
 	{
-		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email)
+		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email,cargo)
 		VALUES ('$tipo_person','$nombre','$apellido','$tipo_docum','$nit','$direccion','$telefono','$telefono1','$email')";
 		return ejecutarConsulta($sql);
 	}

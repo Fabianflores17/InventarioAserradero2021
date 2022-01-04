@@ -29,14 +29,15 @@ function limpiar()
 {
 	$("#idproducto").val("");
 	$('#idproducto').selectpicker('refresh');
-	$("#producto").val("");
-	$("#serie_comprobante").val("");
-	$("#num_comprobante").val("");
-	$("#impuesto").val("0");
 	$("#idalmacen").val("");
 	$("#idalmacen").selectpicker('refresh');
-	$("#tipo_pago").val("");
-	$("#tipo_pago").selectpicker('refresh')
+	$("#q").val("");
+	$("#totalxproduc").val("");
+	$("#gop").val("");
+	$("#gad").val("");
+	$("#glo").val("");
+	$("#totalunitario").val("");
+	
 
 	$("#total_venta").val("");
 	$(".filas").remove();
@@ -322,7 +323,10 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   function modificarSubototales()
   
   {
-	 
+	// const totalunit = document.getElementById("totalunitario").disabled = true; 
+	// const glod = document.getElementById("glo").disabled = true; 
+	// const gad = document.getElementById("gad").disabled = true; 
+	// const gop = document.getElementById("gop").disabled = true; 
   	var cant = document.getElementsByName("cantidad[]");
     var prec = document.getElementsByName("precio_venta[]");
     var sub = document.getElementsByName("subtotal");

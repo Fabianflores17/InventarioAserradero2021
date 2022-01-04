@@ -244,15 +244,16 @@ function guardaryeditar(e)
 }
 
 
+
 function mostrarcredito(idventa)
 {
 	$.post("../ajax/venta.php?op=mostrarcredito",{idventa : idventa}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
-
 		$("#idventa").val(data.idingreso);
 		$("#idcliente").val(data.idpersona);
+		$("#idcliente1").val(data.nombrepersona);
 		$('#idcliente').selectpicker('refresh');
 		$("#tipo_comprobante").val(data.tipo_comprobante);
 		$("#tipo_comprobante").selectpicker('refresh');	
@@ -264,6 +265,7 @@ function mostrarcredito(idventa)
 		let total=document.getElementById("total_credito");
 		let totales=total.value;
 		
+				
 	
 		if(totales==0){
 			$("#btnGuardar").hide();
@@ -296,7 +298,6 @@ function validarfecha(){
 	//e.preventDefault();
 	let total=document.getElementById("total_credito");
 	let totales=total.value;
-	console.log(totales);
 	let to=document.querySelector('#validar');
 	if(totales==0){
 		to.innerHTML=`<span class="label bg-green">pagado</span>`;

@@ -151,8 +151,8 @@ function listar()
 //Función ListarArticulos
 function listarArticulos()
 {
-	let almacen = document.getElementById("idalmacen");
-	let selecAlmacen = almacen.value
+	// let almacen = document.getElementById("idalmacen");
+	// let selecAlmacen = almacen.value
 	tabla=$('#tblarticulos').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
@@ -163,7 +163,7 @@ function listarArticulos()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listarproductos&idalmacen='+selecAlmacen,
+					url: '../ajax/pago.php?op=listarColaborador',
 					type : "get",
 					dataType : "json",						
 					error: function(e){
@@ -201,10 +201,6 @@ function guardaryeditar(e)
 	});
 	limpiar();
 }
-
-
-
-
 
 function mostrar(idventa)
 {
@@ -317,7 +313,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     	var subtotal=cantidad*precio_venta;
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
-    	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+idarticulo+ ' ' +articulo+'</td>'+
+    	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
 		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
     	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
@@ -356,15 +352,15 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 
 		var st=parseInt(inpSt.value);
 		var ct=parseInt(inpC.value);
-		if(ct<=st){
+		// if(ct<=st){
 
     	inpS.value=(inpC.value * inpP.value)-inpD.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
-		}
-		else{
-			alert("La cantidad ingresada es mayor al stock disponible");
-            location.reload();
-		}
+		// }
+		// else{
+		// 	alert("La cantidad ingresada es mayor al stock disponible");
+        //     location.reload();
+		// }
     }
     calcularTotales();
 
@@ -373,11 +369,24 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
+	var to = document.getElementById("totalpago").value;
   	var total = 0.0;
+
+	 
 
   	for (var i = 0; i <sub.length; i++) {
 		total += document.getElementsByName("subtotal")[i].value;
 	}
+	console.log(to);
+	if(total<to){
+		alert("prueba");
+
+	} 
+	else{
+
+		alert("prueba22222");
+	}
+
 	$("#total").html("Q/. " + total);
     $("#total_venta").val(total);
     evaluar();
@@ -408,6 +417,41 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
       cont=0;
     }
   }
+
+
+  function mostrartotal(){
+	let tipopago2 = document.getElementById("forma_pago").value;
+	if(tipopago2==1){
+		
+		$.post("../ajax/pago.php?op=selectotal", function(r){
+			$("#totalpago").html(r);
+			// var to = r.innerHTML;
+			// console.log(r);
+		});
+		
+	}
+	else if(tipopago2==3){
+		alert("pendiente de total");
+
+	}
+}
+
+  function fechaprorroga(){
+	let tipopago = document.getElementById("forma_pago").value;
+	if(tipopago==1||tipopago==3){
+	
+		$("#totalpago").show();
+		$("#tipo").hide();
+		mostrartotal();
+	
+	}
+	else
+    {
+      $("#totalpago").hide();
+	  $("#tipo").show();
+      cont=0;
+    }
+}
 
   function eliminarDetalle(indice){
   	$("#fila" + indice).remove();

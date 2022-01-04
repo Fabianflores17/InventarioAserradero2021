@@ -72,7 +72,7 @@ if ($_SESSION['ventas']==1)
 
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Cantidad Producida:</label>
-                            <input type="number" class="form-control" name="q" id="q"  placeholder="cantidad">
+                            <input type="number" autocomplete="off" class="form-control" name="q" id="q"  placeholder="cantidad">
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Insumos M.O. x Unidad:</label>
@@ -95,7 +95,7 @@ if ($_SESSION['ventas']==1)
 
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
                             <label>Total:</label>
-                            <input type="number" step="any" class="form-control" name="totalunitario" id="totalunitario" >
+                            <input readonly type="number" step="any" class="form-control" name="totalunitario" id="totalunitario" >
                           </div>
                           
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">

@@ -30,88 +30,88 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Venta Credito </h1>
+                          <h1 class="box-title">Venta <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tbllistadocredito" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
-                            <th>Fecha Prorroga</th>
+                            <th>Fecha</th>
                             <th>Cliente</th>
                             <th>Usuario</th>
-                            <th>Total Credito</th>
+                            <th>Documento</th>
+                            <th>Número</th>
+                            <th>Total Venta</th>
                             <th>Estado</th>
-                            <th>Dias Restante Prorroga</th>
                           </thead>
                           <tbody>
-                            
                           </tbody>
                           <tfoot>
                             <th>Opciones</th>
-                            <th>Fecha Prorroga</th>
+                            <th>Fecha</th>
                             <th>Proveedor</th>
                             <th>Usuario</th>
-                            <th>Total Credito</th>
+                            <th>Documento</th>
+                            <th>Número</th>
+                            <th>Total Venta</th>
                             <th>Estado</th>
-                            <th>Dias Restante Prorroga</th>
                           </tfoot>
                         </table>
-                            
+                            <p style="font-size:40px;">Total Q.<?php echo $totalv; ?></p>
                     </div>
 
 
                     <div class="panel-body"  id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="col-lg-12">
-                        <div class="form-group col-lg-4 col-md-8 col-sm-8 col-xs-12" >
-                            <label>Cliente(*):</label>
-                            <input type="hidden" name="idventa" id="idventa">
-                            <input type="hidden" id="idcliente" name="idcliente" class="form-control" >
-                            <input readonly id="idcliente1" name="idcliente1" class="form-control" >
-                          </div>
-                          </div>
-                        
-                          <div class="col-lg-12">
-                          <div class="form-group col-lg-4 col-md-2 col-sm- col-xs-12">
-                            <label>Almacen(*):</label>
-                            <select name="idalmacen" id="idalmacen" class="form-control selectpicker" title="--Seleccione el almacen--" disabled>
+                          <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <label>Tipo Comprobante(*):</label>
+                            <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
+                               <option value="1">Boleta</option>
+                               <option value="2">Factura</option>
+                               <option value="3">Ticket</option>
                             </select>
                           </div>
+                        
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Forma de Pago(*):</label>
+                              <select onchange="fechaprorroga()" id="forma_pago" name="forma_pago" title="Seleccione forma de pago" class="form-control selectpicker">
+                              <option value="1">Caja chica</option>
+                               <option value="2">Socios</option>
+                               <option value="3">Finanzas</option>
+                              </select>
+                          </div> 
+                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="totalpago">
+                            <label>Total(*):</label>
+                            <input type="text" class="form-control" name="totalpago" id="totalpago" required="">
                           </div>
-
-                          <div class="col-lg-12">
-                          <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
-                            <label>Total:</label>
-                            <input type="text" class="form-control" name="total_credito" id="total_credito" placeholder="Total" disabled>
-                          </div>
-                          </div>
-
-                          <div class="col-lg-12" id="pagoborrador" >
-                          <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
-                            <label>Pago:</label>
-                            <input type="text"   class="form-control" name="pago" id="pago"  placeholder="Ingrese monto a pagar" >
-                          </div>
-                          
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12" id="tipo">
+                            <label>Seleccione:</label>
+                              <select  id="tipo_pago" name="tipo_pago" title="Seleccione tipo de pago" class="form-control selectpicker"  >
+                              </select>
+                          </div> 
+                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12">
+                            <label>Fecha(*):</label>
+                            <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Artículos</button>
+                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Colaborador</button>
                             </a>
                           </div>
-                          
+                          <h3 id="totalCaja"></h3>
 
-                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+                          <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
-                                    <th>Artículo</th>
-                                    <th>Stock</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Venta</th>
+                                    <th>Colaborador</th>
+                                    <th>Cargo</th>
+                                    <th>Dias/Mes</th>
+                                    <th>Pago</th>
                                     <th>Descuento</th>
                                     <th>Subtotal</th>
                                 </thead>
@@ -131,7 +131,7 @@ if ($_SESSION['ventas']==1)
                           </div>
 
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button class="btn btn-primary" type="submit" onclik="validarpago()" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                            <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 
                             <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
                           </div>
@@ -151,28 +151,26 @@ if ($_SESSION['ventas']==1)
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-    <div class="modal-dialog" style="width: 40% !important;">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Seleccione un Artículo</h4>
+          <h4 class="modal-title">Seleccione un Colaborador</h4>
         </div>
-        <div class="modal-body">
-          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
+        <div class="modal-body table-responsive">
+          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
             <thead>
                 <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
-                <th>Stock</th>
+                <th>Cargo</th>
             </thead>
             <tbody>
 
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
-                <th>Stock</th>
+                <th>cargo</th>
             </tfoot>
           </table>
         </div>
@@ -198,7 +196,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventascredito.js"></script>
+<script type="text/javascript" src="scripts/pago.js"></script>
 <?php
 }
 ob_end_flush();
