@@ -369,7 +369,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
-	var to = document.getElementById("totalpago").value;
+	let num = document.getElementById("totalpago").value;
   	var total = 0.0;
 
 	 
@@ -377,15 +377,11 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   	for (var i = 0; i <sub.length; i++) {
 		total += document.getElementsByName("subtotal")[i].value;
 	}
-	console.log(to);
-	if(total<to){
-		alert("prueba");
+
+	if(total>parseInt(num)){
+		alert("No existen suficientes fondos");
 
 	} 
-	else{
-
-		alert("prueba22222");
-	}
 
 	$("#total").html("Q/. " + total);
     $("#total_venta").val(total);
@@ -424,7 +420,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 	if(tipopago2==1){
 		
 		$.post("../ajax/pago.php?op=selectotal", function(r){
-			$("#totalpago").html(r);
+			$("#total1").html(r);
 			// var to = r.innerHTML;
 			// console.log(r);
 		});
@@ -440,14 +436,14 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 	let tipopago = document.getElementById("forma_pago").value;
 	if(tipopago==1||tipopago==3){
 	
-		$("#totalpago").show();
+		$("#total1").show();
 		$("#tipo").hide();
 		mostrartotal();
 	
 	}
 	else
     {
-      $("#totalpago").hide();
+      $("#total1").hide();
 	  $("#tipo").show();
       cont=0;
     }

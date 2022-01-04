@@ -30,7 +30,7 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Venta <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Pagos Planilla <button class="btn btn-success" id="btnagregar" onclick="mostrarform(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -84,9 +84,9 @@ if ($_SESSION['ventas']==1)
                                <option value="3">Finanzas</option>
                               </select>
                           </div> 
-                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="totalpago">
-                            <label>Total(*):</label>
-                            <input type="text" class="form-control" name="totalpago" id="totalpago" required="">
+                          <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="total1">
+                            <!-- <label>Total(*):</label>
+                            <input type="text" class="form-control" name="totalpago" id="totalpago" value="totalpago" required=""> -->
                           </div>
                           <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12" id="tipo">
                             <label>Seleccione:</label>

@@ -233,7 +233,7 @@ switch ($_GET["op"]){
 				{
 				echo 
 				'<label>Total(*):</label>
-				<input  type="text" class="form-control"  value=' . $reg->total . '>'
+				<input  id="totalpago" type="text" class="form-control"  value=' . $reg->total . '>'
 				;
 				}
 	break;
