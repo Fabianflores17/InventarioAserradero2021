@@ -369,7 +369,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
-	var to = document.getElementById("totalpago").value;
+	var to = document.getElementsByName("totalpago").value;
   	var total = 0.0;
 
 	 
