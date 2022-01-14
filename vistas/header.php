@@ -149,6 +149,7 @@ if (strlen(session_id()) < 1)
               </a>
               <ul class="treeview-menu">
                 <li><a href="ingreso.php"><i class="fa fa-circle-o"></i> Ingresos</a></li>
+                <li><a href="ingresoporpagar.php"><i class="fa fa-circle-o"></i> Ingreso por pagar</a></li>
                 <li><a href="proveedor.php"><i class="fa fa-circle-o"></i> Proveedores</a></li>
               </ul>
             </li>';
@@ -217,6 +218,7 @@ if (strlen(session_id()) < 1)
               <ul class="treeview-menu">
                 <li><a href="usuario.php"><i class="fa fa-circle-o"></i> Usuarios</a></li>
                 <li><a href="permiso.php"><i class="fa fa-circle-o"></i> Permisos</a></li>
+                <li><a href="listadoprecio.php"><i class="fa fa-circle-o"></i> Listado de precios</a></li>
 
               </ul>
             </li>';

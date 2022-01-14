@@ -11,14 +11,12 @@ Class Colaborador
 	}
 	//transaccion y operacion
 	//Implementamos un método para insertar registros
-	public function insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$idarticulo,$cantidad,$precio_venta,$descuento)
+	public function insertar($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$idarticulo,$cantidad,$precio_venta,$descuento)
 	{
-		$sql_venta="INSERT INTO venta (idcliente,idusuario,tipo_comprobante,serie_comprobante,num_comprobante,fecha_hora,impuesto,total_venta)
-		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$total_venta')";
-		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
-		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$idpago','1','$total_venta','2','1')";
-		//ejecutarConsulta($sql);
-		$idingresonew=ejecutarConsulta_retornarID($sql);
+		if($formapago==1){
+		$sql_venta="INSERT INTO cajachica (tipo_transacion,monto,kind)
+		VALUES ('2','$total_venta','1')";
+		//ejecutarConsulta($sql_venta);
 		$idventa=ejecutarConsulta_retornarID($sql_venta);
 
 		$num_elementos=0;
@@ -26,20 +24,44 @@ Class Colaborador
 
 		while ($num_elementos < count($idarticulo))
 		{
-			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','2','$idalmacen')";
-			$sql_detalle_venta = "INSERT INTO detalle_venta(idventa, idarticulo,cantidad,precio_venta,descuento) VALUES ('$idventa', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]')";
-			ejecutarConsulta($sql_detalle_venta);
-			ejecutarConsulta($sql_detalle) or $sw = false;	
+			$sql_detalle_venta = "INSERT INTO detalle_pago (transaccion_id,idpersona,cantidad,pago,descuento,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idventa', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+			ejecutarConsulta($sql_detalle_venta) or $sw = false;	
 			$num_elementos=$num_elementos + 1;
-			if($idpago==2){
-				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,created_at)
-				VALUES ('1','$idingresonew','$idcliente','$total_venta','$fecha_pro')";
-					ejecutarConsulta($sql_credito);
-			}
 			
 		}
-
 		return $sw;
+	}
+	
+	elseif($formapago==2){
+		$num_elementos=0;
+		$sw=true; 
+
+		while ($num_elementos < count($idarticulo))
+		{
+			$sql_detalle_venta = "INSERT INTO detalle_pago (idpersona,cantidad,pago,descuento,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+			ejecutarConsulta($sql_detalle_venta) or $sw = false;	
+			$num_elementos=$num_elementos + 1;
+			
+		}
+		return $sw;
+	}
+
+	elseif($formapago==3){
+		$num_elementos=0;
+		$sw=true; 
+		
+		while ($num_elementos < count($idarticulo))
+		{
+			$sql_detalle_venta = "INSERT INTO detalle_pago (idpersona,cantidad,pago,descuento,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+			ejecutarConsulta($sql_detalle_venta) or $sw = false;	
+			$num_elementos=$num_elementos + 1;
+			
+		}
+		return $sw;
+	}
+
+
+	
 	}
 
 	public function insertarcredito($idcliente,$idventa,$total_pago){
@@ -61,12 +83,8 @@ Class Colaborador
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idventa)
 	{
-		$sql="SELECT v.idventa,DATE(v.fecha_hora) as fecha,v.idcliente,o.idalmacen,i.tipo_pago,p.nombre as cliente,u.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado 
-		FROM venta v 
-		INNER JOIN persona p ON v.idcliente=p.idpersona 
-		inner join transaccion i ON i.idpersona=p.idpersona
-		inner join operacion o On o.id=i.idingreso 
-		INNER JOIN usuario u ON v.idusuario=u.idusuario WHERE v.idventa='$idventa'";
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento,d.condicion,d.fecha,d.forma_pago
+		FROM detalle_pago as d where d.iddetalle='$idventa'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -77,7 +95,7 @@ Class Colaborador
 		$sql="SELECT Distinct i.idingreso,i.fecha,c.created_at as fechapro,a.idalmacen,a.nombre as almacen,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as nombrepersona,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
 		FROM transaccion i 
 		INNER JOIN persona p ON i.idpersona=p.idpersona 
-		INNER JOIN usuario u ON i.idusuario=u.idusuario 
+			INNER JOIN usuario u ON i.idusuario=u.idusuario 
 		inner join operacion o On i.idingreso=o.transaccion_id
 		inner join almacen a ON o.idalmacen=a.idalmacen
 		INNER JOIN credito c ON i.idpersona=c.idpersona
@@ -89,9 +107,9 @@ Class Colaborador
 
 	public function listarDetalle($idventa)
 	{
-		$sql="SELECT dv.idventa,dv.idarticulo,a.nombre,dv.cantidad,dv.precio_venta,dv.descuento,(dv.cantidad*dv.precio_venta-dv.descuento) as subtotal 
-		FROM detalle_venta dv 
-		INNER JOIN producto a ON dv.idarticulo=a.idproducto WHERE dv.idventa='$idventa'";
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento, p.nombre as colaborador
+		FROM detalle_pago as d
+		inner join persona p ON d.idpersona=p.idpersona WHERE d.iddetalle='$idventa'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -105,10 +123,9 @@ Class Colaborador
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT v.idventa,DATE(v.fecha_hora) as fecha,v.idcliente,p.nombre as cliente,u.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado 
-		FROM venta v 
-		INNER JOIN persona p ON v.idcliente=p.idpersona 
-		INNER JOIN usuario u ON v.idusuario=u.idusuario ORDER by v.idventa desc";
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento,d.condicion,d.fecha,d.forma_pago, u.nombre as usuario
+		FROM detalle_pago as d
+		inner join usuario u ON d.idusuario=u.idusuario";
 		return ejecutarConsulta($sql);		
 	}
 
@@ -126,8 +143,11 @@ Class Colaborador
 		return ejecutarConsulta($sql);		
 	}
 
-	public function ventacabecera($idventa){
-		$sql="SELECT v.idventa,v.idcliente,p.nombre as cliente,p.direccion,p.tipo_documento,p.num_documento,p.email,p.telefono,v.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,date(v.fecha_hora) as fecha,v.impuesto,v.total_venta FROM venta v INNER JOIN persona p ON v.idcliente=p.idpersona INNER JOIN usuario u ON v.idusuario=u.idusuario WHERE v.idventa='$idventa'";
+	public function pagocabecera($idventa){
+		$sql="SELECT d.fecha,p.nombre as colaborador,d.cantidad,d.pago
+		FROM detalle_pago d 
+		inner join persona p on p.idpersona=d.idpersona
+		WHERE d.iddetalle='$idventa'";
 		return ejecutarConsulta($sql);
 	}
 

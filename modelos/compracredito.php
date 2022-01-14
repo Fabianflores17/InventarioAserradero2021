@@ -18,7 +18,7 @@ Class Venta
 		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
 		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$idpago','1','$total_venta','2','1')";
 		//ejecutarConsulta($sql);
-		$idingresonew=ejecutarConsulta_retornarID($sql);	
+		$idingresonew=ejecutarConsulta_retornarID($sql);
 		$idventa=ejecutarConsulta_retornarID($sql_venta);
 
 		$num_elementos=0;
@@ -48,19 +48,13 @@ Class Venta
 		values ('2','$idventa','$idcliente','$total_pago')";
 		ejecutarConsulta($sql);
 	}
-	
 
 	
 	//Implementamos un método para anular la venta
 	public function anular($idventa)
 	{
-		//$sql="UPDATE venta SET estado='1' WHERE idventa='$idventa'";
-		$sqlope="UPDATE operacion SET status='0' WHERE transaccion_id='$idventa'";
-		$sqltras="UPDATE transaccion SET estado='0' WHERE idingreso='$idventa'";
-		ejecutarConsulta($sqlope);
-		return ejecutarConsulta($sqltras);
-		//return ejecutarConsulta($sql);
-
+		$sql="UPDATE venta SET estado='1' WHERE idventa='$idventa'";
+		return ejecutarConsulta($sql);
 	}
 
 
@@ -75,18 +69,6 @@ Class Venta
 		INNER JOIN usuario u ON v.idusuario=u.idusuario WHERE v.idventa='$idventa'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
-
-		//Implementar un método para mostrar los datos de un registro a modificar
-		public function mostrarventa($idventa)
-		{
-			$sql="SELECT v.idingreso,v.fecha as fecha,v.idpersona,o.idalmacen,v.tipo_pago,v.tipo_comprobante,v.serie,v.codigo_factura,v.total,v.estado 
-			FROM transaccion v 
-		-- INNER JOIN persona p ON v.idpersona=p.idpersona 
-			inner join operacion o On o.transaccion_id=v.idingreso 
-		-- INNER JOIN usuario u ON v.idusuario=u.idusuario 
-			WHERE v.idingreso='$idventa'";
-			return ejecutarConsultaSimpleFila($sql);
-		}
 
 
 
@@ -107,19 +89,15 @@ Class Venta
 
 	public function listarDetalle($idventa)
 	{
-
-		$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.idprecio_lis,o.idalmacen 
-		FROM operacion o inner join producto p on o.idproducto=p.idproducto where o.transaccion_id='$idventa'";
+		$sql="SELECT dv.idventa,dv.idarticulo,a.nombre,dv.cantidad,dv.precio_venta,dv.descuento,(dv.cantidad*dv.precio_venta-dv.descuento) as subtotal 
+		FROM detalle_venta dv 
+		INNER JOIN producto a ON dv.idarticulo=a.idproducto WHERE dv.idventa='$idventa'";
 		return ejecutarConsulta($sql);
-		// $sql="SELECT dv.idventa,dv.idarticulo,a.nombre,dv.cantidad,dv.precio_venta,dv.descuento,(dv.cantidad*dv.precio_venta-dv.descuento) as subtotal 
-		// FROM detalle_venta dv 
-		// INNER JOIN producto a ON dv.idarticulo=a.idproducto WHERE dv.idventa='$idventa'";
-		// return ejecutarConsulta($sql);
 	}
 
 	public function listarDetallecredito($idventa)
 	{
-	$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.idprecio_lis,o.idalmacen 
+	$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.price_compra,o.idalmacen 
 		FROM operacion o inner join producto p on o.idproducto=p.idproducto where o.transaccion_id='$idventa'";
 	return ejecutarConsulta($sql);
 }
@@ -134,16 +112,6 @@ Class Venta
 		return ejecutarConsulta($sql);		
 	}
 
-	public function listartrans()
-	{
-		$sql="SELECT v.idingreso ,v.fecha as fecha,v.idpersona,p.nombre as cliente,u.idusuario,u.nombre as usuario,v.tipo_comprobante,v.serie,v.codigo_factura,v.total,v.estado 
-		FROM transaccion v 
-		INNER JOIN persona p ON v.idpersona=p.idpersona 
-		INNER JOIN usuario u ON v.idusuario=u.idusuario
-		Where v.tipo_operacion_id='2' ORDER by v.idingreso desc";
-		return ejecutarConsulta($sql);		
-	}
-
 
 	public function listarcredito()
 	{
@@ -154,15 +122,11 @@ Class Venta
 		INNER JOIN credito c ON p.idpersona=c.idpersona
 		left join (select transaccion_id, sum(total) as deuda FROM credito WHERE tipo_pago_id='1' GROUP BY transaccion_id) as deuda On c.transaccion_id=deuda.transaccion_id 
 		left join (select transaccion_id, sum(total) as abono FROM credito WHERE tipo_pago_id='2' GROUP BY transaccion_id) as abono on c.transaccion_id=abono.transaccion_id
-		 where tipo_operacion_id='2'  group by c.transaccion_id";	
+		 where i.tipo_operacion_id='1' and c.tipo_operacion='1'  group by c.transaccion_id";	
 		return ejecutarConsulta($sql);		
 	}
 	
-	
-	public function listarprecio($idarticulo){
-		$sql="SELECT * FROM listaprecio where idproducto='$idarticulo'";
-		return ejecutarConsulta($sql);
-	}
+
 	
 
 	public function ventacabecera($idventa){
@@ -177,7 +141,7 @@ Class Venta
 
 	public function listarproduct($idalmacen)
 	{
-		$sql="SELECT Datos.idproducto,p.codigo,o.idalmacen,l.precio,l.precio2,l.precio3,precio4,l.precio5,l.precio6,l.precio7,precio8,l.precio9,l.precio10,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
+		$sql="SELECT Datos.idproducto,p.codigo,o.idalmacen, MAX(o.price_compra) as precio,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
 		From ( Select distinct idproducto From operacion ) as Datos 
 		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
 		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 
@@ -186,7 +150,6 @@ Class Venta
 		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
 		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
 		INNER JOIN operacion o ON o.idproducto=p.idproducto 
-		inner join listaprecio l ON l.idproducto=p.idproducto
 		WHERE p.condicion='1' and o.idalmacen='$idalmacen' group by o.idproducto";
 		return ejecutarConsulta($sql);
 

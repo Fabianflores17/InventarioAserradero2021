@@ -40,7 +40,7 @@ if ($_SESSION['consultav']==1)
                         </div>
                         <div class="form-inline col-lg-6 col-md-6 col-sm-6 col-xs-12">
                           <label>Cliente</label>
-                          <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true" required>                         	
+                          <select name="idcliente" id="idcliente" title="Seleccione Cliente" class="form-control selectpicker" data-live-search="true" required>                         	
                           </select>                          
                           <button class="btn btn-success" onclick="listar()">Mostrar</button>
                         </div>

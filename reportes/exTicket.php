@@ -22,20 +22,20 @@ if ($_SESSION['ventas']==1)
 <?php
 
 //Incluímos la clase Venta
-require_once "../modelos/Venta.php";
+require_once "../modelos/pago.php";
 //Instanaciamos a la clase con el objeto venta
-$venta = new Venta();
+$venta = new Colaborador();
 //En el objeto $rspta Obtenemos los valores devueltos del método ventacabecera del modelo
-$rspta = $venta->ventacabecera($_GET["id"]);
+$rspta = $venta->pagocabecera($_GET["id"]);
 //Recorremos todos los valores obtenidos
 $reg = $rspta->fetch_object();
 
 //Establecemos los datos de la empresa
-$empresa = "Soluciones Innovadoras Perú S.A.C.";
+$empresa = "Corporacion G&G.";
 $documento = "20477157772";
-$direccion = "Chongoyape, José Gálvez 1368";
-$telefono = "931742904";
-$email = "jcarlos.ad7@gmail.com";
+$direccion = "Pasasagua, San Agustin Ac, El Progeso";
+$telefono = "5555555";
+$email = "g&g.@gmail.com";
 
 ?>
 <div class="zona_impresion">
@@ -57,35 +57,35 @@ $email = "jcarlos.ad7@gmail.com";
       <td align="center"></td>
     </tr>
     <tr>
-        <!-- Mostramos los datos del cliente en el documento HTML -->
-        <td>Cliente: <?php echo $reg->cliente; ?></td>
+        <!-- Mostramos los datos del Colaborador en el documento HTML -->
+        <td>Colaborador: <?php echo $reg->colaborador; ?></td>
     </tr>
     <tr>
-        <td><?php echo $reg->tipo_documento.": ".$reg->num_documento; ?></td>
+       <!-- <td> < ?php echo $reg->tipo_documento.": ".$reg->num_documento; ?></td> -->
     </tr>
     <tr>
-        <td>Nº de venta: <?php echo $reg->serie_comprobante." - ".$reg->num_comprobante ; ?></td>
+        <!-- <td>Nº de venta: < ?php echo $reg->serie_comprobante." - ".$reg->num_comprobante ; ?></td> -->
     </tr>    
 </table>
 <br>
 <!-- Mostramos los detalles de la venta en el documento HTML -->
 <table border="0" align="center" width="300px">
     <tr>
-        <td>CANT.</td>
-        <td>DESCRIPCIÓN</td>
-        <td align="right">IMPORTE</td>
+        <td>DIAS/MES.</td>
+        <td>PAGO</td>
+        <td align="right">SUBTOTA<L/td>
     </tr>
     <tr>
       <td colspan="3">==========================================</td>
     </tr>
     <?php
-    $rsptad = $venta->ventadetalle($_GET["id"]);
+    $rsptad = $venta->listarDetalle($_GET["id"]);
     $cantidad=0;
     while ($regd = $rsptad->fetch_object()) {
         echo "<tr>";
         echo "<td>".$regd->cantidad."</td>";
-        echo "<td>".$regd->articulo;
-        echo "<td align='right'>S/ ".$regd->subtotal."</td>";
+        echo "<td>".$regd->pago;
+        echo "<td align='right'>Q. ".$regd->cantidad*$regd->pago."</td>";
         echo "</tr>";
         $cantidad+=$regd->cantidad;
     }
@@ -94,22 +94,22 @@ $email = "jcarlos.ad7@gmail.com";
     <tr>
     <td>&nbsp;</td>
     <td align="right"><b>TOTAL:</b></td>
-    <td align="right"><b>S/  <?php echo $reg->total_venta;  ?></b></td>
+    <td align="right"><b>Q.  <?php echo $reg->cantidad*$reg->pago;  ?></b></td>
     </tr>
     <tr>
-      <td colspan="3">Nº de artículos: <?php echo $cantidad; ?></td>
+     
     </tr>
     <tr>
       <td colspan="3">&nbsp;</td>
     </tr>      
     <tr>
-      <td colspan="3" align="center">¡Gracias por su compra!</td>
+      <td colspan="3" align="center">¡Pago realizado!</td>
     </tr>
     <tr>
-      <td colspan="3" align="center">IncanatoIT</td>
+      <td colspan="3" align="center">G&G</td>
     </tr>
     <tr>
-      <td colspan="3" align="center">Chiclayo - Perú</td>
+      <td colspan="3" align="center">San Agustin AC - El progreso</td>
     </tr>
     
 </table>

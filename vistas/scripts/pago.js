@@ -31,12 +31,10 @@ function init(){
 //Función limpiar
 function limpiar()
 {
-	$("#idcliente").val("");
-	$('#idcliente').selectpicker('refresh');
-	$("#cliente").val("");
-	$("#serie_comprobante").val("");
-	$("#num_comprobante").val("");
-	$("#impuesto").val("0");
+	$("#forma_pago").val("");
+	$('#forma_pago').selectpicker('refresh');
+	$("#fecha_hora").val("");
+	$("#totalpago").val("");
 	$("#idalmacen").val("");
 	$("#idalmacen").selectpicker('refresh');
 	$("#tipo_pago").val("");
@@ -134,7 +132,7 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listar',
+					url: '../ajax/pago.php?op=listar',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -184,7 +182,7 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/venta.php?op=guardaryeditar",
+		url: "../ajax/pago.php?op=guardaryeditar",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
@@ -204,31 +202,30 @@ function guardaryeditar(e)
 
 function mostrar(idventa)
 {
-	$.post("../ajax/venta.php?op=mostrar",{idventa : idventa}, function(data, status)
+	$.post("../ajax/pago.php?op=mostrar",{idventa : idventa}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
 
-		$("#idcliente").val(data.idcliente);
-		$("#idcliente").selectpicker('refresh');
-		$("#tipo_comprobante").val(data.tipo_comprobante);
-		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie_comprobante);
-		$("#num_comprobante").val(data.num_comprobante);
+		$("#forma_pago").val(data.forma_pago);
+		$("#forma_pago").selectpicker('refresh');
 		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.impuesto);
-		$("#idventa").val(data.idventa);
-		$("#idalmacen").val(data.idalmacen);
-		$("#idalmacen").selectpicker('refresh');
-		$("#tipo_pago").val(data.tipo_pago);
-		$("#tipo_pago").selectpicker('refresh');
+
+		
+		
 		//Ocultar y mostrar los botones
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
 		$("#btnAgregarArt").hide();
+		if(data.forma_pago==2){
+			$("#tipo").show();		
+		}
+		else{
+			$("#tipo").hide();	
+		}
  	});
 
- 	$.post("../ajax/venta.php?op=listarDetalle&id="+idventa,function(r){
+ 	$.post("../ajax/pago.php?op=listarDetalle&id="+idventa,function(r){
 	        $("#detalles").html(r);
 	});
 }
@@ -315,10 +312,10 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
 		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
-    	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
-    	'<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
-    	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
+    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
+    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" name="descuento[]" value="'+descuento+'"></td>'+
+    	'<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
     	'</tr>';
     	cont++;
@@ -369,7 +366,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
-	var to = document.getElementsByName("totalpago").value;
+	//let num = document.getElementById("totalpago").value;
   	var total = 0.0;
 
 	 
@@ -377,35 +374,36 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   	for (var i = 0; i <sub.length; i++) {
 		total += document.getElementsByName("subtotal")[i].value;
 	}
-	console.log(to);
-	if(total<to){
-		alert("prueba");
 
-	} 
-	else{
-
-		alert("prueba22222");
-	}
+	
 
 	$("#total").html("Q/. " + total);
     $("#total_venta").val(total);
     evaluar();
+	let formpago = document.getElementById("forma_pago").value;
+	if(formpago==1||formpago==3){
+    let num = document.getElementById("totalpago").value;
+	if(total>parseInt(num)){
+		alert("No existen suficientes fondos");
+		$("#btnGuardar").hide();
+	} 
+}
   }
 
-  function fechaprorroga(){
-	let tipopago = document.getElementById("tipo_pago").value;
-	if(tipopago==2&&tipopago!=0){
+//   function fechaprorroga(){
+// 	let tipopago = document.getElementById("tipo_pago").value;
+// 	if(tipopago==2&&tipopago!=0){
 	
-		$("#fecha_pro").show();
+// 		$("#fecha_pro").show();
 	
-	}
-	else
-    {
-      $("#fecha_pro").hide();
-      cont=0;
-    }
+// 	}
+// 	else
+//     {
+//       $("#fecha_pro").hide();
+//       cont=0;
+//     }
 
-  }
+//   }
   function evaluar(){
   	if (detalles>0)
     {
@@ -424,30 +422,33 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 	if(tipopago2==1){
 		
 		$.post("../ajax/pago.php?op=selectotal", function(r){
-			$("#totalpago").html(r);
+			$("#total1").html(r);
 			// var to = r.innerHTML;
 			// console.log(r);
 		});
 		
 	}
-	else if(tipopago2==3){
-		alert("pendiente de total");
-
-	}
+	
 }
+
+const boton = document.getElementById("btnagregar");
+boton.addEventListener('click', ()=>{
+	$("#tipo").hide();
+});
 
   function fechaprorroga(){
 	let tipopago = document.getElementById("forma_pago").value;
+	
 	if(tipopago==1||tipopago==3){
 	
-		$("#totalpago").show();
+		$("#total1").show();
 		$("#tipo").hide();
 		mostrartotal();
 	
 	}
 	else
     {
-      $("#totalpago").hide();
+      $("#total1").hide();
 	  $("#tipo").show();
       cont=0;
     }
