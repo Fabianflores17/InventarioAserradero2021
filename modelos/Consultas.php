@@ -68,6 +68,19 @@ Class Consultas
 			return ejecutarConsulta($sql);
 	}
 
+	
+	public function listar_calif()
+		{
+			$sql="SELECT * FROM persona WHERE tipo_person='3'";
+			return ejecutarConsulta($sql);
+	}
+
+
+	public function listar_asistencia($idpersona,$fecha)
+	{
+		$sql="SELECT * FROM asistencia where idpersona='$idpersona' and fecha='$fecha'";
+		return ejecutarConsulta($sql);
+}
 
 }
 

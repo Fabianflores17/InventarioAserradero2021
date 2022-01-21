@@ -15,6 +15,8 @@ $telefono1=isset($_POST["telefono1"])? limpiarCadena($_POST["telefono1"]):"";
 $email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
 $cargo=isset($_POST["cargo"])? limpiarCadena($_POST["cargo"]):"";
 $tipo_asistencia=isset($_POST["tipo_asistencia"])? limpiarCadena($_POST["tipo_asistencia"]):"";
+$fecha=isset($_POST["fecha_asistencia"])? limpiarCadena($_POST["fecha_asistencia"]):"";
+$idasistencia=isset($_POST["idasistencia"])? limpiarCadena($_POST["idasistencia"]):"";
 
 
 switch ($_GET["op"]){
@@ -41,10 +43,19 @@ switch ($_GET["op"]){
 	break;
 
 	case 'guardarasistencia':
-		
-			$rspta=$persona->insertarasistencia($idpersona,$tipo_asistencia);
-			echo $rspta ? "Asistencia registrada".$idpersona : "Asistencia no se pudo registrar".$idpersona;
-		
+		if (empty($idasistencia)){
+			$rspta=$persona->insertarasistencia($tipo_asistencia,$fecha,$idpersona);
+			echo $rspta ? "Asistencia registrada" : "Asistencia no se pudo registrar";
+		}
+		else{
+			$rspta=$persona->editarasistencia($idasistencia,$tipo_asistencia,$fecha,$idpersona);
+			echo $rspta ? "Asistencia registrada" : "Asistencia no se pudo registrar";
+		}
+	break;
+	case 'verificar':
+
+		$rspta=$persona->verificar($fecha,$idpersona);
+		echo json_encode($rspta);
 	break;
 
 	case 'eliminar':
@@ -147,8 +158,8 @@ switch ($_GET["op"]){
 
 		while ($reg=$rspta->fetch_object()){
 			$data[]=array(
-				"0"=>'<button class="btn btn-warning"  data-toggle="modal" href="#myModal" onclick="guardarasistencia('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
-					' <button class="btn btn-danger" onclick="eliminar('.$reg->idpersona.')"><i class="fa fa-trash"></i></button>',
+				"0"=>'<button class="btn btn-primary"  onclick="verificar('.$reg->idpersona.')"><i class="fa fa-check">Asistencia</i></button>',
+					
 				"1"=>$reg->nombre,
 				"2"=>$reg->apellido,
 				"3"=>$reg->nit,

@@ -42,10 +42,17 @@ Class Persona
 		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',email='$email',cargo='$cargo' WHERE idpersona='$idpersona'";
 		return ejecutarConsulta($sql);
 	}
-	public function insertarasistencia($idpersona,$tipo_asistencia)
+	public function insertarasistencia($tipo_asistencia,$fecha,$idpersona)
 	{
-		$sql="INSERT INTO asistencia (tipo_asistencia,idpersona)
-		VALUES ('$tipo_asistencia','$idpersona')";
+		$sql="INSERT INTO asistencia (tipo_asistencia,fecha,idpersona)
+		VALUES ('$tipo_asistencia','$fecha','$idpersona')";
+		return ejecutarConsulta($sql);
+	}
+
+
+	public function editarasistencia($idasistencia,$tipo_asistencia,$fecha,$idpersona)
+	{
+		$sql="UPDATE asistencia SET tipo_asistencia='$tipo_asistencia',fecha='$fecha',idpersona='$idpersona' WHERE idasistencia='$idasistencia'";
 		return ejecutarConsulta($sql);
 	}
 
@@ -82,6 +89,11 @@ Class Persona
 	{  //1 = cliente,  2 = proveedor,  3 = colaborador
 		$sql="SELECT * FROM persona where tipo_person ='1'";
 		return ejecutarConsulta($sql);
+	}
+
+	public function verificar($fecha,$idpersona){
+		$sql="SELECT * FROM asistencia WHERE fecha='$fecha' AND idpersona='$idpersona'";
+		return ejecutarConsultaSimpleFila($sql);
 	}
 }
 

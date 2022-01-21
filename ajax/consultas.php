@@ -66,5 +66,90 @@ switch ($_GET["op"]){
  		echo json_encode($results);
 
 	break;
+
+
+	case 'lista_asistencia':
+        $fecha_inicio=$_REQUEST["fecha_inicio"];
+        $fecha_fin=$_REQUEST["fecha_fin"];
+        //$team_id=$_REQUEST["idgrupo"];
+
+        $range = 0;
+        if($fecha_inicio<=$fecha_fin){
+            $range= ((strtotime($fecha_fin)-strtotime($fecha_inicio))+(24*60*60)) /(24*60*60);
+            if($range>31){
+                echo "<p class='alert alert-warning'>El Rango Maximo es 31 Dias.</p>";
+                exit(0);
+            }
+        }else{
+            echo "<p class='alert alert-danger'>Rango Invalido</p>";
+            exit(0);
+        }
+
+        // require_once "../modelos/Alumnos.php";
+        // $alumnos=new Alumnos();
+        // $team_id=$_REQUEST["idgrupo"];
+        // $rsptav=$alumnos->verficar_alumno($user_id,$team_id);
+
+
+        if(!empty($fecha_inicio)){
+            // si hay usuarios
+            ?>
+
+        <table id="dataw" class="table table-striped table-bordered table-condensed table-hover">
+            <thead>
+                <th>Nombre</th>
+                <?php for($i=0;$i<$range;$i++){?>
+                <th>
+                <?php echo date("d-M",strtotime($fecha_inicio)+($i*(24*60*60)));?>
+                </th>
+                <?php }?>
+            </thead>
+            <?php
+            $rspta=$consulta->listar_calif();
+            while ($reg=$rspta->fetch_object()) {
+                ?>
+                <tr>
+                    <td style="width:250px;"><?php echo $reg->nombre." ".$reg->apellido; ?></td>
+                    <?php 
+                    for($i=0;$i<$range;$i++){
+                    $fecha= date("Y-m-d",strtotime($fecha_inicio)+($i*(24*60*60)));
+                    $asist=$consulta->listar_asistencia($reg->idpersona,$fecha);
+                    $regc=$asist->fetch_object()
+                    ?> 
+                    <td >
+                    <?php
+                    if($regc!=null){
+                        if($regc->tipo_asistencia==1){ echo "<strong>A</stron>"; }
+                        else if($regc->tipo_asistencia==2){ echo "<strong>F</stron>"; }
+                        
+                    }   
+                    ?>
+
+                    </td>
+                    <?php } ?>
+                </tr>
+            <?php }?>
+        </table>
+        <?php
+
+        }else{
+            echo "<p class='alert alert-danger'>No hay Colaboradores</p>";
+        }
+        ?>
+
+        <script type="text/javascript">         
+            tabla=$('#dataw').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdf'
+                    ]
+                } );
+        </script>
+        <?php
+    break;
+	
 }
 ?>

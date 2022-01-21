@@ -31,6 +31,12 @@ function limpiar()
 	$("#email").val("");
 	$("#idpersona").val("");
 	$("#cargo").val("");
+	var now = new Date();
+	var day =("0"+now.getDate()).slice(-2);
+	var month=("0"+(now.getMonth()+1)).slice(-2);
+	var today=now.getFullYear()+"-"+(month)+"-"+(day);
+	$("#fecha_asistencia").val(today);
+	$('#getCodeModal').modal('hide')
 }
 
 //Función mostrar formulario
@@ -101,10 +107,7 @@ function listarasistencia()
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
 	    buttons: [
-		            'copyHtml5',
-		            'excelHtml5',
-		            'csvHtml5',
-		            'pdf'
+		     
 		        ],
 		"ajax":
 				{
@@ -151,7 +154,48 @@ function guardaryeditarColaborador(e)
 	limpiar();
 }
 
+function verificar(idpersona){
+	//obtenemos la fecha actual
+var now = new Date();
+var day =("0"+now.getDate()).slice(-2);
+var month=("0"+(now.getMonth()+1)).slice(-2);
+var today=now.getFullYear()+"-"+(month)+"-"+(day);
 
+
+$.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:idpersona},
+	function(data,status)
+	{
+			data=JSON.parse(data);
+			if(data==null && $("#tipo_asistencia").val()!=""){
+
+					 $("#getCodeModal").modal('show');
+					 $.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona},
+					function(data,status)
+					{
+						data=JSON.parse(data);
+						$("#idpersona").val(data.idpersona);
+					});
+			
+			}else if(data=!null && $("#tipo_asistencia").val()!=""){
+				 $("#getCodeModal").modal('show');
+				 $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:idpersona},
+				function(data,status)
+				{
+					data=JSON.parse(data);
+					$("#idasistencia").val(data.idasistencia);
+					$("#idpersona").val(data.idpersona);
+					$("#tipo_asistencia").val(data.tipo_asistencia);
+					$("#tipo_asistencia").selectpicker('refresh');
+		
+				});
+
+			}else if($("#tipo_asistencia").val()==""){
+				alert('borrar');
+				}
+	})
+limpiar();
+	
+}
 
 function guardarasistencia(e)
 {

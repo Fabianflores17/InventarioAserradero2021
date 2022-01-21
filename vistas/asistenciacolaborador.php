@@ -22,7 +22,7 @@ if ($_SESSION['ventas']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Asistencia <button class="btn btn-success" id="btnagregarcolaborador" onclick="mostrarformcolaborador(true)"><i class="fa fa-plus-circle"></i> Agregar</button></h1>
+                          <h1 class="box-title">Asistencia</h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -58,7 +58,7 @@ if ($_SESSION['ventas']==1)
                         <form name="formulario" id="formulariocolaborador" method="POST">
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Nombre:</label>
-                            <input type="hidden" name="idpersona" id="idpersona">
+                            <!-- <input type="hidden" name="idpersona" id="idpersona"> -->
                             <input type="hidden" name="tipo_persona" id="tipo_persona" value="3">
                             <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del colaborador" required>
                           </div>
@@ -108,7 +108,7 @@ if ($_SESSION['ventas']==1)
       </section><!-- /.content -->
       
       <!-- /.inicio Modal -->
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -119,11 +119,10 @@ if ($_SESSION['ventas']==1)
   <form action="" name="formulario_asis" id="formulario_asis" method="POST">
       <div class="form-group col-lg-12 col-md-12 col-xs-12">
       <label for="">Descripcion(*):</label>
-      <input type="hidden" name="idpersona" id="idpersona">      
-        <!-- <input type="hidden" id="idasistencia" name="idasistencia">
-        <input type="hidden" id="alumn_id" name="alumn_id">
-        <input type="hidden" id="fecha_asistencia" name="fecha_asistencia">   -->
-        <!-- <input type="hidden" id="idgrupo" name="idgrupo" value="<?php echo $_GET["idgrupo"];?>"> -->
+        <input type="hidden" name="idpersona" id="idpersona">      
+        <input type="hidden" id="idasistencia" name="idasistencia">
+        <!-- <input type="hidden" id="alumn_id" name="alumn_id"> -->
+        <input type="hidden" id="fecha_asistencia" name="fecha_asistencia">   
         <select class="form-control " id="tipo_asistencia"  name="tipo_asistencia">        
           <option value="1"> Asistencia</option>
           <option value="2"> Falta</option>

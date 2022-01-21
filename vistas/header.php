@@ -188,6 +188,7 @@ if (strlen(session_id()) < 1)
                 <li><a href="pago.php"><i class="fa fa-circle-o"></i> Pago Planilla</a></li>
                 <li><a href="crearplanilla.php"><i class="fa fa-circle-o"></i> Crear Planilla</a></li>
                 <li><a href="asistenciacolaborador.php"><i class="fa fa-circle-o"></i> Asistencia de Planilla</a></li>
+                <li><a href=" listarasistencia.php"><i class="fa fa-circle-o"></i> lista de asistencia</a></li>
               </ul>
             </li>';
             }
