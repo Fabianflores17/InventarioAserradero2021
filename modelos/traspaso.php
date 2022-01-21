@@ -64,6 +64,7 @@ Class Ingreso
 		return ejecutarConsulta($sql);
 
 	}
+	
 
 
 	//Implementar un método para mostrar los datos de un registro a modificar

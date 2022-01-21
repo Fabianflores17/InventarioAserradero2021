@@ -94,13 +94,10 @@ if ($_SESSION['compras']==1)
                             <label>Número:</label>
                             <input type="text" autocomplete="off" class="form-control" name="num_comprobante" id="num_comprobante" maxlength="10" placeholder="Número" required="">
                           </div>
-                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Impuesto:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="impuesto" id="impuesto" required="">
-                          </div>
-                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                     
+                          <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-12" >
                             <label>Tipo Pago(*):</label>
-                           <select name="tipo_pago" id="tipo_pago" title="seleccione tipo de pago" class="form-control selectpicker"  required="">
+                           <select  onchange="fechaprorroga();" name="tipo_pago" id="tipo_pago" title="seleccione tipo de pago" class="form-control selectpicker"  required="">
                            </select>
                           </div>
                           <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12">
@@ -111,6 +108,11 @@ if ($_SESSION['compras']==1)
                                <option value="3">Cheque</option>
                                <option value="4">Abastecimiento</option>
                             </select>
+                          </div>
+                          <div class="form-group col-lg-2 col-md-4 col-sm-4 col-xs-12" id="fecha_pro">
+                            <label>Dias credito(*):</label>
+                            <input type="number" autocomplete="off" class="form-control" name="dias" id="dias" required="">
+                           </select>
                           </div>
                 
                           <div class="form-group col-lg-12 col-md-6 col-sm-6 col-xs-12">

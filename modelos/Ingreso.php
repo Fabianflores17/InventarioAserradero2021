@@ -11,10 +11,10 @@ Class Ingreso
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$tipo_pago,$form_pago,$total_compra,$idarticulo,$cantidad,$precio_compra)
+	public function insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$tipo_pago,$form_pago,$total_compra,$dias,$idarticulo,$cantidad,$precio_compra)
 	{
-		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,iva,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
-		VALUES ('$idproveedor','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$tipo_pago','$form_pago','$total_compra','1','1')";
+		$sql="INSERT INTO transaccion (idpersona,idusuario,tipo_comprobante,serie,codigo_factura,fecha,tipo_pago,forma_pago,total,tipo_operacion_id,estado)
+		VALUES ('$idproveedor','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$tipo_pago','$form_pago','$total_compra','1','1')";
 		//return ejecutarConsulta($sql);
 	  	$idingresonew=ejecutarConsulta_retornarID($sql);
 
@@ -28,8 +28,8 @@ Class Ingreso
 			ejecutarConsulta($sql_detalle) or $sw = false;
 			$num_elementos=$num_elementos + 1;
 			if($tipo_pago==2){
-				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,tipo_operacion)
-				VALUES ('1','$idingresonew','$idproveedor','$total_compra','1')";
+				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,tipo_operacion,diasxpro)
+				VALUES ('1','$idingresonew','$idproveedor','$total_compra','1','$dias')";
 					ejecutarConsulta($sql_credito);
 			}
 		}

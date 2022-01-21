@@ -303,6 +303,21 @@ function agregarDetalle(idarticulo,articulo)
     }
   }
 
+  function fechaprorroga(){
+	let tipopago = document.getElementById("tipo_pago").value;
+	if(tipopago==2&&tipopago!=0){
+	
+		$("#fecha_pro").show();
+	
+	}
+	else
+    {
+      $("#fecha_pro").hide();
+      cont=0;
+    }
+
+  }
+  
   function eliminarDetalle(indice){
   	$("#fila" + indice).remove();
   	calcularTotales();

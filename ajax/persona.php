@@ -14,6 +14,8 @@ $telefono=isset($_POST["telefono"])? limpiarCadena($_POST["telefono"]):"";
 $telefono1=isset($_POST["telefono1"])? limpiarCadena($_POST["telefono1"]):"";
 $email=isset($_POST["email"])? limpiarCadena($_POST["email"]):"";
 $cargo=isset($_POST["cargo"])? limpiarCadena($_POST["cargo"]):"";
+$tipo_asistencia=isset($_POST["tipo_asistencia"])? limpiarCadena($_POST["tipo_asistencia"]):"";
+
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -36,6 +38,13 @@ switch ($_GET["op"]){
 			$rspta=$persona->editarCo($idpersona,$tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$email,$cargo);
 			echo $rspta ? "Persona actualizada" : "Persona no se pudo actualizar";
 		}
+	break;
+
+	case 'guardarasistencia':
+		
+			$rspta=$persona->insertarasistencia($idpersona,$tipo_asistencia);
+			echo $rspta ? "Asistencia registrada".$idpersona : "Asistencia no se pudo registrar".$idpersona;
+		
 	break;
 
 	case 'eliminar':
@@ -111,6 +120,34 @@ switch ($_GET["op"]){
 		while ($reg=$rspta->fetch_object()){
 			$data[]=array(
 				"0"=>'<button class="btn btn-warning" onclick="mostrar('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
+					' <button class="btn btn-danger" onclick="eliminar('.$reg->idpersona.')"><i class="fa fa-trash"></i></button>',
+				"1"=>$reg->nombre,
+				"2"=>$reg->apellido,
+				"3"=>$reg->nit,
+				"4"=>$reg->direccion,
+				"5"=>$reg->telefono,
+				"6"=>$reg->email,
+				"7"=>$reg->cargo
+
+				);
+		}
+		$results = array(
+			"sEcho"=>1, //Información para el datatables
+			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+			"aaData"=>$data);
+		echo json_encode($results);
+
+	break;
+
+	case 'listarasistencia':
+		$rspta=$persona->listarco();
+		//Vamos a declarar un array
+		$data= Array();
+
+		while ($reg=$rspta->fetch_object()){
+			$data[]=array(
+				"0"=>'<button class="btn btn-warning"  data-toggle="modal" href="#myModal" onclick="guardarasistencia('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
 					' <button class="btn btn-danger" onclick="eliminar('.$reg->idpersona.')"><i class="fa fa-trash"></i></button>',
 				"1"=>$reg->nombre,
 				"2"=>$reg->apellido,

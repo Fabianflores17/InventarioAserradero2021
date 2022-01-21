@@ -11,10 +11,10 @@ Class Persona
    //$created_at = "NOW()";
 	}
 
-	//Implementamos un método para insertar registros
+	//Implementamos un método para insertar registros cliente y proveedor
 	public function insertar($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
 	{
-		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email,cargo)
+		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email)
 		VALUES ('$tipo_person','$nombre','$apellido','$tipo_docum','$nit','$direccion','$telefono','$telefono1','$email')";
 		return ejecutarConsulta($sql);
 	}
@@ -25,6 +25,8 @@ Class Persona
 		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email' WHERE idpersona='$idpersona'";
 		return ejecutarConsulta($sql);
 	}
+
+
 
 	//Implementamos un método para insertar registros del colaborador
 	public function insertarCo($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$email,$cargo)
@@ -40,7 +42,14 @@ Class Persona
 		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',email='$email',cargo='$cargo' WHERE idpersona='$idpersona'";
 		return ejecutarConsulta($sql);
 	}
+	public function insertarasistencia($idpersona,$tipo_asistencia)
+	{
+		$sql="INSERT INTO asistencia (tipo_asistencia,idpersona)
+		VALUES ('$tipo_asistencia','$idpersona')";
+		return ejecutarConsulta($sql);
+	}
 
+	
 	//Implementamos un método para eliminar categorías
 	public function eliminar($idpersona)
 	{

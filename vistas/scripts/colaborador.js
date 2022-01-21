@@ -4,11 +4,19 @@ var tabla;
 function init(){
 	mostrarformcolaborador(false);
 	listar();
+	listarasistencia();
 
 	$("#formulariocolaborador").on("submit",function(e)
 	{
 		guardaryeditarColaborador(e);
 	})
+
+	$("#formulario_asis").on("submit",function(e)
+	{
+		guardarasistencia(e);
+	})
+
+	
 }
 
 //Función limpiar
@@ -51,6 +59,9 @@ function cancelarform()
 	mostrarformcolaborador(false);
 }
 
+
+
+
 //Función Listar
 function listar()
 {
@@ -81,6 +92,34 @@ function listar()
 }
 //Función para guardar o editar
 
+//Función Listar
+function listarasistencia()
+{
+	tabla=$('#tbllistadoasistencia').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [
+		            'copyHtml5',
+		            'excelHtml5',
+		            'csvHtml5',
+		            'pdf'
+		        ],
+		"ajax":
+				{
+					url: '../ajax/persona.php?op=listarasistencia',
+					type : "get",
+					dataType : "json",
+					error: function(e){
+						console.log(e.responseText);
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
 function guardaryeditarColaborador(e)
 {
 	e.preventDefault(); //No se activará la acción predeterminada del evento
@@ -112,6 +151,39 @@ function guardaryeditarColaborador(e)
 	limpiar();
 }
 
+
+
+function guardarasistencia(e)
+{
+
+	e.preventDefault(); //No se activará la acción predeterminada del evento
+	$("#btnGuardar_asis").prop("disabled",true);
+	var formData = new FormData($("#formulario_asis")[0]);
+
+	$.ajax({
+		url: "../ajax/persona.php?op=guardarasistencia",
+	    type: "POST",
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+
+
+
+	    success: function(datos)
+	    {
+		 //		Swal.fire(
+			//		'Registro Exitoso!',
+			//		'Presione Ok!',
+			//		'success'
+			//	)
+	         bootbox.alert(datos);
+	         mostrarformcolaborador(false);
+	         tabla.ajax.reload();
+	    }
+
+	});
+	limpiar();
+}
 function mostrar(idpersona)
 {
 	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)

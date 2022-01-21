@@ -70,6 +70,24 @@ if ($_SESSION['caja']==1)
                             <input type="text" autocomplete="off" class="form-control" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripción">
                           </div>
                           <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Fecha:</label>
+                            <input type="date" class="form-control" name="fecha" id="fecha" required="">
+                          </div>
+          
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Documento(*):</label>
+                            <select name="documento" id="documento" title="selecciones tipo Transaccion" class="form-control selectpicker" title="--Seleccione documento--">
+                               <option value="1">Factura</option>
+                               <option value="2">vale</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Numero Documento:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="num_documento" id="num_documento" maxlength="256" placeholder="Descripción">
+                          </div>
+
+                          <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Transaccion(*):</label>
                             <select onchange="validarcuenta();"  name="tipo_transaccion" id="tipo_transaccion" title="selecciones tipo Transaccion" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--" required="">
                                <option value="1">Ingreso</option>

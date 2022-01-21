@@ -7,11 +7,19 @@ $idcaja=isset($_POST["idcaja"])? limpiarCadena($_POST["idcaja"]):"";
 $cantida=isset($_POST["cantida"])? limpiarCadena($_POST["cantida"]):"";
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
 $tipo_transaccion=isset($_POST["tipo_transaccion"])? limpiarCadena($_POST["tipo_transaccion"]):"";
+$fecha=isset($_POST["fecha"])? limpiarCadena($_POST["fecha"]):"";
+$documento=isset($_POST["documento"])? limpiarCadena($_POST["documento"]):"";
+$num_documento=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
+
+
+
+
+
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idcaja)){
-			$rspta=$caja->insertar($cantida,$descripcion,$tipo_transaccion);
+			$rspta=$caja->insertar($cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento);
 			echo $rspta ? "caja registrada" : "caja no se pudo registrar";
 		}
 		else {

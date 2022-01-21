@@ -160,17 +160,25 @@ switch ($_GET["op"]){
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
- 				$url='../reportes/exTicket.php?id=';
- 			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
+ 			// if($reg->tipo_comprobante=='Ticket'){
+ 			// 	$url='../reportes/exTicket.php?id=';
+ 			// }
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
 			date_default_timezone_set('America/Guatemala');
 			$fecha=date('Y-m-d');	
 			$date1 = new DateTime("$fecha");
-			$date2 = new DateTime("$reg->fechaventa");
-			$diff = $date1->diff($date2);
+			//$date2 = new DateTime("$reg->fechaventa");
+
+			$fecha2=date('Y-m-d');	
+			
+			$date2 = new DateTime("$fecha2");
+			$diasx=strval($reg->fechaventa);
+			$date2->modify("+ $diasx days");
+			$date3=$date2->format('Y-m-d');
+			$date4=new DateTime("$date3");
+			$diff = $date1->diff($date4);
 		
 			$dias='3';	
 			//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
@@ -185,8 +193,11 @@ switch ($_GET["op"]){
  				"1"=>$reg->cliente,
  				"2"=>$reg->usuario,
  				"3"=>'<P>Q.'.$reg->totales.'</P>',
- 				"4"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
+				"4"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Falto de pago</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
+ 				"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
  				'<span class="label bg-red">Pendiente Pago</span>'
+				
+
 				// "6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
 				// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
 				// '<span class="label bg-red">Pendiente Pago</span>'	

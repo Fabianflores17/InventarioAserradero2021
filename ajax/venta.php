@@ -160,19 +160,30 @@ switch ($_GET["op"]){
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
- 				$url='../reportes/exTicket.php?id=';
- 			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
+ 			// if($reg->tipo_comprobante=='Ticket'){
+ 			// 	$url='../reportes/exTicket.php?id=';
+ 			// }
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
 			date_default_timezone_set('America/Guatemala');
 			$fecha=date('Y-m-d');	
 			$date1 = new DateTime("$fecha");
-			$date2 = new DateTime("$reg->fechaventa");
-			$diff = $date1->diff($date2);
+			
+			//$fecha2=date('Y-m-d');	
+			
+			$date2 = new DateTime("$reg->fechainicio");
+			$diasx=strval($reg->fechaventa);
+			$date2->modify("+ $diasx days");
+			$date3=$date2->format('Y-m-d');
+			$date4=new DateTime("$date3");
+			
+
+
+			// $date2 = new DateTime("$reg->fechaventa");
+			 $diff = $date1->diff($date4);
 		
-			$dias='3';	
+			$dias='5';	
 			//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
 			//$dias1='-7';
 			//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
@@ -181,13 +192,14 @@ switch ($_GET["op"]){
  					' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
  					'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
  					//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
- 				"1"=>$reg->fechaventa,
+ 				"1"=>$date3,
  				"2"=>$reg->cliente,
  				"3"=>$reg->usuario,
  				"4"=>'<P>Q.'.$reg->totales.'</P>',
  				"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
  				'<span class="label bg-red">Pendiente Pago</span>',
-				"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
+				//"6"=>$date3
+				"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Cliente Morroso</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
 				// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
 				// '<span class="label bg-red">Pendiente Pago</span>'	
 				

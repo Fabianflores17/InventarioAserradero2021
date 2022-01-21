@@ -11,6 +11,7 @@ function init(){
 	})
 }
 
+
 //Función limpiar
 function limpiar()
 {
@@ -19,6 +20,11 @@ function limpiar()
 	$("#descripcion").val("");
 	$("#tipo_transaccion").val("");
 	$("#tipo_transaccion").selectpicker('refresh');
+	var now = new Date();
+	var day = ("0" + now.getDate()).slice(-2);
+	var month = ("0" + (now.getMonth() + 1)).slice(-2);
+	var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+    $('#fecha').val(today);
 }
 
 //Función mostrar formulario

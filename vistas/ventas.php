@@ -112,8 +112,8 @@ if ($_SESSION['ventas']==1)
                               </select>
                           </div> 
                           <div id="fecha_pro" class=" form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
-                            <label>Fecha Prorroga(*):</label>
-                            <input type="date" class="form-control" name="fecha_pro" id="fecha_pro" >
+                            <label>Dias de Prorroga(*):</label>
+                            <input type="number" class="form-control" name="fecha_pro" id="fecha_pro" >
                           </div> 
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">

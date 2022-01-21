@@ -44,6 +44,7 @@ if ($_SESSION['ventas']==1)
                             <th>Cliente</th>
                             <th>Usuario</th>
                             <th>Total Credito</th>
+                            <th>Dias</th>
                             <th>Estado</th>
                          
                           </thead>
@@ -56,6 +57,7 @@ if ($_SESSION['ventas']==1)
                             <th>Proveedor</th>
                             <th>Usuario</th>
                             <th>Total Credito</th>
+                            <th>Dias</th>
                             <th>Estado</th>
                     
                           </tfoot>

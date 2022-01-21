@@ -11,10 +11,10 @@ Class Caja
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($cantida,$descripcion,$tipo_transaccion)
+	public function insertar($cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento)
 	{
-		$sql="INSERT INTO cajachica (tipo_transacion,monto,descripcion,kind)
-		VALUES ('$tipo_transaccion','$cantida','$descripcion','1')";
+		$sql="INSERT INTO cajachica (tipo_transacion,monto,descripcion,kind,fecha,documento,num_documento)
+		VALUES ('$tipo_transaccion','$cantida','$descripcion','1','$fecha','$documento','$num_documento')";
 		return ejecutarConsulta($sql);
 	}
 

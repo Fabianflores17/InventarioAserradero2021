@@ -32,7 +32,7 @@ Class Venta
 			ejecutarConsulta($sql_detalle) or $sw = false;	
 			$num_elementos=$num_elementos + 1;
 			if($idpago==2){
-				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,created_at)
+				$sql_credito="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total,diasxpro)
 				VALUES ('1','$idingresonew','$idcliente','$total_venta','$fecha_pro')";
 					ejecutarConsulta($sql_credito);
 			}
@@ -92,7 +92,7 @@ Class Venta
 
 	public function mostrarcredito($idventa)
 	{
-		$sql="SELECT Distinct i.idingreso,i.fecha,c.created_at as fechapro,a.idalmacen,a.nombre as almacen,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as nombrepersona,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
+		$sql="SELECT Distinct i.idingreso,i.fecha,c.diasxpro as fechapro,a.idalmacen,a.nombre as almacen,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.idpersona,i.forma_pago,i.tipo_pago,i.tipo_comprobante,i.codigo_factura,i.serie,p.nombre as nombrepersona,u.idusuario,u.nombre as usuario,i.total,i.iva,i.estado 
 		FROM transaccion i 
 		INNER JOIN persona p ON i.idpersona=p.idpersona 
 		INNER JOIN usuario u ON i.idusuario=u.idusuario 
@@ -104,6 +104,7 @@ Class Venta
 		WHERE i.idingreso='$idventa' and c.transaccion_id='$idventa'";
 		return ejecutarConsultaSimpleFila($sql);
 	}	
+
 
 	public function listarDetalle($idventa)
 	{
@@ -147,7 +148,7 @@ Class Venta
 
 	public function listarcredito()
 	{
-		$sql="SELECT c.transaccion_id,c.created_at as fechaventa,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.tipo_comprobante,p.nombre as cliente,u.idusuario,u.nombre as usuario,i.estado 
+		$sql="SELECT c.transaccion_id,DATE(c.create_at) as fechainicio,c.diasxpro as fechaventa,(deuda.deuda-ifnull(abono.abono,0)) as totales,i.tipo_comprobante,p.nombre as cliente,u.idusuario,u.nombre as usuario,i.estado 
 		FROM transaccion i 
 		INNER JOIN persona p ON i.idpersona=p.idpersona 
 		INNER JOIN usuario u ON i.idusuario=u.idusuario 
