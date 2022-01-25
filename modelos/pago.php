@@ -64,6 +64,61 @@ Class Colaborador
 	
 	}
 
+
+	public function insertarpagoplanilla($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$idplanilla,$mes,$totalplanilla)
+
+		{
+			if($formapago==1){
+			$sql_venta="INSERT INTO cajachica (tipo_transacion,monto,kind)
+			VALUES ('2','$total_venta','1')";
+			//ejecutarConsulta($sql_venta);
+			$idventa=ejecutarConsulta_retornarID($sql_venta);
+	
+			$num_elementos=0;
+			$sw=true;
+	
+			while ($num_elementos < count($idplanilla))
+			{
+				$sql_detalle_venta = "INSERT INTO detalle_pago (transaccion_id,idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idventa', '$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
+				$num_elementos=$num_elementos + 1;
+				
+			}
+			return $sw;
+		}
+		
+		elseif($formapago==2){
+			$num_elementos=0;
+			$sw=true; 
+	
+			while ($num_elementos < count($idplanilla))
+			{
+				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
+				$num_elementos=$num_elementos + 1;
+				
+			}
+			return $sw;
+		}
+	
+		elseif($formapago==3){
+			$num_elementos=0;
+			$sw=true; 
+			
+			while ($num_elementos < count($idplanilla))
+			{
+				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
+				$num_elementos=$num_elementos + 1;
+				
+			}
+			return $sw;
+		}
+	
+	
+		
+		}
+
 	public function insertarcredito($idcliente,$idventa,$total_pago){
 
 		$sql="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total)
@@ -83,7 +138,7 @@ Class Colaborador
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idventa)
 	{
-		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento,d.condicion,d.fecha,d.forma_pago
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento,d.condicion,d.fecha,d.forma_pago,d.idsocio
 		FROM detalle_pago as d where d.iddetalle='$idventa'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
@@ -125,7 +180,8 @@ Class Colaborador
 	{
 		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento,d.condicion,d.fecha,d.forma_pago, u.nombre as usuario
 		FROM detalle_pago as d
-		inner join usuario u ON d.idusuario=u.idusuario";
+		inner join usuario u ON d.idusuario=u.idusuario
+		where d.idpersona";
 		return ejecutarConsulta($sql);		
 	}
 
@@ -159,6 +215,18 @@ Class Colaborador
 	public function listarColaborador()
 	{
 		$sql="SELECT idpersona, nombre, cargo FROM persona WHERE tipo_person = '3'";
+		return ejecutarConsulta($sql);
+
+	}
+
+
+	public function listarPlanilla()
+	{
+		$sql="SELECT SUM(p.limite_credito-(p.limite_credito/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes 
+		From ( Select DISTINCT idpersona From asistencia ) as Datos 
+		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+		inner join persona p ON datos.idpersona=p.idpersona 
+		inner join planilla pa on pa.tipo_empleado=p.tipo_person";
 		return ejecutarConsulta($sql);
 
 	}

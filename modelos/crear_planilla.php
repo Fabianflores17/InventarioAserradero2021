@@ -50,11 +50,30 @@ Class Articulo
 
 	public function mostrarplanilla()
 	{
-		$sql="SELECT a.idplanilla,a.mes,a.fecha_inicio,a.fecha_final,p.nombre as persona
-		FROM planilla a
-		inner join persona p ON p.tipo_person=a.tipo_empleado";
+		$sql="SELECT p.nombre,p.limite_credito,pa.mes,Asistencia.Asistencia as dias,Falta.Falta as faltas,pa.fecha_inicio,pa.fecha_final 
+		From ( Select idpersona From asistencia ) as Datos Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Asistencia from asistencia asis
+		INNER JOIN persona p ON asis.idpersona=p.idpersona
+		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
+		WHERE asis.tipo_asistencia='1' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by idpersona) as Asistencia On Datos.idpersona = Asistencia.idpersona 
+		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia  asis
+		INNER JOIN persona p ON asis.idpersona=p.idpersona
+		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
+        WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+		inner join persona p ON datos.idpersona=p.idpersona 
+		inner join planilla pa on pa.tipo_empleado=p.tipo_person GROUP BY datos.idpersona";
 		return ejecutarConsulta($sql);
 	}
+
+	public function Totalplanilla()
+	{
+		$sql="SELECT SUM(p.limite_credito-(p.limite_credito/30*Falta.Falta)) as totalplanilla 
+		From ( Select DISTINCT idpersona From asistencia ) as Datos 
+		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona inner join persona p ON datos.idpersona=p.idpersona 
+		inner join planilla pa on pa.tipo_empleado=p.tipo_person";
+		return ejecutarConsulta($sql);
+	}
+
+	
 
 	//Implementar un método para listar los registros
 	public function listar()

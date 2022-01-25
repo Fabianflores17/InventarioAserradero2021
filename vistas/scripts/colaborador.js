@@ -35,8 +35,8 @@ function limpiar()
 	var day =("0"+now.getDate()).slice(-2);
 	var month=("0"+(now.getMonth()+1)).slice(-2);
 	var today=now.getFullYear()+"-"+(month)+"-"+(day);
-	$("#fecha_asistencia").val(today);
-	$('#getCodeModal').modal('hide')
+//	$("#fecha_asistencia").val("");
+//	$('#getCodeModal').modal('hide');
 }
 
 //Función mostrar formulario
@@ -65,7 +65,12 @@ function cancelarform()
 	mostrarformcolaborador(false);
 }
 
-
+function cancelarasistecia(){
+//	location.reload();
+$("#fecha_asistencia").val("");
+$("#tipo_asistencia").val("");
+$('#tipo_asistencia').selectpicker('refresh');
+}
 
 
 //Función Listar
@@ -153,23 +158,50 @@ function guardaryeditarColaborador(e)
 	});
 	limpiar();
 }
+function verificarfecha(){
+	let fecha2 = document.querySelector('input[type="date"]').value;
+	//console.log(fecha2);
+
+	document.getElementById("fecha_asistencia").innerHTML = fecha2;
+	$('#getCodeModal').modal('show');
+	verficarfecha();
+ }
+
+
+// const btn = document.getElementById("fecha_asistencia");
+// btn.addEventListener("change", verficarfecha);
 
 function verificar(idpersona){
 	//obtenemos la fecha actual
-var now = new Date();
-var day =("0"+now.getDate()).slice(-2);
-var month=("0"+(now.getMonth()+1)).slice(-2);
-var today=now.getFullYear()+"-"+(month)+"-"+(day);
 
+$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona},
+	function(data,status)
+	{
+		data=JSON.parse(data);
+		$("#idpersona").val(data.idpersona);
+		//console.log(data.idpersona)
+	});
+}
 
-$.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:idpersona},
+function verficarfecha()
+{
+
+var fecha3 = document.getElementById("fecha_asistencia").value;
+console.log(fecha3);
+
+var idpersona2 = document.getElementById("idpersona").value;
+console.log(idpersona2);
+
+// let date = document.querySelector('input[type="date"]');
+// console.log(date.value);
+$.post("../ajax/persona.php?op=verificar",{fecha_asistencia : fecha3, idpersona:idpersona2},
 	function(data,status)
 	{
 			data=JSON.parse(data);
 			if(data==null && $("#tipo_asistencia").val()!=""){
 
-					 $("#getCodeModal").modal('show');
-					 $.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona},
+					
+					 $.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona2},
 					function(data,status)
 					{
 						data=JSON.parse(data);
@@ -177,8 +209,8 @@ $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:i
 					});
 			
 			}else if(data=!null && $("#tipo_asistencia").val()!=""){
-				 $("#getCodeModal").modal('show');
-				 $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:idpersona},
+			
+				 $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : fecha3, idpersona:idpersona2},
 				function(data,status)
 				{
 					data=JSON.parse(data);
@@ -193,7 +225,7 @@ $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : today, idpersona:i
 				alert('borrar');
 				}
 	})
-limpiar();
+	limpiar();
 	
 }
 
@@ -202,6 +234,7 @@ function guardarasistencia(e)
 
 	e.preventDefault(); //No se activará la acción predeterminada del evento
 	$("#btnGuardar_asis").prop("disabled",true);
+	$('#getCodeModal').modal('hide');
 	var formData = new FormData($("#formulario_asis")[0]);
 
 	$.ajax({
@@ -222,6 +255,7 @@ function guardarasistencia(e)
 			//	)
 	         bootbox.alert(datos);
 	         mostrarformcolaborador(false);
+			 setInterval('location.reload()',5000);
 	         tabla.ajax.reload();
 	    }
 

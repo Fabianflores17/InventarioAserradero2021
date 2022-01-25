@@ -9,6 +9,11 @@ function init(){
 	{
 		guardaryeditar(e);
 	});
+
+	$("#formulariopagoplanilla").on("submit",function(e)
+	{
+		guardaryeditarpagoplanilla(e);
+	});
 	//Cargamos los items al select cliente
 	$.post("../ajax/venta.php?op=selectCliente", function(r){
 	            $("#idcliente").html(r);
@@ -67,6 +72,7 @@ function mostrarform(flag)
 		//$("#btnGuardar").prop("disabled",false);
 		$("#btnagregar").hide();
 		listarArticulos();
+		listarplanilla()
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -146,6 +152,35 @@ function listar()
 }
 
 
+function listarplanilla()
+{
+	// let almacen = document.getElementById("idalmacen");
+	// let selecAlmacen = almacen.value
+	tabla=$('#tbplanilla').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [		          
+		            
+		        ],
+		"ajax":
+				{
+					url: '../ajax/pago.php?op=listarPlanilla',
+					type : "get",
+					dataType : "json",						
+					error: function(e){
+						console.log(e.responseText);	
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
+
+
+
 //Función ListarArticulos
 function listarArticulos()
 {
@@ -200,17 +235,50 @@ function guardaryeditar(e)
 	limpiar();
 }
 
+
+
+function guardaryeditarpagoplanilla(e)
+{
+	e.preventDefault(); //No se activará la acción predeterminada del evento
+	//$("#btnGuardar").prop("disabled",true);
+	var formData = new FormData($("#formulariopagoplanilla")[0]);
+
+	$.ajax({
+		url: "../ajax/pago.php?op=guardaryeditarpagoplanilla",
+	    type: "POST",
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+
+	    success: function(datos)
+	    {	
+
+	          bootbox.alert(datos);
+	          mostrarform(false);
+	          listar();
+	    }
+
+	});
+	limpiar();
+}
+
 function mostrar(idventa)
 {
 	$.post("../ajax/pago.php?op=mostrar",{idventa : idventa}, function(data, status)
 	{
+		var voucher=1;
 		data = JSON.parse(data);
 		mostrarform(true);
 
 		$("#forma_pago").val(data.forma_pago);
 		$("#forma_pago").selectpicker('refresh');
+		$("#idsocio").val(data.idsocio);
+		$("#idsocio").selectpicker('refresh');
+		$("#tipo_comprobante").val(voucher);
+		$("#tipo_comprobante").selectpicker('refresh');
 		$("#fecha_hora").val(data.fecha);
 
+		idsocio
 		
 		
 		//Ocultar y mostrar los botones
@@ -298,36 +366,37 @@ function marcarImpuesto()
 
 
 function agregarDetalle(idarticulo,articulo,stock,precio_venta)
+
+{
+	var cantidad=1;
+  var descuento=0;
+  var precio_venta=1;
+  globalThis.id_articulo = idarticulo;
+
+
+  if (idarticulo!="")
   {
-  	var cantidad=1;
-    var descuento=0;
-    var precio_venta=1;
-	globalThis.id_articulo = idarticulo;
+	  var subtotal=cantidad*precio_venta;
+	  var fila='<tr class="filas" id="fila'+cont+'">'+
+	  '<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
+	  '<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+	  '<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" name="descuento[]" value="'+descuento+'"></td>'+
+	  '<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
+	  '<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
+	  '</tr>';
+	  cont++;
+	  detalles=detalles+1;//Loadin
+	  $('#detalles').append(fila);
+	  modificarSubototales();
+	  
 
-
-    if (idarticulo!="")
-    {
-    	var subtotal=cantidad*precio_venta;
-    	var fila='<tr class="filas" id="fila'+cont+'">'+
-    	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
-    	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
-		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
-    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
-    	'<td><input type="number" onkeypress="return event.charCode >= 48" min="0" name="descuento[]" value="'+descuento+'"></td>'+
-    	'<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
-    	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
-    	'</tr>';
-    	cont++;
-    	detalles=detalles+1;//Loadin
-    	$('#detalles').append(fila);
-    	modificarSubototales();
-		
-
-	}else
-    {
-    	alert("Error al ingresar el detalle, revisar los datos del artículo");
-    }
+  }else
+  {
+	  alert("Error al ingresar el detalle, revisar los datos del artículo");
+  }
   }
 
 
@@ -460,5 +529,90 @@ boton.addEventListener('click', ()=>{
   	detalles=detalles-1;
   	evaluar()
   }
+
+
+  function agregarplanilla(idplanilla,nombre,mes,totalplanilla)
+ {
+
+	var cantidad=1;
+
+    if (idplanilla!="")
+    {
+    	var subtotal=cantidad*totalplanilla;
+    	var fila='<tr class="filas" id="fila'+cont+'">'+
+    	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
+    	'<td><input type="hidden" id="idplanilla" name="idplanilla[]" value="'+idplanilla+'">'+nombre+'</td>'+
+		'<td><input type="hidden" name="mes[]" value="'+cantidad+'">'+mes+'</td>'+
+		'<td><input type="hidden" onkeypress="return event.charCode >= 48" min="0" min="0" name="totalplanilla[]" id="totalplanilla[]" value="'+totalplanilla+'">'+totalplanilla+'</td>'+
+    	'<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
+    	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
+    	'</tr>';
+    	cont++;
+    	detalles=detalles+1;//Loadin
+    	$('#detalles').append(fila);
+    	modificarSubototalesplanilla();
+		
+
+	}else
+    {
+    	alert("Error al ingresar el detalle, revisar los datos del artículo");
+    }
+  }
+
+  function modificarSubototalesplanilla()
+  {
+  	var cant = document.getElementsByName("mes[]");
+    var prec = document.getElementsByName("totalplanilla[]");
+    var sub = document.getElementsByName("subtotal");
+
+    for (var i = 0; i <cant.length; i++) {
+    	var inpC=cant[i];
+    	var inpP=prec[i];
+    	var inpS=sub[i];
+
+		// if(ct<=st){
+
+    	inpS.value=(inpC.value * inpP.value);
+    	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
+		// }
+		// else{
+		// 	alert("La cantidad ingresada es mayor al stock disponible");
+        //     location.reload();
+		// }
+    }
+    calcularTotalesplanilla();
+
+  }
+
+  function calcularTotalesplanilla(){
+	var sub = document.getElementsByName("subtotal");
+  //let num = document.getElementById("totalpago").value;
+	var total = 0.0;
+
+   
+
+	for (var i = 0; i <sub.length; i++) {
+	  total += document.getElementsByName("subtotal")[i].value;
+  }
+
+  
+
+  $("#total").html("Q/. " + total);
+  $("#total_venta").val(total);
+  evaluar();
+  let formpago = document.getElementById("forma_pago").value;
+  if(formpago==1||formpago==3){
+  let num = document.getElementById("totalpago").value;
+  if(total>parseInt(num)){
+	  alert("No existen suficientes fondos");
+	  $("#btnGuardar").hide();
+  } 
+}
+}
+
+
+
+
+
 
 init();

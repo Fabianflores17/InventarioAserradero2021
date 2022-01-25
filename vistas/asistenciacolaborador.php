@@ -118,20 +118,22 @@ if ($_SESSION['ventas']==1)
         <div class="modal-body">
   <form action="" name="formulario_asis" id="formulario_asis" method="POST">
       <div class="form-group col-lg-12 col-md-12 col-xs-12">
-      <label for="">Descripcion(*):</label>
+      <label for="">Fecha(*):</label>
         <input type="hidden" name="idpersona" id="idpersona">      
         <input type="hidden" id="idasistencia" name="idasistencia">
         <!-- <input type="hidden" id="alumn_id" name="alumn_id"> -->
-        <input type="hidden" id="fecha_asistencia" name="fecha_asistencia">   
-        <select class="form-control " id="tipo_asistencia"  name="tipo_asistencia">        
+        <input type="Date" onchange="verificarfecha();" class="form-control" id="fecha_asistencia" name="fecha_asistencia" required="">   
+        <label for="">Descripcion(*):</label>
+        <select class="form-control selectpicker"  id="tipo_asistencia"  name="tipo_asistencia">        
           <option value="1"> Asistencia</option>
           <option value="2"> Falta</option>
         </select>
 
+        
     </div>
     <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <button class="btn btn-primary" type="submit" id="btnGuardar_asis"><i class="fa fa-save"></i>  Guardar</button>
-      <button class="btn btn-danger pull-right" data-dismiss="modal" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+      <button class="btn btn-danger pull-right" data-dismiss="modal" onclick="cancelarasistecia();" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
 
     </div>
         </form>

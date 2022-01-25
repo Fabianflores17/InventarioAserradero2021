@@ -32,6 +32,13 @@ switch ($_GET["op"]){
 		}	
 	break;
 
+	case 'guardaryeditarpagoplanilla':
+		if (empty($idventa)){
+			$rspta=$venta->insertarpagoplanilla($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$_POST["idplanilla"],$_POST["mes"],$_POST["totalplanilla"]);
+			echo $rspta ? "Pago de planilla realizado" : "No se pudo realizar el pago de la planilla";	
+		}	
+	break;
+
 	case 'anular':
 		$rspta=$venta->anular($idventa);
  		echo $rspta ? "Venta anulada" : "Venta no se puede anular";
@@ -277,5 +284,29 @@ switch ($_GET["op"]){
  		echo json_encode($results);
 
 	break;
+
+	case 'listarPlanilla':
+		//$idalmacen=$_GET['idalmacen'];
+		$rspta=$venta->listarPlanilla(); 
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+ 			$data[]=array(
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\',\''.$reg->totalplanilla.'\');"><span class="fa fa-plus"></span></button>',
+ 				"1"=>$reg->nombre,
+ 				"2"=>$reg->mes,
+				"3"=>'<P> Q.'.$reg->totalplanilla.'</P>'
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
 	}
 ?>

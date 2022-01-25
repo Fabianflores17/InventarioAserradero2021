@@ -12,6 +12,16 @@ else
 require 'header.php';
 if ($_SESSION['almacen']==1)
 {
+ require_once "../modelos/crear_planilla.php";
+   $articulo = new Articulo();
+
+
+  $rsptav = $articulo->Totalplanilla();
+  $regv=$rsptav->fetch_object();
+  $totalv=$regv->totalplanilla;
+//   $diario=$reg->limite_credito/30;
+  $totalpla=number_format($totalv,2);
+// 	$totales=$reg->limite_credito-($reg->faltas*$dia);
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -113,14 +123,18 @@ if ($_SESSION['almacen']==1)
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Seleccione un Artículo</h4>
+          <h4 class="modal-title">Pago Total de Planilla Q.<?php echo $totalpla; ?></h4>
+      
         </div>
         <div class="modal-body table-responsive">
+       
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover"  style="width:100%">
             <thead>
                 <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
+                <th>Mes</th>
+                <th>Dias laborados</th>
+                <th>Falta</th>
                 <th>Fecha inicio</th>
                 <th>Fecha final</th>
             </thead>
@@ -129,8 +143,10 @@ if ($_SESSION['almacen']==1)
             </tbody>
             <tfoot>
               <th>Opciones</th>
-                <th>Código</th>
                 <th>Nombre</th>
+                <th>Mes</th>
+                <th>Dias laborados</th>
+                <th>Falta</th>
                 <th>Fecha inicio</th>
                 <th>Fecha final</th>
      

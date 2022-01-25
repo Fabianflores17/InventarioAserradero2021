@@ -76,7 +76,7 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button class="btn btn-warning" onclick="mostrar('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
+ 				"0"=>'<button class="btn btn-warning"  onclick="mostrar('.$reg->idpersona.')"><i class="fa fa-pencil"></i></button>'.
  					' <button class="btn btn-danger" onclick="eliminar('.$reg->idpersona.')"><i class="fa fa-trash"></i></button>',
 					"1"=>$reg->nombre,
 					"2"=>$reg->apellido,
@@ -158,8 +158,7 @@ switch ($_GET["op"]){
 
 		while ($reg=$rspta->fetch_object()){
 			$data[]=array(
-				"0"=>'<button class="btn btn-primary"  onclick="verificar('.$reg->idpersona.')"><i class="fa fa-check">Asistencia</i></button>',
-					
+				"0"=>'<button class="btn btn-primary" data-toggle="modal" href="#getCodeModal" onclick="verificar('.$reg->idpersona.')"><i class="fa fa-check">Asistencia</i></button>',
 				"1"=>$reg->nombre,
 				"2"=>$reg->apellido,
 				"3"=>$reg->nit,
