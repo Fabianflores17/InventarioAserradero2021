@@ -35,6 +35,14 @@ switch ($_GET["op"]){
 
 	break;
 
+	case 'mostrar':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idcliente=$_REQUEST["idcliente"];
+		$rspta=$consulta->mostrar($fecha_inicio,$fecha_fin,$idcliente);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
 
 	case 'ventasfechacliente':
 		$fecha_inicio=$_REQUEST["fecha_inicio"];
@@ -66,6 +74,70 @@ switch ($_GET["op"]){
  		echo json_encode($results);
 
 	break;
+
+
+    case 'estadodecuenta':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idcliente=$_REQUEST["idcliente"];
+
+		$rspta=$consulta->estadodecuenta($fecha_inicio,$fecha_fin,$idcliente);
+ 		//Vamos a declarar un array
+ 		$data= Array();
+       
+
+ 		while ($reg=$rspta->fetch_object()){
+               $data[]=array(
+ 				"0"=>$reg->fecha,
+ 				"1"=>$reg->tipo_transaccion,
+ 				"2"=>$reg->descripcion,
+ 				"3"=>$reg->tipo_transaccion,
+                "4"=>$reg->monto
+ 				);
+               
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
+    case 'estadodecuenta2':
+		//Recibimos el idingreso
+        $fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idcliente=$_REQUEST["idcliente"];
+
+		$rspta = $consulta->estadodecuenta($fecha_inicio,$fecha_fin,$idcliente);
+		$total=0;
+		echo '<thead>
+                                    <th>Opciones</th>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Venta</th>
+                                    <th>Descuento</th>
+                                    <th>Subtotal</th>
+                                </thead>';
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<tr class="filas"><td></td><td>'.$reg->fecha.'</td><td>'.$reg->descripcion.'</td><td>'.$reg->descripcion.'</td><td>'.$reg->tipo_transaccion.'</td><td>'.$reg->monto.'</td></tr>';
+					$total=$reg->total;
+				}
+		echo '<tfoot>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                </tfoot>';
+							
+	break;
+
 
 
 	case 'lista_asistencia':

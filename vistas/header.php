@@ -113,9 +113,9 @@ if (strlen(session_id()) < 1)
               <ul class="treeview-menu">
                 <li><a href="articulo.php"><i class="fa fa-circle-o"></i> Artículos</a></li>
                 <li><a href="categoria.php"><i class="fa fa-circle-o"></i> Categorías</a></li>
-                <li><a href="almacen.php"><i class="fa fa-circle-o"></i> Almacen</a></li>
+                <li><a href="almacen.php"><i class="fa fa-circle-o"></i> Crear Almacenes</a></li>
                 <li><a href="traspaso.php"><i class="fa fa-circle-o"></i>Traspaso</a></li>
-                <li><a href="almacenes.php"><i class="fa fa-circle-o"></i>Bodegas</a></li>
+                <li><a href="almacenes.php"><i class="fa fa-circle-o"></i>Almacenes</a></li>
               </ul>
             </li>';
             }
@@ -190,6 +190,7 @@ if (strlen(session_id()) < 1)
                 <li><a href="asistenciacolaborador.php"><i class="fa fa-circle-o"></i> Asistencia de Planilla</a></li>
                 <li><a href=" listarasistencia.php"><i class="fa fa-circle-o"></i> lista de asistencia</a></li>
                 <li><a href="pago_planilla.php"><i class="fa fa-circle-o"></i> Pagar Planilla</a></li>
+                <li><a href="pago_socios.php"><i class="fa fa-circle-o"></i>Pago socios</a></li>
               </ul>
             </li>';
             }
@@ -228,6 +229,23 @@ if (strlen(session_id()) < 1)
             </li>';
             }
             ?>
+
+            <?php
+            if ($_SESSION['Estadocuentas']==1)
+            {
+              echo '<li class="treeview">
+              <a href="#">
+                <i class="fa fa-book"></i> <span>Cuenta</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="ingreso_cuentas.php"><i class="fa fa-circle-o"></i> ingreso a la cuenta</a></li>
+                <li><a href="gastos.php"><i class="fa fa-circle-o"></i> Gastos/pagos</a></li>
+                <li><a href="estado_cuenta.php"><i class="fa fa-circle-o"></i> Estado de cuenta</a></li>
+              </ul>
+            </li>';
+            }
+            ?>    
 
             <?php
             if ($_SESSION['consultac']==1)

@@ -51,6 +51,14 @@ switch ($_GET["op"]){
  		echo json_encode($rspta);
 	break;
 
+	case 'mostrarpago':
+		$rspta=$venta->mostrarpagosocio($idventa);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
+
+	
+
 	case 'caja':
 		$rspta=$venta->mostrarcaja();
  		//Codificar el resultado utilizando json
@@ -94,6 +102,58 @@ switch ($_GET["op"]){
 	break;
 
 
+
+	case 'listarDetalleplanilla':
+		//Recibimos el idingreso
+		$id=$_GET['id'];
+
+		$rspta = $venta->listarDetalleplanilla($id);
+		$total=0;
+		echo '<thead style="background-color:#A9D0F5">
+                                    <th>Opciones</th>
+                                    <th>Planilla</th>
+                                    <th>Total Pago planilla</th>
+                                    <th>Subtotal</th>
+                                </thead>';
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<tr class="filas"><td></td><td>'.$reg->planilla.'</td><td>'.$reg->pago.'</td><td>'.($reg->pago*$reg->cantidad).'</td></tr>';
+					$total=$total+($reg->pago*$reg->cantidad);
+				}
+		echo '<tfoot>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                </tfoot>';
+	break;
+
+	case 'listarDetalleplanillasocios':
+		//Recibimos el idingreso
+		$id=$_GET['id'];
+
+		$rspta = $venta->listarDetalleplanillasocios($id);
+		$total=0;
+		echo '<thead style="background-color:#A9D0F5">
+                                    <th>Opciones</th>
+                                    <th>Planilla</th>
+                                    <th>Total Pago planilla</th>
+                                    <th>Subtotal</th>
+                                </thead>';
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<tr class="filas"><td></td><td>'.$reg->planilla.'</td><td>'.$reg->pago.'</td><td>'.($reg->pago*$reg->cantidad).'</td></tr>';
+					$total=$total+($reg->pago*$reg->cantidad);
+				}
+		echo '<tfoot>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                </tfoot>';
+	break;
 
 //Muestra la tabla ventacredito del producto comprado
 	case 'listarDetallecredito':
@@ -163,46 +223,125 @@ switch ($_GET["op"]){
 
 	break;
 
-	case 'listarcredito':
-		$rspta=$venta->listarcredito();
+
+	case 'listarpla':
+		$rspta=$venta->listar_planilla();
  		//Vamos a declarar un array
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
+			 $tipo_comprobante='1';
+ 			if($tipo_comprobante=='1'){
  				$url='../reportes/exTicket.php?id=';
  			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
-			date_default_timezone_set('America/Guatemala');
-			$fecha=date('Y-m-d');	
-			$date1 = new DateTime("$fecha");
-			$date2 = new DateTime("$reg->fechaventa");
-			$diff = $date1->diff($date2);
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
+			
+
+ 			$data[]=array(
+ 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarplanilla('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->iddetalle.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrarplanilla('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>'),
+ 					// '<a target="_blank" href="'.$url.$reg->iddetalle.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 				"1"=>$reg->fecha,
+ 				"2"=>$reg->usuario,
+ 				"3"=>$reg->nombre,
+ 				"4"=>'<P>Q.'.($reg->pago*$reg->cantidad).'</P>',
+				"5"=>($reg->forma_pago == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+ 				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
+ 				'<span class="label bg-red">Anulado</span>'
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
+	// case 'listarcredito':
+	// 	$rspta=$venta->listarcredito();
+ 	// 	//Vamos a declarar un array
+ 	// 	$data= Array();
+
+ 	// 	while ($reg=$rspta->fetch_object()){
+ 	// 		if($reg->tipo_comprobante=='Ticket'){
+ 	// 			$url='../reportes/exTicket.php?id=';
+ 	// 		}
+ 	// 		else{
+ 	// 			$url='../reportes/exFactura.php?id=';
+ 	// 		}
+	// 		date_default_timezone_set('America/Guatemala');
+	// 		$fecha=date('Y-m-d');	
+	// 		$date1 = new DateTime("$fecha");
+	// 		$date2 = new DateTime("$reg->fechaventa");
+	// 		$diff = $date1->diff($date2);
 		
-			$dias='3';	
-			//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
-			//$dias1='-7';
-			//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
-			$data[]=array(
- 				"0"=>(($reg->estado=='0')?'<button id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
- 					'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
- 					//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
- 				"1"=>$reg->fechaventa,
- 				"2"=>$reg->cliente,
- 				"3"=>$reg->usuario,
- 				"4"=>'<P>Q.'.$reg->totales.'</P>',
- 				"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
- 				'<span class="label bg-red">Pendiente Pago</span>',
-				"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
-				// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
-				// '<span class="label bg-red">Pendiente Pago</span>'	
+	// 		$dias='3';	
+	// 		//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
+	// 		//$dias1='-7';
+	// 		//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
+	// 		$data[]=array(
+ 	// 			"0"=>(($reg->estado=='0')?'<button id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
+ 	// 				' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
+ 	// 				'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
+ 	// 				//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 	// 			"1"=>$reg->fechaventa,
+ 	// 			"2"=>$reg->cliente,
+ 	// 			"3"=>$reg->usuario,
+ 	// 			"4"=>'<P>Q.'.$reg->totales.'</P>',
+ 	// 			"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
+ 	// 			'<span class="label bg-red">Pendiente Pago</span>',
+	// 			"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
+	// 			// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
+	// 			// '<span class="label bg-red">Pendiente Pago</span>'	
 				
-				//"6"=>($fechapro==true)? '<span class="label bg-green">Plazo por vencer</span>':
-				//'<span class="label bg-red"></span>'
-			);
+	// 			//"6"=>($fechapro==true)? '<span class="label bg-green">Plazo por vencer</span>':
+	// 			//'<span class="label bg-red"></span>'
+	// 		);
+ 	// 	}
+ 	// 	$results = array(
+ 	// 		"sEcho"=>1, //Información para el datatables
+ 	// 		"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 	// 		"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 	// 		"aaData"=>$data);
+ 	// 	echo json_encode($results);
+
+	// break;
+
+
+	case 'listarpagosocios':
+		$rspta=$venta->listarpagosocios();
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+			 $tipo_comprobante='1';
+ 			if($tipo_comprobante=='1'){
+ 				$url='../reportes/exTicket.php?id=';
+ 			}
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
+			
+
+ 			$data[]=array(
+ 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->idpagosocios.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>').
+ 					'<a target="_blank" href="'.$url.$reg->idpagosocios.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 				"1"=>$reg->fecha,
+ 				"2"=>$reg->usuario,
+ 				"3"=>$tipo_comprobante ?'<span class="label bg-black">Voucher</span>':
+ 				'<span class="label bg-red"></span>',
+ 				"4"=>'<P>Q.'.($reg->totales).'</P>',
+				"5"=>($reg->condicion == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+ 				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
+ 				'<span class="label bg-red">Anulado</span>'
+ 				);
  		}
  		$results = array(
  			"sEcho"=>1, //Información para el datatables

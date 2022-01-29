@@ -31,12 +31,12 @@ if ($_SESSION['ventas']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tbllistadoplanilla" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
+                            <th>Planilla</th>
                             <th>Total</th>
                             <th>Forma de pago</th>
                             <th>Estado</th>
@@ -47,7 +47,7 @@ if ($_SESSION['ventas']==1)
                             <th>Opciones</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
+                            <th>Planilla</th>
                             <th>Total</th>
                             <th>Forma de pago</th>
                             <th>Estado</th>

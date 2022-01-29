@@ -4,6 +4,7 @@ var tabla;
 function init(){
 	mostrarform(false);
 	listar();
+	listar_planilla();
 
 	$("#formulario").on("submit",function(e)
 	{
@@ -152,6 +153,34 @@ function listar()
 }
 
 
+function listar_planilla()
+{
+	tabla=$('#tbllistadoplanilla').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [
+		            'copyHtml5',
+		            'excelHtml5',
+		            'csvHtml5',
+		            'pdf'
+		        ],
+		"ajax":
+				{
+					url: '../ajax/pago.php?op=listarpla',
+					type : "get",
+					dataType : "json",
+					error: function(e){
+						console.log(e.responseText);
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
+
 function listarplanilla()
 {
 	// let almacen = document.getElementById("idalmacen");
@@ -278,7 +307,7 @@ function mostrar(idventa)
 		$("#tipo_comprobante").selectpicker('refresh');
 		$("#fecha_hora").val(data.fecha);
 
-		idsocio
+		
 		
 		
 		//Ocultar y mostrar los botones
@@ -298,6 +327,44 @@ function mostrar(idventa)
 	});
 }
 
+
+
+
+function mostrarplanilla(idventa)
+{
+	$.post("../ajax/pago.php?op=mostrar",{idventa : idventa}, function(data, status)
+	{
+		var voucher=1;
+		data = JSON.parse(data);
+		mostrarform(true);
+
+		$("#forma_pago").val(data.forma_pago);
+		$("#forma_pago").selectpicker('refresh');
+		$("#idsocio").val(data.idsocio);
+		$("#idsocio").selectpicker('refresh');
+		$("#tipo_comprobante").val(voucher);
+		$("#tipo_comprobante").selectpicker('refresh');
+		$("#fecha_hora").val(data.fecha);
+
+		
+		
+		
+		//Ocultar y mostrar los botones
+		$("#btnGuardar").hide();
+		$("#btnCancelar").show();
+		$("#btnAgregarArt").hide();
+		if(data.forma_pago==2){
+			$("#tipo").show();		
+		}
+		else{
+			$("#tipo").hide();	
+		}
+ 	});
+
+ 	$.post("../ajax/pago.php?op=listarDetalleplanilla&id="+idventa,function(r){
+	        $("#detalles").html(r);
+	});
+}
 
 // function mostrarcredito(idventa)
 // {

@@ -48,27 +48,32 @@ Class Articulo
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
-	public function mostrarplanilla()
+	public function mostrarplanilla($idarticulo)
 	{
 		$sql="SELECT p.nombre,p.limite_credito,pa.mes,Asistencia.Asistencia as dias,Falta.Falta as faltas,pa.fecha_inicio,pa.fecha_final 
 		From ( Select idpersona From asistencia ) as Datos Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Asistencia from asistencia asis
 		INNER JOIN persona p ON asis.idpersona=p.idpersona
 		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
-		WHERE asis.tipo_asistencia='1' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by idpersona) as Asistencia On Datos.idpersona = Asistencia.idpersona 
+		WHERE asis.tipo_asistencia='1' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final and pa.idplanilla='$idarticulo' GROUP by idpersona) as Asistencia On Datos.idpersona = Asistencia.idpersona 
 		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia  asis
 		INNER JOIN persona p ON asis.idpersona=p.idpersona
 		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
-        WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+        WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final and pa.idplanilla='$idarticulo' GROUP by idpersona) as Falta On Datos.idpersona = Falta.idpersona 
 		inner join persona p ON datos.idpersona=p.idpersona 
-		inner join planilla pa on pa.tipo_empleado=p.tipo_person GROUP BY datos.idpersona";
+		inner join planilla pa on pa.tipo_empleado=p.tipo_person 
+		where pa.idplanilla='$idarticulo' GROUP BY datos.idpersona";
 		return ejecutarConsulta($sql);
 	}
 
 	public function Totalplanilla()
 	{
-		$sql="SELECT SUM(p.limite_credito-(p.limite_credito/30*Falta.Falta)) as totalplanilla 
-		From ( Select DISTINCT idpersona From asistencia ) as Datos 
-		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona inner join persona p ON datos.idpersona=p.idpersona 
+		$sql="SELECT SUM(p.limite_credito-(p.limite_credito/30* ifnull(Falta.Falta,0))) as totalplanilla 
+		From ( Select DISTINCT idpersona From asistencia ) as Datos Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis 
+		INNER JOIN persona p ON asis.idpersona=p.idpersona 
+		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado 
+		WHERE asis.tipo_asistencia='2' AND asis.fecha 
+		BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+		inner join persona p ON datos.idpersona=p.idpersona 
 		inner join planilla pa on pa.tipo_empleado=p.tipo_person";
 		return ejecutarConsulta($sql);
 	}

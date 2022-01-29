@@ -88,12 +88,19 @@ Class Colaborador
 		}
 		
 		elseif($formapago==2){
+			$numero=0;
+
+			$sql_venta="INSERT INTO pago_socios (descripcion,idsocio,idplanilla,total,fecha)
+			VALUES ('Pago planilla','$idsocio','$idplanilla[$numero]','$total_venta','$fecha_pro')";
+			//ejecutarConsulta($sql_venta);
+			$idventa=ejecutarConsulta_retornarID($sql_venta);
+
 			$num_elementos=0;
 			$sw=true; 
 	
 			while ($num_elementos < count($idplanilla))
 			{
-				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio,idpagosocios) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio',$idventa)";
 				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
 				$num_elementos=$num_elementos + 1;
 				
@@ -119,6 +126,14 @@ Class Colaborador
 		
 		}
 
+
+
+		public function editarpagoplanilla($idarticulo,$tipoproduc,$idcategoria,$codigo,$nombre,$presentacion,$unidad,$descripcion,$imagen)
+	{
+		$sql="UPDATE producto SET tipo_producto='$tipoproduc',idcategoria='$idcategoria',codigo='$codigo',nombre='$nombre',presentation='$presentacion',unit='$unidad',descripcion='$descripcion',imagen='$imagen' WHERE idproducto='$idarticulo'";
+		return ejecutarConsulta($sql);
+	}
+
 	public function insertarcredito($idcliente,$idventa,$total_pago){
 
 		$sql="INSERT INTO credito (tipo_pago_id,transaccion_id,idpersona,total)
@@ -143,6 +158,19 @@ Class Colaborador
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
+	
+    public function mostrarpagosocio($idventa)
+	{
+		$sql="SELECT d.idpagosocios,pla.nombre, (deuda.deuda-ifnull(abono.abono,0)) as total_socio 
+		FROM detalle_pago as d 
+		inner join usuario u ON d.idusuario=u.idusuario 
+		inner join pago_socios p ON p.idpagosocios=d.idpagosocios 
+		inner join planilla pla On pla.idplanilla=d.idplanilla 
+		left join (select idpagosocios, sum(total) as deuda FROM pago_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
+		left join (select idpagosocios, sum(total) as abono FROM pago_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
+		where p.idpagosocios='$idventa' GROUP by p.idpagosocios";
+		return ejecutarConsultaSimpleFila($sql);		
+	}
 
 
 	public function mostrarcredito($idventa)
@@ -168,6 +196,23 @@ Class Colaborador
 		return ejecutarConsulta($sql);
 	}
 
+	public function listarDetalleplanilla($idventa)
+	{
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento, p.nombre as planilla
+		FROM detalle_pago as d
+		inner join planilla p ON d.idplanilla=p.idplanilla WHERE d.iddetalle='$idventa'";
+		return ejecutarConsulta($sql);
+	}
+
+	public function listarDetalleplanillasocios($idventa)
+	{
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad, d.descuento, p.nombre as planilla
+		FROM detalle_pago as d
+		inner join planilla p ON d.idplanilla=p.idplanilla WHERE d.idpagosocios='$idventa'";
+		return ejecutarConsulta($sql);
+	}
+
+
 	public function listarDetallecredito($idventa)
 	{
 	$sql="SELECT DISTINCT o.transaccion_id,o.idproducto,p.nombre, o.cantidad,o.idprecio_lis,o.idalmacen 
@@ -182,6 +227,31 @@ Class Colaborador
 		FROM detalle_pago as d
 		inner join usuario u ON d.idusuario=u.idusuario
 		where d.idpersona";
+		return ejecutarConsulta($sql);		
+	}
+
+
+	public function listarpagosocios()
+
+
+	{
+		$sql="SELECT d.idpagosocios,d.condicion,d.fecha, u.nombre as usuario, (deuda.deuda-ifnull(abono.abono,0)) as totales 
+		FROM detalle_pago as d 
+		inner join usuario u ON d.idusuario=u.idusuario 
+		inner join pago_socios p ON p.idpagosocios=d.idpagosocios 
+		left join (select idpagosocios, sum(total) as deuda FROM pago_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
+		left join (select idpagosocios, sum(total) as abono FROM pago_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
+		GROUP by p.idpagosocios";
+		return ejecutarConsulta($sql);		
+	}
+
+	public function listar_planilla()
+	{
+		$sql="SELECT d.iddetalle,d.pago,d.cantidad,d.condicion,d.fecha,d.forma_pago, u.nombre as usuario,p.nombre
+		FROM detalle_pago as d
+		inner join usuario u ON d.idusuario=u.idusuario
+		inner join planilla p ON p.idplanilla=d.idplanilla
+		where d.idplanilla";
 		return ejecutarConsulta($sql);		
 	}
 

@@ -6,6 +6,7 @@ $persona=new Persona();
 $idpersona=isset($_POST["idpersona"])? limpiarCadena($_POST["idpersona"]):"";
 $tipo_person=isset($_POST["tipo_persona"])? limpiarCadena($_POST["tipo_persona"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
+$nombre_empresa=isset($_POST["nombre_empresa"])? limpiarCadena($_POST["nombre_empresa"]):"";
 $apellido=isset($_POST["apellido"])? limpiarCadena($_POST["apellido"]):"";
 $tipo_docum=isset($_POST["tipo_documento"])? limpiarCadena($_POST["tipo_documento"]):"";
 $nit=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documento"]):"";
@@ -22,11 +23,11 @@ $idasistencia=isset($_POST["idasistencia"])? limpiarCadena($_POST["idasistencia"
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idpersona)){
-			$rspta=$persona->insertar($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email);
+			$rspta=$persona->insertar($tipo_person,$nombre,$nombre_empresa,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email,$cargo);
 			echo $rspta ? "Persona registrada" : "Persona no se pudo registrar";
 		}
 		else {
-			$rspta=$persona->editar($idpersona,$tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email);
+			$rspta=$persona->editar($idpersona,$tipo_person,$nombre,$nombre_empresa,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email,$cargo);
 			echo $rspta ? "Persona actualizada" : "Persona no se pudo actualizar";
 		}
 	break;

@@ -148,6 +148,7 @@ function mostrarplanilla(idarticulo)
 			"iDisplayLength": 5,//Paginación
 			"order": [[ 0, "desc" ]]//Ordenar (columna,orden)
 		}).DataTable();
+	//	mostratotal(idarticulo);
 	// $.post("../ajax/articulo.php?op=mostrar",{idarticulo : idarticulo}, function(data, status)
 	// {
 	// 	data = JSON.parse(data);		
@@ -174,6 +175,22 @@ function mostrarplanilla(idarticulo)
  	// })
 }
 
+// function mostratotal(idarticulo)
+// {
+// 	console.log(idarticulo);
+// 	// "ajax",
+// 	// {
+// 	// 	url: '../ajax/crear_planilla.php?op=mostrartotal&idarticulo='+idarticulo,
+// 	// 	type : "get",
+// 	// 	dataType : "json",						
+// 	// 	error: function(e){
+// 	// 	console.log(e.responseText);	
+// 	// 	}
+// 	// }
+
+// 	$.post("../ajax/articulo.php?opmostrartotal&idarticulo="+idarticulo,function(e){
+// 	});
+// }
 //Función para desactivar registros
 function desactivar(idarticulo)
 {

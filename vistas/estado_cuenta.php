@@ -13,6 +13,7 @@ require 'header.php';
 
 if ($_SESSION['consultav']==1)
 {
+  
 ?>
 <!--Contenido-->
       <!-- Content Wrapper. Contains page content -->
@@ -23,7 +24,7 @@ if ($_SESSION['consultav']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Consulta de Ventas por fecha y cliente</h1>
+                          <h1 class="box-title">Consulta estado de cuenta</h1>
                         <div class="box-tools pull-right">
                         </div>
                     </div>
@@ -32,6 +33,7 @@ if ($_SESSION['consultav']==1)
                     <div class="panel-body table-responsive" id="listadoregistros">
                         <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                           <label>Fecha Inicio</label>
+                          <input type="hidden" id="idcliente" name="idcliente">
                           <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="<?php echo date("Y-m-d"); ?>">
                         </div>
                         <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -39,33 +41,30 @@ if ($_SESSION['consultav']==1)
                           <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>">
                         </div>
                         <div class="form-inline col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                          <label>Cliente</label>
-                          <select name="idcliente" id="idcliente" title="Seleccione Cliente" class="form-control selectpicker" data-live-search="true" >                         	
+                          <label>Tipo transaccion</label>
+                          <select name="tipo" id="tipo" title="Seleccione tipo" class="form-control selectpicker" data-live-search="true" >  
+                            <option value="1">Ingresos</option>           
+                            <option value="2">Gastos/Pagos</option>            	
                           </select>                          
-                          <button class="btn btn-success" onclick="listar()">Mostrar</button>
+                          <button class="btn btn-success" onclick="listarestadocuenta()">Mostrar</button>
                         </div>
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Fecha</th>
                             <th>Usuario</th>
-                            <th>Cliente</th>
-                            <th>Comprobante</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
-                            <th>Impuesto</th>
-                            <th>Estado</th>
+                            <th>Descripcion</th>
+                            <th>Tipo</th>
+                            <th>Total</th>
+                   
                           </thead>
                           <tbody>                            
                           </tbody>
                           <tfoot>
-                            <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Cliente</th>
-                            <th>Comprobante</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
-                            <th>Impuesto</th>
-                            <th>Estado</th>
+                          <th>TOTAL</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th><h4 id="total">Q/. 0.00</h4><input type="hidden" name="total_venta" id="total_venta"></th>
                           </tfoot>
                         </table>
                     </div>

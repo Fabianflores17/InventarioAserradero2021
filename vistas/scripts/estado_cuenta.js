@@ -4,6 +4,7 @@ var tabla;
 function init(){
 	mostrarform(false);
 	listar();
+	listarGasto();
 
 	$("#formulario").on("submit",function(e)
 	{
@@ -69,7 +70,36 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/caja.php?op=listar',
+					url: '../ajax/estado_cuenta.php?op=listar',
+					type : "get",
+					dataType : "json",
+					error: function(e){
+						console.log(e.responseText);
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
+
+//funcio listar gasto
+function listarGasto()
+{
+	tabla=$('#tbllistadogasto').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [
+		            'copyHtml5',
+		            'excelHtml5',
+		            'csvHtml5',
+		            'pdf'
+		        ],
+		"ajax":
+				{
+					url: '../ajax/estado_cuenta.php?op=listargasto',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -90,7 +120,7 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/caja.php?op=guardaryeditar",
+		url: "../ajax/estado_cuenta.php?op=guardaryeditar",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
@@ -99,7 +129,7 @@ function guardaryeditar(e)
 	    success: function(datos)
 	    {
 	          bootbox.alert(datos);
-			  setInterval('location.reload()',3000);
+			//   setInterval('location.reload()',3000);
 	          mostrarform(false);
 	          tabla.ajax.reload();
 	    }
@@ -108,35 +138,30 @@ function guardaryeditar(e)
 	limpiar();
 }
 
-function validarcuenta(){
-	let validar = document.getElementById("validarcampo");
-	let validar2 = parseInt(validar.innerHTML);
-	let tipo = document.getElementById("tipo_transaccion").value;
-	let cantidad = document.getElementById("cantida").value;
+// function validarcuenta(){
+// 	let validar = document.getElementById("validarcampo");
+// 	let validar2 = parseInt(validar.innerHTML);
+// 	let tipo = document.getElementById("tipo_transaccion").value;
+// 	let cantidad = document.getElementById("cantida").value;
 
-	if(tipo=="2"){
-		if(validar2<cantidad){
-			alert("No existen suficientes fondos",location.reload());
-		}
-	}
+// 	if(tipo=="2"){
+// 		if(validar2<cantidad){
+// 			alert("No existen suficientes fondos",location.reload());
+// 		}
+// 	}
 
-}
+// }
 
-function mostrar(idcaja)
+function mostrar(idcuenta)
 {
-	$.post("../ajax/caja.php?op=mostrar",{idcaja : idcaja}, function(data, status)
+	$.post("../ajax/estado_cuenta.php?op=mostrar",{idcuenta : idcuenta}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
-		$("#tipo_transaccion").val(data.tipo_transacion);
-		$("#tipo_transaccion").selectpicker('refresh');
+		$("#tipo_transacion").val(data.tipo_transaccion);
 		$("#cantida").val(data.monto);
 		$("#descripcion").val(data.descripcion);
-		$("#documento").val(data.documento);
-		$("#documento").selectpicker('refresh');
-		$("#num_documento").val(data.num_documento);
-		
- 		$("#idcaja").val(data.id);
+ 		$("#idcuenta").val(data.idcuenta);
 
  	})
 }
@@ -147,7 +172,7 @@ function desactivar(idcaja)
 	bootbox.confirm("¿Está Seguro de desactivar la caja?", function(result){
 		if(result)
         {
-        	$.post("../ajax/caja.php?op=desactivar", {idcaja : idcaja}, function(e){
+        	$.post("../ajax/estado_cuenta.php?op=desactivar", {idcaja : idcaja}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
         	});
@@ -161,7 +186,7 @@ function activar(idcaja)
 	bootbox.confirm("¿Está Seguro de activar la caja?", function(result){
 		if(result)
         {
-        	$.post("../ajax/caja.php?op=activar", {idcaja : idcaja}, function(e){
+        	$.post("../ajax/estado_cuenta.php?op=activar", {idcaja : idcaja}, function(e){
         		bootbox.alert(e);
 	            tabla.ajax.reload();
         	});

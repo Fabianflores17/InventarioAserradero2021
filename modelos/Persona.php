@@ -12,17 +12,17 @@ Class Persona
 	}
 
 	//Implementamos un método para insertar registros cliente y proveedor
-	public function insertar($tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
+	public function insertar($tipo_person,$nombre,$nombre_empresa,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email,$cargo)
 	{
-		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,direccion,telefono,telefono1,email)
-		VALUES ('$tipo_person','$nombre','$apellido','$tipo_docum','$nit','$direccion','$telefono','$telefono1','$email')";
+		$sql="INSERT INTO persona (tipo_person,nombre,apellido,tipo_docum,nit,empresa,direccion,telefono,telefono1,email,cargo)
+		VALUES ('$tipo_person','$nombre','$apellido','$tipo_docum','$nit','$nombre_empresa','$direccion','$telefono','$telefono1','$email','$cargo')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idpersona,$tipo_person,$nombre,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email)
+	public function editar($idpersona,$tipo_person,$nombre,$nombre_empresa,$apellido,$tipo_docum,$nit,$direccion,$telefono,$telefono1,$email,$cargo)
 	{
-		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email' WHERE idpersona='$idpersona'";
+		$sql="UPDATE persona SET tipo_person='$tipo_person',nombre='$nombre',apellido='$apellido',tipo_docum='$tipo_docum',nit='$nit',empresa='$nombre_empresa',direccion='$direccion',telefono='$telefono',telefono1='$telefono1',email='$email',cargo='$cargo' WHERE idpersona='$idpersona'";
 		return ejecutarConsulta($sql);
 	}
 

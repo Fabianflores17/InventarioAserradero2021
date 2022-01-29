@@ -34,7 +34,7 @@ if ($_SESSION['compras']==1)
                             <th>Opciones</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
-                              <th>Documento</th>
+                            <th>Documento</th>
                             <th>Celular</th>
                             <th>Teléfono</th>
                             <th>Email</th>
@@ -54,37 +54,50 @@ if ($_SESSION['compras']==1)
                     </div>
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Nombre:</label>
+
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <label>Nombre Empresa:</label>
                             <input type="hidden" name="idpersona" id="idpersona">
                             <input type="hidden" name="tipo_persona" id="tipo_persona" value="2">
-                            <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del proveedor" required>
+                            <input type="text" autocomplete="off" class="form-control" name="nombre_empresa" id="nombre_empresa" maxlength="50" placeholder="Ingrese nombre de la empresa">
                           </div>
+
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Apellido:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del proveedor" required>
+                            <label>Dirección:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
                           </div>
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                            <label>Teléfono:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
+                          </div>
+                        
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Documento:</label>
                             <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
                               <option value="1">NIT</option>
                               <option value="2">DPI</option>
                             </select>
                           </div>
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                             <label>Número Documento:</label>
                             <input type="text" autocomplete="off" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="Documento">
                           </div>
+                          <h4>Datos del contacto</h4>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Dirección:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
+                            <label>Nombre:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del proveedor" required>
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Teléfono:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
+                            <label>Apellido:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del proveedor" required>
+                          </div>
+                        
+                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <label>Puesto/Cargo:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="cargo" id="cargo"  placeholder="Agregar Puesto/Cargo">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Teléfono1:</label>
+                            <label>Teléfono del contacto:</label>
                             <input type="text" autocomplete="off" class="form-control" name="telefono1" id="telefono1" maxlength="20" placeholder="Teléfono2">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">

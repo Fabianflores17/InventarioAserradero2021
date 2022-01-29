@@ -43,6 +43,13 @@ switch ($_GET["op"]){
 	break;
 
 	
+	
+	case 'mostrartotal':
+		//$idarticulo=$_GET['idarticulo'];
+		$rspta=$articulo->Totalplanilla($idarticulo);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
 
 	case 'listar':
 		$rspta=$articulo->listar();
@@ -73,12 +80,10 @@ switch ($_GET["op"]){
 	break;
 
 	case 'mostrarplanilla':
-		//$idarticulo=$_GET['id'];
+		$idarticulo=$_GET['id'];
 	//	$rspta=$articulo->mostrarplanilla($idarticulo); 
-		$rspta=$articulo->mostrarplanilla();
+		$rspta=$articulo->mostrarplanilla($idarticulo);
  		//Vamos a declarar un array
-		
-
 
  		$data= Array();
  		while ($reg=$rspta->fetch_object()){
