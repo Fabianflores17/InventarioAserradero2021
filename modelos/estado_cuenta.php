@@ -66,8 +66,8 @@ Class Caja
 	}
 	public function listarTotal()
 	{
-		$sql="SELECT (SELECT Sum(monto) From cajachica where tipo_transacion='1') - 
-		(SELECT Sum(monto) From cajachica where tipo_transacion='2') total";	
+		$sql="SELECT (SELECT Sum(monto) From cuenta where tipo_transaccion='1') - 
+		(SELECT Sum(monto) From cuenta where tipo_transaccion='2') total";	
 		return ejecutarConsulta($sql);		
 	}
 }

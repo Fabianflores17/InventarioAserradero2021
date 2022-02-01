@@ -10,12 +10,20 @@ Class Articulo
 
 	}
 
+
 	//Implementamos un método para insertar registros
 	public function insertar($mes,$nombre,$fecha_inicio,$fecha_final)
 	{
 		$sql="INSERT INTO planilla (nombre,mes,fecha_inicio,fecha_final,tipo_empleado)
 		VALUES ('$nombre','$mes','$fecha_inicio','$fecha_final','3')";
-		return ejecutarConsulta($sql);	
+		//return ejecutarConsulta($sql);	
+		$idplanillanew=ejecutarConsulta_retornarID($sql);
+
+
+		$sql_datos="INSERT INTO datos_planilla(idplanilla,idpersona,sueldos,tipo_empledo) 
+		SELECT '$idplanillanew',idpersona,limite_credito,tipo_person FROM persona WHERE tipo_person='3'";
+		return ejecutarConsulta($sql_datos);	
+		
 	}
 	
 	//Implementamos un método para editar registros

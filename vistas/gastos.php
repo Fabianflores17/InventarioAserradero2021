@@ -13,8 +13,9 @@ require 'header.php';
 
 if ($_SESSION['caja']==1)
 {
-  require_once "../modelos/caja.php";
+  require_once "../modelos/estado_cuenta.php";
   $consulta = new Caja();
+
 
 
   $rsptav = $consulta->listarTotal();
@@ -55,6 +56,8 @@ if ($_SESSION['caja']==1)
                             <th>Estado</th>
                           </tfoot>
                         </table>
+                        <h3>Total Disponible</h3>
+                        <p style="font-size:40px;" id="validarcampo" value="<?php echo $totalv; ?>"> <?php echo $totalv; ?></p>
                       </div>
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
@@ -95,7 +98,7 @@ if ($_SESSION['caja']==1)
                           </div> -->
 
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button class="btn btn-primary" onclick="validarcuenta();" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                            <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 
                             <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
                           </div>

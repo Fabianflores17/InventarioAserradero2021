@@ -51,6 +51,14 @@ switch ($_GET["op"]){
  		echo json_encode($rspta);
 	break;
 
+	
+	case 'mostrardatos':
+		$idplanilla=$_REQUEST["idplanilla"];
+		$rspta=$venta->mostrardatos($idplanilla);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
+
 	case 'mostrarpago':
 		$rspta=$venta->mostrarpagosocio($idventa);
  		//Codificar el resultado utilizando json
@@ -378,6 +386,19 @@ switch ($_GET["op"]){
 				}
 	break;
 
+	
+	case 'selectotalestadoccuenta':
+		$rspta = $venta->mostrarestado_cuenta();
+
+		while ($reg = $rspta->fetch_object())
+				{
+				echo 
+				'<label>Total(*):</label>
+				<input  id="totalpago" type="text" class="form-control"  value=' . $reg->total . '>'
+				;
+				}
+	break;
+
 
 	case 'selectalmacen':
 		require_once "../modelos/almacen.php";
@@ -432,10 +453,10 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\',\''.$reg->totalplanilla.'\');"><span class="fa fa-plus"></span></button>',
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\');"><span class="fa fa-plus"></span></button>',
  				"1"=>$reg->nombre,
  				"2"=>$reg->mes,
-				"3"=>'<P> Q.'.$reg->totalplanilla.'</P>'
+				"3"=>'<P> Q.'.$reg->mes.'</P>'
  				);
  		}
  		$results = array(

@@ -118,39 +118,74 @@ function guardaryeditar(e)
 	e.preventDefault(); //No se activará la acción predeterminada del evento
 	$("#btnGuardar").prop("disabled",true);
 	var formData = new FormData($("#formulario")[0]);
+	
+	let tipo = document.getElementById("tipo_transacion").value;
+	
+	if(tipo=="2"){
+		let validar = document.getElementById("validarcampo");
+		let validar2 = parseInt(validar.innerHTML);
+		let cantidad = document.getElementById("cantida").value;
+		if(validar2<cantidad){
+			alert("No existen suficientes fondos",location.reload());
+			$("#btnGuardar").hide();
 
-	$.ajax({
-		url: "../ajax/estado_cuenta.php?op=guardaryeditar",
-	    type: "POST",
-	    data: formData,
-	    contentType: false,
-	    processData: false,
-
-	    success: function(datos)
-	    {
-	          bootbox.alert(datos);
-			//   setInterval('location.reload()',3000);
-	          mostrarform(false);
-	          tabla.ajax.reload();
-	    }
-
-	});
+		}else{
+			$.ajax({
+				url: "../ajax/estado_cuenta.php?op=guardaryeditar",
+				type: "POST",
+				data: formData,
+				contentType: false,
+				processData: false,
+		
+				success: function(datos)
+				{
+					  bootbox.alert(datos);
+					//   setInterval('location.reload()',3000);
+					  mostrarform(false);
+					  tabla.ajax.reload();
+				}
+		
+			});
+			
+		}
+	}
+	else{
+		$.ajax({
+			url: "../ajax/estado_cuenta.php?op=guardaryeditar",
+			type: "POST",
+			data: formData,
+			contentType: false,
+			processData: false,
+	
+			success: function(datos)
+			{
+				  bootbox.alert(datos);
+				//   setInterval('location.reload()',3000);
+				  mostrarform(false);
+				  tabla.ajax.reload();
+			}
+	
+		});
+	}
+	
 	limpiar();
 }
 
-// function validarcuenta(){
-// 	let validar = document.getElementById("validarcampo");
-// 	let validar2 = parseInt(validar.innerHTML);
-// 	let tipo = document.getElementById("tipo_transaccion").value;
-// 	let cantidad = document.getElementById("cantida").value;
+function validarcuenta(){
+	
 
-// 	if(tipo=="2"){
-// 		if(validar2<cantidad){
-// 			alert("No existen suficientes fondos",location.reload());
-// 		}
-// 	}
+	console.log(tipo);
+	console.log(validar2);
 
-// }
+	if(tipo=="2"){
+		if(validar2<cantidad){
+			alert("No existen suficientes fondos",location.reload());
+			$("#btnGuardar").hide();
+
+		}
+	}
+
+}
 
 function mostrar(idcuenta)
 {

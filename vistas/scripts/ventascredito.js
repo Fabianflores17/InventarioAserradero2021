@@ -182,6 +182,8 @@ const validarpago=()=>{
 	let pago=document.getElementById("pago");
 	let pagos=parseInt(pago.value);
 
+
+
 	//console.log(pagos);
 	if(totales>=pagos){
 		var formData = new FormData($("#formulario")[0]);

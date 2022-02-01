@@ -174,7 +174,7 @@ if ($_SESSION['ventas']==1)
 
 
   <!-- Fin modal -->
-<script type="text/javascript" src="scripts/cliente-venta.js"></script>
+<!-- <script type="text/javascript" src="scripts/cliente-venta.js"></script> -->
 
 
 <?php

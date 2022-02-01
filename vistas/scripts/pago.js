@@ -438,7 +438,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 	var cantidad=1;
   var descuento=0;
   var precio_venta=1;
-  globalThis.id_articulo = idarticulo;
+  
 
 
   if (idarticulo!="")
@@ -562,7 +562,12 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 			// var to = r.innerHTML;
 			// console.log(r);
 		});
-		
+	}else if(tipopago2==3){
+		$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+			$("#total1").html(r);
+			// var to = r.innerHTML;
+			// console.log(r);
+		});
 	}
 	
 }
@@ -598,13 +603,34 @@ boton.addEventListener('click', ()=>{
   }
 
 
+//  function mostrardatos(idplanilla,nombre,mes,totalplanilla)
+//  {
+	
+// 		$.post("../ajax/pago.php?op=mostrardatos",{idplanilla : idplanilla}, function(data, status)
+// 		{
+		
+// 			data = JSON.parse(data);
+// 			mostrarform(true);
+	
+// 			$("#totalplanilla").val(data.totalplanilla);
+// 			agregarplanilla(idplanilla,nombre,mes,totalplanilla);
+			
+// 		 });
+	
+//  }
+
+
   function agregarplanilla(idplanilla,nombre,mes,totalplanilla)
  {
 
 	var cantidad=1;
+	console.log(idplanilla);
+	
+
 
     if (idplanilla!="")
-    {
+    { 
+		
     	var subtotal=cantidad*totalplanilla;
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+

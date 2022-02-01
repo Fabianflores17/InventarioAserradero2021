@@ -109,12 +109,16 @@ Class Colaborador
 		}
 	
 		elseif($formapago==3){
+			$sql_venta="INSERT INTO cuenta (tipo_transaccion,descripcion,monto,fecha,condicion)
+			VALUES ('2','Pago de planilla','$total_venta','$fecha_pro','1')";
+			//ejecutarConsulta($sql_venta);
+			$idventa=ejecutarConsulta_retornarID($sql_venta);
 			$num_elementos=0;
 			$sw=true; 
 			
 			while ($num_elementos < count($idplanilla))
 			{
-				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio')";
+				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idcuenta) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idventa')";
 				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
 				$num_elementos=$num_elementos + 1;
 				
@@ -292,12 +296,29 @@ Class Colaborador
 
 	public function listarPlanilla()
 	{
-		$sql="SELECT SUM(p.limite_credito-(p.limite_credito/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes 
-		From ( Select DISTINCT idpersona From asistencia ) as Datos 
-		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
-		inner join persona p ON datos.idpersona=p.idpersona 
-		inner join planilla pa on pa.tipo_empleado=p.tipo_person";
+		// $sql="SELECT SUM(p.limite_credito-(p.limite_credito/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes 
+		// From ( Select DISTINCT idpersona From asistencia ) as Datos 
+		// Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+		// inner join persona p ON datos.idpersona=p.idpersona 
+		// inner join planilla pa on pa.tipo_empleado=p.tipo_person";
+		// return ejecutarConsulta($sql);
+
+		$sql="SELECT p.idplanilla ,p.nombre,p.mes FROM planilla p";
 		return ejecutarConsulta($sql);
+
+	}
+ 
+	public function mostrardatos($idplanilla){
+		
+	$sql="SELECT SUM(p.sueldos-(p.sueldos/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes 
+	From ( Select DISTINCT idpersona From asistencia ) as Datos Left 
+	join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis 
+	INNER JOIN persona p ON asis.idpersona=p.idpersona 
+	INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado 
+	WHERE asis.tipo_asistencia='2' and pa.idplanilla='$idplanilla' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+	inner join datos_planilla p ON datos.idpersona=p.idpersona inner join planilla pa on pa.idplanilla=p.idplanilla 
+	WHERE pa.idplanilla='$idplanilla'";
+	return ejecutarConsulta($sql);
 
 	}
 
@@ -307,6 +328,16 @@ Class Colaborador
 	
 		$sql="SELECT (SELECT Sum(monto) From cajachica where tipo_transacion='1') - 
 		(SELECT Sum(monto) From cajachica where tipo_transacion='2') total";	
+		return ejecutarConsulta($sql);		
+	}
+
+
+	public function mostrarestado_cuenta()
+	{
+
+	
+		$sql="SELECT (SELECT Sum(monto) From cuenta where tipo_transaccion='1') - 
+		(SELECT Sum(monto) From cuenta where tipo_transaccion='2') total";	
 		return ejecutarConsulta($sql);		
 	}
 

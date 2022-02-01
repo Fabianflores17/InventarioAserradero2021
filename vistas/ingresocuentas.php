@@ -56,7 +56,7 @@ if ($_SESSION['caja']==1)
                           </tfoot>
                         </table>
                         <h3>Total Disponible</h3>
-                        <p style="font-size:40px;" id="validarcampo" value="<?php echo $totalv; ?>"><?php echo $totalv; ?></p>
+                        <p style="font-size:40px;" id="validarcampo" value="<?php echo $totalv; ?>">Q. <?php echo $totalv; ?></p>
                     </div>
                     <div class="panel-body" style="height: 400px;" id="formularioregistros">
                         <form name="formulario" id="formulario" method="POST">
