@@ -46,3 +46,7 @@ ORDER by Falta.idplanilla asc
 
 
 SELECT (datos.sueldos-(datos.sueldos/30*ifnull(Falta.Falta,0)))as totalplanilla,Falta.idpersona From ( Select pa.idplanilla,dt.sueldos,dt.idpersona From planilla pa inner join datos_planilla dt ON pa.idplanilla=dt.idplanilla) as Datos Left join ( Select DISTINCT dt.idplanilla,asis.idpersona, COUNT(asis.tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado Inner Join datos_planilla dt ON dt.idplanilla=pa.idplanilla WHERE asis.tipo_asistencia='2' and p.tipo_person='3'AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona,pa.idplanilla,dt.idpersona) as Falta On Datos.idplanilla = Falta.idplanilla GROUP BY Falta.idpersona,Falta.idplanilla
+
+
+
+SELECT SUM(p.sueldos-(p.sueldos/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes From ( Select DISTINCT idpersona From asistencia ) as Datos Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis INNER JOIN persona p ON asis.idpersona=p.idpersona INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado WHERE asis.tipo_asistencia='2' and pa.idplanilla='1' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona inner join datos_planilla p ON datos.idpersona=p.idpersona inner join planilla pa on pa.idplanilla=p.idplanilla WHERE pa.idplanilla='1'

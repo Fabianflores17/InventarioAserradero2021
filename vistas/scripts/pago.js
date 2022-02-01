@@ -603,7 +603,7 @@ boton.addEventListener('click', ()=>{
   }
 
 
-//  function mostrardatos(idplanilla,nombre,mes,totalplanilla)
+//  function mostrardatos(idplanilla)
 //  {
 	
 // 		$.post("../ajax/pago.php?op=mostrardatos",{idplanilla : idplanilla}, function(data, status)
@@ -613,15 +613,19 @@ boton.addEventListener('click', ()=>{
 // 			mostrarform(true);
 	
 // 			$("#totalplanilla").val(data.totalplanilla);
-// 			agregarplanilla(idplanilla,nombre,mes,totalplanilla);
+
+			
 			
 // 		 });
 	
 //  }
 
 
-  function agregarplanilla(idplanilla,nombre,mes,totalplanilla)
- {
+  function agregarplanilla(idventa)
+ {  
+	$.post("../ajax/pago.php?op=listarDetalle&id="+idventa,function(r){
+		$("#detalles").html(r);
+
 
 	var cantidad=1;
 	console.log(idplanilla);
@@ -650,6 +654,7 @@ boton.addEventListener('click', ()=>{
     {
     	alert("Error al ingresar el detalle, revisar los datos del artículo");
     }
+	});
   }
 
   function modificarSubototalesplanilla()
