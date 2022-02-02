@@ -60,9 +60,9 @@ Class Almacen
 		$sql="SELECT Datos.idproducto, o.idalmacen,p.codigo,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
 		From ( Select distinct idproducto From operacion ) as Datos 
 		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
-		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 
+		AND status='1' Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 
 		Left join ( Select idproducto, Sum(cantidad) as Salidas from operacion WHERE tipo_operacion_id='2' AND idalmacen='$idalmacen' 
-		Group by idproducto) as Salidas On Datos.idproducto = Salidas.idproducto 
+		AND status='1' Group by idproducto) as Salidas On Datos.idproducto = Salidas.idproducto 
 		INNER JOIN producto p ON Datos.idproducto=p.idproducto 
 		INNER JOIN categoria c ON c.idcategoria=p.idcategoria 
 		INNER JOIN operacion o ON o.idproducto=p.idproducto 

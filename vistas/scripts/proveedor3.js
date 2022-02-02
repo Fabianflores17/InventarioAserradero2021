@@ -20,6 +20,10 @@ function limpiar()
 	$("#telefono").val("");
 	$("#email").val("");
 	$("#idpersona").val("");
+	$("#cargo").val("");
+	$("#nombre_empresa").val("");
+	$("#telefono1").val("");
+	
 }
 
 //Función mostrar formulario
@@ -119,6 +123,9 @@ function mostrar(idpersona)
 		$("#telefono1").val(data.telefono1);
 		$("#email").val(data.email);
  		$("#idpersona").val(data.idpersona);
+		$("#nombre_empresa").val(data.empresa);
+		$("#cargo").val(data.cargo);
+
 
 
  	})

@@ -56,43 +56,56 @@ if ($_SESSION['ventas']==1)
                     </div>
                     <div class="panel-body" style="height: 400px;" id="formularioregistroscliente">
                         <form name="formulario" id="formulariocliente" method="POST">
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Nombre:</label>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <label>Nombre Empresa:</label>
                             <input type="hidden" name="idpersona" id="idpersona">
                             <input type="hidden" name="tipo_persona" id="tipo_persona" value="1">
-                            <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del Cliente" required>
+                            <input type="text" autocomplete="off" class="form-control" name="nombre_empresa" id="nombre_empresa" maxlength="50" placeholder="Ingrese nombre de la empresa">
                           </div>
+
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Apellido:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del Cliente" required>
+                            <label>Dirección:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
                           </div>
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                            <label>Teléfono:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
+                          </div>
+                        
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Documento:</label>
                             <select class="form-control select-picker" name="tipo_documento" id="tipo_documento" required>
                               <option value="1">NIT</option>
                               <option value="2">DPI</option>
                             </select>
                           </div>
-                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                          <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                             <label>Número Documento:</label>
                             <input type="text" autocomplete="off" class="form-control" name="num_documento" id="num_documento" maxlength="20" placeholder="Documento">
                           </div>
+                          <h4>Datos del contacto</h4>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Dirección:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="direccion" id="direccion" maxlength="70" placeholder="Dirección">
+                            <label>Nombre:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del cliente" required>
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Teléfono:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="telefono" id="telefono" maxlength="20" placeholder="Teléfono">
+                            <label>Apellido:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="apellido" id="apellido" maxlength="100" placeholder="Apellido del cliente" required>
+                          </div>
+                        
+                          <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
+                            <label>Puesto/Cargo:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="cargo" id="cargo"  placeholder="Agregar Puesto/Cargo">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                            <label>Teléfono1:</label>
-                            <input type="text" autocomplete="off" class="form-control" name="telefono1" id="telefono1" maxlength="20" placeholder="Teléfono2">
+                            <label>Teléfono del contacto:</label>
+                            <input type="text" autocomplete="off" class="form-control" name="telefono1" id="telefono1" maxlength="20" placeholder="Telefono del cliente">
                           </div>
                           <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                             <label>Email:</label>
                             <input type="email" autocomplete="off" class="form-control" name="email" id="email" maxlength="50" placeholder="Email">
                           </div>
+
 
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <button class="btn btn-primary" type="submit" id="btnGuardarcliente"><i class="fa fa-save"></i> Guardar</button>

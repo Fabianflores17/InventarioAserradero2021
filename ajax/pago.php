@@ -7,26 +7,20 @@ require_once "../modelos/pago.php";
 $venta=new Colaborador();
 
 $idventa=isset($_POST["idventa"])? limpiarCadena($_POST["idventa"]):"";
-$idcliente=isset($_POST["idcliente"])? limpiarCadena($_POST["idcliente"]):"";
-$idalmacen=isset($_POST["idalmacen"])? limpiarCadena($_POST["idalmacen"]):"";
-$idpago=isset($_POST["tipo_pago"])? limpiarCadena($_POST["tipo_pago"]):"";
+$idplanilla=isset($_POST["idplanilla"])? limpiarCadena($_POST["idplanilla"]):"";
+$formapago=isset($_POST["forma_pago"])? limpiarCadena($_POST["forma_pago"]):"";
 $idusuario=$_SESSION["idusuario"];
-$tipo_comprobante=isset($_POST["tipo_comprobante"])? limpiarCadena($_POST["tipo_comprobante"]):"";
-$serie_comprobante=isset($_POST["serie_comprobante"])? limpiarCadena($_POST["serie_comprobante"]):"";
-$num_comprobante=isset($_POST["num_comprobante"])? limpiarCadena($_POST["num_comprobante"]):"";
-$fecha_hora=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
-$impuesto=isset($_POST["impuesto"])? limpiarCadena($_POST["impuesto"]):"";
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
-$fecha_pro=isset($_POST["fecha_pro"])? limpiarCadena($_POST["fecha_pro"]):"";
-$total_pago=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
+$fecha_pro=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
+$idsocio=isset($_POST["idsocio"])? limpiarCadena($_POST["idsocio"]):"";
+$total_pagado=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
 
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idventa)){
-			$rspta=$venta->insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_venta"],$_POST["descuento"]);
-			echo $rspta ? "Venta registrada" : "No se pudieron registrar todos los datos de la venta";
-			// echo $rspta ? "<script type='text/JavaScript'> location.reload(); </script>";
+			$rspta=$venta->insertar($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_venta"],$_POST["descuento"]);
+			echo $rspta ? "Pago Realizado" : "No se pudieron registrar todos los datos del pago";
 			
 		}
 		else {
@@ -37,6 +31,20 @@ switch ($_GET["op"]){
 		if ($idventa>0){
 			$rspta=$venta->insertarcredito($idcliente,$idventa,$total_pago);
 			echo $rspta ? "Error" : "Monto procesado";	
+		}	
+	break;
+
+	case 'guardaryeditarpagoplanilla':
+		if (empty($idventa)){
+			$rspta=$venta->insertarpagoplanilla($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$_POST["idplanilla"],$_POST["mes"],$_POST["totalplanilla"]);
+			echo $rspta ? "Pago de planilla realizado" : "No se pudo realizar el pago de la planilla";	
+		}	
+	break;
+
+	case 'guardaryeditarpagosocio':
+		if ($idventa>0){
+			$rspta=$venta->insertar_abono($idventa,$total_pagado);
+			echo $rspta ? "Pago de planilla realizado".$idventa : "No se pudo realizar el pago de la planilla".$idventa;	
 		}	
 	break;
 
@@ -51,6 +59,22 @@ switch ($_GET["op"]){
  		//Codificar el resultado utilizando json
  		echo json_encode($rspta);
 	break;
+
+	
+	// case 'mostrardatos':
+	// 	$idplanilla=$_GET['id'];
+	// 	$rspta=$venta->mostrardatos($idplanilla);
+ 	// 	//Codificar el resultado utilizando json
+ 	// 	echo json_encode($rspta);
+	// break;
+
+	case 'mostrarpago':
+		$rspta=$venta->mostrarpagosocio($idventa);
+ 		//Codificar el resultado utilizando json
+ 		echo json_encode($rspta);
+	break;
+
+	
 
 	case 'caja':
 		$rspta=$venta->mostrarcaja();
@@ -72,17 +96,17 @@ switch ($_GET["op"]){
 		$total=0;
 		echo '<thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
-                                    <th>Artículo</th>
-                                    <th>Cantidad</th>
-                                    <th>Precio Venta</th>
+                                    <th>Colaborador</th>
+                                    <th>Dias/Mes</th>
+                                    <th>Pago</th>
                                     <th>Descuento</th>
                                     <th>Subtotal</th>
                                 </thead>';
 
 		while ($reg = $rspta->fetch_object())
 				{
-					echo '<tr class="filas"><td></td><td>'.$reg->nombre.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->precio_venta.'</td><td>'.$reg->descuento.'</td><td>'.$reg->subtotal.'</td></tr>';
-					$total=$total+($reg->precio_venta*$reg->cantidad-$reg->descuento);
+					echo '<tr class="filas"><td></td><td>'.$reg->colaborador.'</td><td>'.$reg->cantidad.'</td><td>'.$reg->pago.'</td><td>'.$reg->descuento.'</td><td>'.($reg->pago*$reg->cantidad-$reg->descuento).'</td></tr>';
+					$total=$total+($reg->pago*$reg->cantidad-$reg->descuento);
 				}
 		echo '<tfoot>
                                     <th>TOTAL</th>
@@ -95,6 +119,58 @@ switch ($_GET["op"]){
 	break;
 
 
+
+	case 'listarDetalleplanilla':
+		//Recibimos el idingreso
+		$id=$_GET['id'];
+
+		$rspta = $venta->listarDetalleplanilla($id);
+		$total=0;
+		echo '<thead style="background-color:#A9D0F5">
+                                    <th>Opciones</th>
+                                    <th>Planilla</th>
+                                    <th>Total Pago planilla</th>
+                                    <th>Subtotal</th>
+                                </thead>';
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<tr class="filas"><td></td><td>'.$reg->planilla.'</td><td>'.$reg->pago.'</td><td>'.($reg->pago*$reg->cantidad).'</td></tr>';
+					$total=$total+($reg->pago*$reg->cantidad);
+				}
+		echo '<tfoot>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                </tfoot>';
+	break;
+
+	case 'listarDetalleplanillasocios':
+		//Recibimos el idingreso
+		$id=$_GET['id'];
+
+		$rspta = $venta->listarDetalleplanillasocios($id);
+		$total=0;
+		echo '<thead style="background-color:#A9D0F5">
+                                    <th>Opciones</th>
+                                    <th>Planilla</th>
+                                    <th>Total Pago planilla</th>
+                                    <th>Subtotal</th>
+                                </thead>';
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<tr class="filas"><td></td><td>'.$reg->planilla.'</td><td>'.$reg->pago.'</td><td>'.($reg->pago*$reg->cantidad).'</td></tr>';
+					$total=$total+($reg->pago*$reg->cantidad);
+				}
+		echo '<tfoot>
+                                    <th>TOTAL</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th><h4 id="total">Q.'.$total.'</h4><input type="hidden" name="total_venta" id="total_venta"></th>
+                                </tfoot>';
+	break;
 
 //Muestra la tabla ventacredito del producto comprado
 	case 'listarDetallecredito':
@@ -131,25 +207,27 @@ switch ($_GET["op"]){
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
+			 $tipo_comprobante='1';
+ 			if($tipo_comprobante=='1'){
  				$url='../reportes/exTicket.php?id=';
  			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
+			
 
  			$data[]=array(
- 				"0"=>(($reg->estado=='0')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-danger" onclick="anular('.$reg->idventa.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idventa.')"><i class="fa fa-eye"></i></button>'),
- 					//'<a target="_blank" href="'.$url.$reg->idventa.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrar('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->iddetalle.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrar('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>').
+ 					'<a target="_blank" href="'.$url.$reg->iddetalle.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
  				"1"=>$reg->fecha,
- 				"2"=>$reg->cliente,
- 				"3"=>$reg->usuario,
- 				"4"=>$reg->tipo_comprobante,
- 				"5"=>$reg->serie_comprobante.'-'.$reg->num_comprobante,
- 				"6"=>'<P id="totalventa">Q.'.$reg->total_venta.'</P>',
- 				"7"=>($reg->estado=='0')?'<span class="label bg-green">Aceptado</span>':
+ 				"2"=>$reg->usuario,
+ 				"3"=>$tipo_comprobante ?'<span class="label bg-black">Voucher</span>':
+ 				'<span class="label bg-red"></span>',
+ 				"4"=>'<P>Q.'.($reg->pago*$reg->cantidad-$reg->descuento).'</P>',
+				"5"=>($reg->forma_pago == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+ 				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}
@@ -162,46 +240,125 @@ switch ($_GET["op"]){
 
 	break;
 
-	case 'listarcredito':
-		$rspta=$venta->listarcredito();
+
+	case 'listarpla':
+	 	$rspta=$venta->listar_planilla();
  		//Vamos a declarar un array
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
- 			if($reg->tipo_comprobante=='Ticket'){
+			 $tipo_comprobante='1';
+ 			if($tipo_comprobante=='1'){
  				$url='../reportes/exTicket.php?id=';
  			}
- 			else{
- 				$url='../reportes/exFactura.php?id=';
- 			}
-			date_default_timezone_set('America/Guatemala');
-			$fecha=date('Y-m-d');	
-			$date1 = new DateTime("$fecha");
-			$date2 = new DateTime("$reg->fechaventa");
-			$diff = $date1->diff($date2);
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
+			
+
+ 			$data[]=array(
+ 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarplanilla('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->iddetalle.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrarplanilla('.$reg->iddetalle.')"><i class="fa fa-eye"></i></button>'),
+ 					// '<a target="_blank" href="'.$url.$reg->iddetalle.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 				"1"=>$reg->fecha,
+ 				"2"=>$reg->usuario,
+ 				"3"=>$reg->nombre,
+ 				"4"=>'<P>Q.'.($reg->pago*$reg->cantidad).'</P>',
+				"5"=>($reg->forma_pago == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+ 				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
+ 				'<span class="label bg-red">Anulado</span>'
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
+	// case 'listarcredito':
+	// 	$rspta=$venta->listarcredito();
+ 	// 	//Vamos a declarar un array
+ 	// 	$data= Array();
+
+ 	// 	while ($reg=$rspta->fetch_object()){
+ 	// 		if($reg->tipo_comprobante=='Ticket'){
+ 	// 			$url='../reportes/exTicket.php?id=';
+ 	// 		}
+ 	// 		else{
+ 	// 			$url='../reportes/exFactura.php?id=';
+ 	// 		}
+	// 		date_default_timezone_set('America/Guatemala');
+	// 		$fecha=date('Y-m-d');	
+	// 		$date1 = new DateTime("$fecha");
+	// 		$date2 = new DateTime("$reg->fechaventa");
+	// 		$diff = $date1->diff($date2);
 		
-			$dias='3';	
-			//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
-			//$dias1='-7';
-			//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
-			$data[]=array(
- 				"0"=>(($reg->estado=='0')?'<button id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
- 					'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
- 					//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
- 				"1"=>$reg->fechaventa,
- 				"2"=>$reg->cliente,
- 				"3"=>$reg->usuario,
- 				"4"=>'<P>Q.'.$reg->totales.'</P>',
- 				"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
- 				'<span class="label bg-red">Pendiente Pago</span>',
-				"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
-				// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
-				// '<span class="label bg-red">Pendiente Pago</span>'	
+	// 		$dias='3';	
+	// 		//$dias2=($diff->invert == 1) ? ' - ' . $diff->days .' days '  : $diff->days .' days ';
+	// 		//$dias1='-7';
+	// 		//$fechapro=($diff->invert == 1) ? ' - ' . $diff->days<'0'.' <span class="label bg-red">Plazo vencido</span> ': $diff->days<=$dias.' <span class="label bg-green">Plazo por vencer</span> '.' ';
+	// 		$data[]=array(
+ 	// 			"0"=>(($reg->estado=='0')?'<button id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'.
+ 	// 				' <button class="btn btn-danger" onclick="anular('.$reg->transaccion_id.')"><i class="fa fa-close"></i></button>':
+ 	// 				'<button   id="validar2" class="btn btn-warning" onclick="mostrarcredito('.$reg->transaccion_id.')">Abonar<i class="fa fa-eye"></i></button>'),
+ 	// 				//'<a target="_blank" href="'.$url.$reg->transaccion_id.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 	// 			"1"=>$reg->fechaventa,
+ 	// 			"2"=>$reg->cliente,
+ 	// 			"3"=>$reg->usuario,
+ 	// 			"4"=>'<P>Q.'.$reg->totales.'</P>',
+ 	// 			"5"=>($reg->totales=='0')?'<span id="pagado" class="label bg-green">Pagado</span>':
+ 	// 			'<span class="label bg-red">Pendiente Pago</span>',
+	// 			"6"=>($diff->invert == 1)? ' <span id="validar" class="label bg-red">Plazo vencido</span> ':($diff->days<=$dias ? $diff->days. ' dia(s) ' ." ".'<span  id="validar" class="label bg-yellow">Para que venza el plazo</span>': $diff->days. ' dia(s) ' ." ".' <span id="validar" class="label bg-green"></span> '),
+	// 			// "7"=>($dias2<='0' or $dias2>='5' )??'<span class="label bg-green">vencido</span>'?? '<span class="label bg-green">se acerca la fecha</span>'??
+	// 			// '<span class="label bg-red">Pendiente Pago</span>'	
 				
-				//"6"=>($fechapro==true)? '<span class="label bg-green">Plazo por vencer</span>':
-				//'<span class="label bg-red"></span>'
-			);
+	// 			//"6"=>($fechapro==true)? '<span class="label bg-green">Plazo por vencer</span>':
+	// 			//'<span class="label bg-red"></span>'
+	// 		);
+ 	// 	}
+ 	// 	$results = array(
+ 	// 		"sEcho"=>1, //Información para el datatables
+ 	// 		"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 	// 		"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 	// 		"aaData"=>$data);
+ 	// 	echo json_encode($results);
+
+	// break;
+
+
+	case 'listarpagosocios':
+		$rspta=$venta->listarpagosocios();
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+			 $tipo_comprobante='1';
+ 			if($tipo_comprobante=='1'){
+ 				$url='../reportes/exTicket.php?id=';
+ 			}
+ 			// else{
+ 			// 	$url='../reportes/exFactura.php?id=';
+ 			// }
+			
+
+ 			$data[]=array(
+ 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->idpagosocios.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>').
+ 					'<a target="_blank" href="'.$url.$reg->idpagosocios.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 				"1"=>$reg->fecha,
+ 				"2"=>$reg->usuario,
+ 				"3"=>$tipo_comprobante ?'<span class="label bg-black">Voucher</span>':
+ 				'<span class="label bg-red"></span>',
+ 				"4"=>'<P>Q.'.($reg->totales).'</P>',
+				"5"=>($reg->condicion == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+ 				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
+ 				'<span class="label bg-red">Anulado</span>'
+ 				);
  		}
  		$results = array(
  			"sEcho"=>1, //Información para el datatables
@@ -237,6 +394,39 @@ switch ($_GET["op"]){
 				;
 				}
 	break;
+
+	
+	case 'selectotalestadoccuenta':
+		$rspta = $venta->mostrarestado_cuenta();
+
+		while ($reg = $rspta->fetch_object())
+				{
+				echo 
+				'<label>Total estado cuenta(*):</label>
+				<input  id="totalpago2" type="text" class="form-control"  value=' . $reg->total . '>'
+				;
+				}
+	break;
+
+	//case 'mostrardatos':
+		// 	$idplanilla=$_GET['id'];
+		// 	$rspta=$venta->mostrardatos($idplanilla);
+		 // 	//Codificar el resultado utilizando json
+		 // 	echo json_encode($rspta);
+		// break;
+	
+
+	case 'mostrardatos':
+		$rspta = $venta->listarPlanilla();
+
+		while ($reg = $rspta->fetch_object())
+				{
+			
+				echo '<option value=' . $reg->idplanilla . '>' . $reg->nombre . '</option>';
+				
+				}
+	break;
+
 
 
 	case 'selectalmacen':
@@ -283,5 +473,29 @@ switch ($_GET["op"]){
  		echo json_encode($results);
 
 	break;
+
+	case 'detallesplanilla':
+		 $idplanilla=$_GET['idplanilla'];
+		$rspta=$venta->detallesplanilla($idplanilla); 
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+ 			$data[]=array(
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\',\''.$reg->totalplanilla.'\');"><span class="fa fa-plus"></span></button>',
+ 				"1"=>$reg->nombre,
+ 				"2"=>$reg->mes,
+				"3"=>$reg->totalplanilla
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
 	}
 ?>

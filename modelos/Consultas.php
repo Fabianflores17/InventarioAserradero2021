@@ -18,9 +18,47 @@ Class Consultas
 
 	public function ventasfechacliente($fecha_inicio,$fecha_fin,$idcliente)
 	{
-		$sql="SELECT DATE(v.fecha_hora) as fecha,u.nombre as usuario, p.nombre as cliente,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado FROM venta v INNER JOIN persona p ON v.idcliente=p.idpersona INNER JOIN usuario u ON v.idusuario=u.idusuario WHERE DATE(v.fecha_hora)>='$fecha_inicio' AND DATE(v.fecha_hora)<='$fecha_fin' AND v.idcliente='$idcliente'";
+		
+		$sql="SELECT DATE(v.fecha_hora) as fecha,u.nombre as usuario, p.nombre as cliente,v.tipo_comprobante,v.serie_comprobante,v.num_comprobante,v.total_venta,v.impuesto,v.estado FROM venta v 
+		INNER JOIN persona p ON v.idcliente=p.idpersona INNER JOIN usuario u ON v.idusuario=u.idusuario 
+		WHERE DATE(v.fecha_hora)>='$fecha_inicio' AND DATE(v.fecha_hora)<='$fecha_fin' AND
+		case when '$idcliente'!='' then v.idcliente='$idcliente' else v.idcliente end	
+		";
 		return ejecutarConsulta($sql);
+
 	}
+
+	public function estadodecuenta($fecha_inicio,$fecha_fin,$idcliente)
+	{
+		if($idcliente==''){
+		$sql="SELECT c.fecha,c.monto,c.tipo_transaccion,c.descripcion,c.condicion, (SELECT Sum(monto) From cuenta where tipo_transaccion='1' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin')-(SELECT Sum(monto) From cuenta where tipo_transaccion='2' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin') total FROM cuenta c
+		WHERE DATE(c.fecha)>='$fecha_inicio' AND DATE(c.fecha)<='$fecha_fin' order by c.fecha asc";
+		return ejecutarConsulta($sql);
+		// $ql_total="SELECT DISTINCT(SELECT Sum(monto) From cuenta where tipo_transaccion='1' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin')-(SELECT Sum(monto) From cuenta where tipo_transaccion='2' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin') total";
+		// return ejecutarConsulta($ql_total);
+		}
+		else{
+		$sql="SELECT c.fecha,c.monto,c.tipo_transaccion,c.descripcion,c.condicion, (SELECT Sum(monto) From cuenta where tipo_transaccion='$idcliente' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin') total FROM cuenta c
+		WHERE c.tipo_transaccion='$idcliente' and DATE(c.fecha)>='$fecha_inicio' AND DATE(c.fecha)<='$fecha_fin' order by c.fecha asc";
+		return ejecutarConsulta($sql);
+		}
+	}
+
+	// public function mostrar($fecha_inicio,$fecha_fin,$idcliente)
+	// {
+	// 	if($idcliente==''){
+	// 	$sql="SELECT DISTINCT (SELECT Sum(monto) From cuenta where tipo_transaccion='1' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin')-(SELECT Sum(monto) From cuenta where tipo_transaccion='2' and DATE(fecha)>='$fecha_inicio' AND DATE(fecha)<='$fecha_fin') total,c.condicion
+	// 	FROM cuenta c
+	// 	WHERE DATE(c.fecha)>='$fecha_inicio' AND DATE(c.fecha)<='$fecha_fin' 
+	// 	-- case when '$idcliente'!='' then c.tipo_transaccion='$idcliente' else c.tipo_transaccion end	
+	// 	";
+	// 	return ejecutarConsulta($sql);
+	// }
+	// }
+
+	// SELECT c.fecha,c.monto,c.tipo_transaccion,c.descripcion,c.condicion, 
+	// (SELECT Sum(monto) From cuenta where tipo_transaccion='1' and DATE(fecha)>='2022-01-04' AND DATE(fecha)<='2022-01-27')- (SELECT Sum(monto) From cuenta where tipo_transaccion='2' and DATE(fecha)>='2022-01-04' AND DATE(fecha)<='2022-01-27') total FROM cuenta c 
+	// WHERE DATE(c.fecha)>='2022-01-04' AND DATE(c.fecha)<='2022-01-27'
 
 	public function totalcomprahoy()
 	{
@@ -68,6 +106,19 @@ Class Consultas
 			return ejecutarConsulta($sql);
 	}
 
+	
+	public function listar_calif()
+		{
+			$sql="SELECT * FROM persona WHERE tipo_person='3'";
+			return ejecutarConsulta($sql);
+	}
+
+
+	public function listar_asistencia($idpersona,$fecha)
+	{
+		$sql="SELECT * FROM asistencia where idpersona='$idpersona' and fecha='$fecha'";
+		return ejecutarConsulta($sql);
+}
 
 }
 

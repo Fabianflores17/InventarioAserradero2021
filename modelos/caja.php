@@ -11,17 +11,17 @@ Class Caja
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($cantida,$descripcion,$tipo_transaccion)
+	public function insertar($cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento)
 	{
-		$sql="INSERT INTO cajachica (tipo_transacion,monto,descripcion,kind)
-		VALUES ('$tipo_transaccion','$cantida','$descripcion','1')";
+		$sql="INSERT INTO cajachica (tipo_transacion,monto,descripcion,kind,fecha,documento,num_documento)
+		VALUES ('$tipo_transaccion','$cantida','$descripcion','1','$fecha','$documento','$num_documento')";
 		return ejecutarConsulta($sql);
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idcaja,$cantida,$descripcion,$tipo_transaccion)
+	public function editar($idcaja,$cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento)
 	{
-		$sql="UPDATE cajachica SET tipo_transacion='$tipo_transaccion', monto='$cantida',descripcion='$descripcion' WHERE id='$idcaja'";
+		$sql="UPDATE cajachica SET tipo_transacion='$tipo_transaccion', monto='$cantida',descripcion='$descripcion',fecha='$fecha',documento='$documento',num_documento='$num_documento' WHERE id='$idcaja'";
 		return ejecutarConsulta($sql);
 	}
 

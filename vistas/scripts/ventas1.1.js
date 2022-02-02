@@ -151,14 +151,18 @@ function listar()
 //Función ListarArticulos
 function listarArticulos()
 {
+	
 	let almacen = document.getElementById("idalmacen");
 	let selecAlmacen = almacen.value
+	
+	
 	tabla=$('#tblarticulos').dataTable(
-	{
+	{ 
+		
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
 	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [		          
+	    buttons: [		  		    
 		            
 		        ],
 		"ajax":
@@ -167,13 +171,17 @@ function listarArticulos()
 					type : "get",
 					dataType : "json",						
 					error: function(e){
-						console.log(e.responseText);	
+						console.log(e.responseText);
+						
 					}
 				},
 		"bDestroy": true,
 		"iDisplayLength": 5,//Paginación
 	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+		
 	}).DataTable();
+	  
+	
 }
 //Función para guardar o editar
 
@@ -213,15 +221,14 @@ function mostrar(idventa)
 		data = JSON.parse(data);
 		mostrarform(true);
 
-		$("#idcliente").val(data.idcliente);
+		$("#idcliente").val(data.idpersona);
 		$("#idcliente").selectpicker('refresh');
 		$("#tipo_comprobante").val(data.tipo_comprobante);
 		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie_comprobante);
-		$("#num_comprobante").val(data.num_comprobante);
+		$("#serie_comprobante").val(data.serie);
+		$("#num_comprobante").val(data.codigo_factura);
 		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.impuesto);
-		$("#idventa").val(data.idventa);
+		$("#idventa").val(data.idingreso);
 		$("#idalmacen").val(data.idalmacen);
 		$("#idalmacen").selectpicker('refresh');
 		$("#tipo_pago").val(data.tipo_pago);
@@ -304,23 +311,29 @@ function marcarImpuesto()
 
 
 
-function agregarDetalle(idarticulo,articulo,stock,precio_venta)
+function agregarDetalle(idarticulo,articulo,stock,precio_compra,precio,precio2,precio3,precio4,precio5,precio6,precio7,precio8,precio9,precio10)
   {
+
   	var cantidad=1;
     var descuento=0;
-    var precio_venta=1;
-	globalThis.id_articulo = idarticulo;
+    //var precio_venta=1;
+	//globalThis.id_articulo = idarticulo;
+	
 
 
     if (idarticulo!="")
     {
-    	var subtotal=cantidad*precio_venta;
+		
+    	var subtotal=cantidad*precio;
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
-    	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+idarticulo+ ' ' +articulo+'</td>'+
-		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
+    	'<td><input type="hidden" id="idarticulo[]" name="idarticulo[]" value="'+idarticulo+'">'+idarticulo+ ' ' +articulo+'</td>'+
+		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+' <input type="hidden" name="precio_compra[]" id="precio_compra[]" value="'+precio_compra+'"></td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+	
+    	'<td><select  id="idprecio[]" name="idprecio[]"  class="form-control" title="--Seleccione el precio--" required=""> <option value="'+precio+'"> '+precio+'</option><option value="'+precio2+'"> '+precio2+'</option><option value="'+precio3+'"> '+precio3+'</option><option value="'+precio4+'"> '+precio4+'</option><option value="'+precio5+'"> '+precio5+'</option><option value="'+precio6+'"> '+precio6+'</option><option value="'+precio7+'"> '+precio7+'</option><option value="'+precio8+'"> '+precio8+'</option><option value="'+precio9+'"> '+precio9+'</option><option value="'+precio10+'"> '+precio10+'</option> </select></td>'+
+		//'<td><input type="text" name="idprecio" id="idprecio"></td>'+
+		//'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
     	'<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
     	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
     	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
@@ -329,7 +342,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     	detalles=detalles+1;//Loadin
     	$('#detalles').append(fila);
     	modificarSubototales();
-		
+	
 
 	}else
     {
@@ -337,28 +350,35 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     }
   }
 
-
+ 
   function modificarSubototales()
   {
+	var idprecio= document.getElementsByName("idprecio[]");
   	var cant = document.getElementsByName("cantidad[]");
-    var prec = document.getElementsByName("precio_venta[]");
+   // var prec = document.getElementsByName("precio_venta[]");
     var desc = document.getElementsByName("descuento[]");
     var sub = document.getElementsByName("subtotal");
 	var stock = document.getElementsByName("stock[]");
-
+	
     for (var i = 0; i <cant.length; i++) {
     	var inpC=cant[i];
-    	var inpP=prec[i];
+    //	var inpP=prec[i];
     	var inpD=desc[i];
     	var inpS=sub[i];
 		var inpSt=stock[i];
-		
-
+		var inpre=idprecio[i];
+//		var inpart=art[i];
+	
+//		var tt=parseInt(inpart.value);
+//		console.log(tt);
 		var st=parseInt(inpSt.value);
 		var ct=parseInt(inpC.value);
-		if(ct<=st){
+		
 
-    	inpS.value=(inpC.value * inpP.value)-inpD.value;
+		if(ct<=st){
+			console.log(inpre.value);
+
+    	inpS.value=(inpC.value * inpre.value)-inpD.value;
     	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
 		}
 		else{
@@ -397,6 +417,26 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     }
 
   }
+
+//   function quitarbotton(){
+
+// 	$("#agregar_producto").hide();
+// 	evaluarBotton();
+//   }
+
+//   function evaluarBotton(){
+	
+// 	var idprecio = document.getElementById("idprecio").value;
+// 	console.log(idprecio);
+
+// 	 if(idprecio=='0'||idprecio==null){
+// 		$("#agregar_producto").hide();
+// 	 }else{
+// 		$("#agregar_producto").show();
+		
+// 	 }
+//  }
+
   function evaluar(){
   	if (detalles>0)
     {

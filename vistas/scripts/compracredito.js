@@ -97,7 +97,7 @@ function listarcredito()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listarcredito',
+					url: '../ajax/compracredito.php?op=listarcredito',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -146,7 +146,6 @@ function listar()
 }
 
 
-
 //Función ListarArticulos
 function listarArticulos()
 {
@@ -183,13 +182,11 @@ const validarpago=()=>{
 	let pago=document.getElementById("pago");
 	let pagos=parseInt(pago.value);
 
-
-
 	//console.log(pagos);
 	if(totales>=pagos){
 		var formData = new FormData($("#formulario")[0]);
 		$.ajax({
-			url: "../ajax/venta.php?op=guardaryeditarcredito",
+			url: "../ajax/compracredito.php?op=guardaryeditarcredito",
 			type: "POST",
 			data: formData,
 			contentType: false,
@@ -250,7 +247,7 @@ function guardaryeditar(e)
 
 function mostrarcredito(idventa)
 {
-	$.post("../ajax/venta.php?op=mostrarcredito",{idventa : idventa}, function(data, status)
+	$.post("../ajax/compracredito.php?op=mostrarcredito",{idventa : idventa}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
@@ -288,7 +285,7 @@ function mostrarcredito(idventa)
 		$("#btnAgregarArt").hide();
  	});
 
- 	$.post("../ajax/venta.php?op=listarDetallecredito&id="+idventa,function(r){
+ 	$.post("../ajax/compracredito.php?op=listarDetallecredito&id="+idventa,function(r){
 	        $("#detalles").html(r);
 	});
 }

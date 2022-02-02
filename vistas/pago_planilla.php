@@ -31,12 +31,12 @@ if ($_SESSION['ventas']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                        <table id="tbllistadoplanilla" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Opciones</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
+                            <th>Planilla</th>
                             <th>Total</th>
                             <th>Forma de pago</th>
                             <th>Estado</th>
@@ -47,7 +47,7 @@ if ($_SESSION['ventas']==1)
                             <th>Opciones</th>
                             <th>Fecha</th>
                             <th>Usuario</th>
-                            <th>Documento</th>
+                            <th>Planilla</th>
                             <th>Total</th>
                             <th>Forma de pago</th>
                             <th>Estado</th>
@@ -55,10 +55,8 @@ if ($_SESSION['ventas']==1)
                         </table>
                            
                     </div>
-
-
                     <div class="panel-body"  id="formularioregistros">
-                        <form name="formulario" id="formulario" method="POST">
+                        <form name="formulariopagoplanilla" id="formulariopagoplanilla" method="POST">
                           <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
                             <label>Tipo Comprobante(*):</label>
                             <select name="tipo_comprobante" id="tipo_comprobante" class="form-control selectpicker" title="--Seleccione Tipo Comprobante--"required="">
@@ -75,7 +73,6 @@ if ($_SESSION['ventas']==1)
                                <option value="3">Finanzas</option>
                               </select>
                           </div> 
-                          
                           <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="total1">
                           <input type="hidden" name="idventa" id="idventa">
                             <!-- <label>Total(*):</label>
@@ -92,28 +89,29 @@ if ($_SESSION['ventas']==1)
                             <label>Fecha(*):</label>
                             <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
+
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Seleccionar Planilla(*):</label>
+                              <select onchange="detalle_planilla()" id="idplanilla" name="idplanilla" title="Seleccione forma de planilla" class="form-control selectpicker"> </select>
+                          </div>  
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Colaborador</button>
+                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Confirmar Planlilla</button>
                             </a>
                           </div>
-                          <h3 id="totalCaja"></h3>
+                    
 
                           <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">
                               <thead style="background-color:#A9D0F5">
                                     <th>Opciones</th>
-                                    <th>Colaborador</th>
-                                    <th>Cargo</th>
-                                    <th>Dias/Mes</th>
-                                    <th>Pago</th>
-                                    <th>Descuento</th>
+                                    <th>Planilla</th>
+                                    <th>Mes</th>
+                                    <th>Total Pago planilla</th>
                                     <th>Subtotal</th>
                                 </thead>
                                 <tfoot>
                                     <th>TOTAL</th>
-                                    <th></th>
-                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -153,11 +151,12 @@ if ($_SESSION['ventas']==1)
           <h4 class="modal-title">Seleccione un Colaborador</h4>
         </div>
         <div class="modal-body table-responsive">
-          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
+          <table id="tbplanilla" class="table table-striped table-bordered table-condensed table-hover" style="width:100%">
             <thead>
                 <th>Opciones</th>
                 <th>Nombre</th>
-                <th>Cargo</th>
+                <th>Mes</th>
+                <th>Total</th>
             </thead>
             <tbody>
 
@@ -165,7 +164,8 @@ if ($_SESSION['ventas']==1)
             <tfoot>
               <th>Opciones</th>
                 <th>Nombre</th>
-                <th>cargo</th>
+                <th>Mes</th>
+                <th>Total</th>
             </tfoot>
           </table>
         </div>
@@ -179,7 +179,7 @@ if ($_SESSION['ventas']==1)
 
 
   <!-- Fin modal -->
-<script type="text/javascript" src="scripts/cliente-venta.js"></script>
+<!-- <script type="text/javascript" src="scripts/cliente-venta.js"></script> -->
 
 
 <?php

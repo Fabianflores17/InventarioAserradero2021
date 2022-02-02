@@ -2,30 +2,29 @@
 if (strlen(session_id()) < 1) 
   session_start();
 
-require_once "../modelos/Ingreso.php";
+require_once "../modelos/listadoprecio.php";
 
 $ingreso=new Ingreso();
 
 $idingreso=isset($_POST["idingreso"])? limpiarCadena($_POST["idingreso"]):"";
-$idproveedor=isset($_POST["idproveedor"])? limpiarCadena($_POST["idproveedor"]):"";
 $idusuario=$_SESSION["idusuario"];
-$tipo_comprobante=isset($_POST["tipo_comprobante"])? limpiarCadena($_POST["tipo_comprobante"]):"";
-$serie_comprobante=isset($_POST["serie_comprobante"])? limpiarCadena($_POST["serie_comprobante"]):"";
-$num_comprobante=isset($_POST["num_comprobante"])? limpiarCadena($_POST["num_comprobante"]):"";
-$fecha_hora=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
-//$impuesto=isset($_POST["impuesto"])? limpiarCadena($_POST["impuesto"]):"";
-$total_compra=isset($_POST["total_compra"])? limpiarCadena($_POST["total_compra"]):"";
-$tipo_pago=isset($_POST["tipo_pago"])? limpiarCadena($_POST["tipo_pago"]):"";
-$form_pago=isset($_POST["form_pago"])? limpiarCadena($_POST["form_pago"]):"";
-$dias=isset($_POST["dias"])? limpiarCadena($_POST["dias"]):"";
-
-
+$idproducto=isset($_POST["idproducto"])? limpiarCadena($_POST["idproducto"]):"";
+$precio1=isset($_POST["precio1"])? limpiarCadena($_POST["precio1"]):"";
+$precio2=isset($_POST["precio2"])? limpiarCadena($_POST["precio2"]):"";
+$precio3=isset($_POST["precio3"])? limpiarCadena($_POST["precio3"]):"";
+$precio4=isset($_POST["precio4"])? limpiarCadena($_POST["precio4"]):"";
+$precio5=isset($_POST["precio5"])? limpiarCadena($_POST["precio5"]):"";
+$precio6=isset($_POST["precio6"])? limpiarCadena($_POST["precio6"]):"";
+$precio7=isset($_POST["precio7"])? limpiarCadena($_POST["precio7"]):"";
+$precio8=isset($_POST["precio8"])? limpiarCadena($_POST["precio8"]):"";
+$precio9=isset($_POST["precio9"])? limpiarCadena($_POST["precio9"]):"";
+$precio10=isset($_POST["precio10"])? limpiarCadena($_POST["precio10"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idingreso)){
-			$rspta=$ingreso->insertar($idproveedor,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$tipo_pago,$form_pago,$total_compra,$dias,$_POST["idarticulo"],$_POST["cantidad"],$_POST["precio_compra"]);
-			echo $rspta ? "Ingreso registrado" : "No se pudieron registrar todos los datos del ingreso";
+			$rspta=$ingreso->insertar($idproducto,$idusuario,$precio1,$precio2,$precio3,$precio4,$precio5,$precio6,$precio7,$precio8,$precio9,$precio10);
+			echo $rspta ? "Lista de precio registrada" : "No se pudieron registrar la informacion";
 		}
 		else {
 		}
@@ -88,16 +87,12 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>($reg->estado=='1')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>'.
- 					' <button class="btn btn-danger" onclick="anular('.$reg->idingreso.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idingreso.')"><i class="fa fa-eye"></i></button>',
- 				"1"=>$reg->proveedor,
-				"2"=>$reg->serie,
- 				"3"=>$reg->codigo_factura,
-				"4"=>'<P>Q.'.$reg->total.'</P>',
-				"5"=>$reg->usuario,
-				"6"=>$reg->fecha,
- 				"7"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
+ 				"0"=>($reg->condicion=='1')?'<button class="btn btn-warning" onclick="mostrar('.$reg->idprecio.')"><i class="fa fa-eye"></i></button>'.
+ 					' <button class="btn btn-danger" onclick="anular('.$reg->idprecio.')"><i class="fa fa-close"></i></button>':
+ 					'<button class="btn btn-warning" onclick="mostrar('.$reg->idprecio.')"><i class="fa fa-eye"></i></button>',
+ 				"1"=>$reg->producto,
+				"2"=>$reg->usuario,
+ 				"3"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}
@@ -110,15 +105,13 @@ switch ($_GET["op"]){
 
 	break;
 
-	case 'selectProveedor':
-		require_once "../modelos/Persona.php";
-		$persona = new Persona();
-
-		$rspta = $persona->listarP();
+	case 'selectProducto':
+		
+		$rspta = $ingreso->listarProducto();
 
 		while ($reg = $rspta->fetch_object())
 				{
-				echo '<option value=' . $reg->idpersona . '>' . $reg->nombre . '</option>';
+				echo '<option value=' . $reg->idproducto . '>' . $reg->nombre . '</option>';
 				}
 	break;
 

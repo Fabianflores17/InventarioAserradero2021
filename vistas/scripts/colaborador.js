@@ -4,11 +4,19 @@ var tabla;
 function init(){
 	mostrarformcolaborador(false);
 	listar();
+	listarasistencia();
 
 	$("#formulariocolaborador").on("submit",function(e)
 	{
 		guardaryeditarColaborador(e);
 	})
+
+	$("#formulario_asis").on("submit",function(e)
+	{
+		guardarasistencia(e);
+	})
+
+	
 }
 
 //Función limpiar
@@ -23,6 +31,12 @@ function limpiar()
 	$("#email").val("");
 	$("#idpersona").val("");
 	$("#cargo").val("");
+	var now = new Date();
+	var day =("0"+now.getDate()).slice(-2);
+	var month=("0"+(now.getMonth()+1)).slice(-2);
+	var today=now.getFullYear()+"-"+(month)+"-"+(day);
+//	$("#fecha_asistencia").val("");
+//	$('#getCodeModal').modal('hide');
 }
 
 //Función mostrar formulario
@@ -50,6 +64,14 @@ function cancelarform()
 	limpiar();
 	mostrarformcolaborador(false);
 }
+
+function cancelarasistecia(){
+//	location.reload();
+$("#fecha_asistencia").val("");
+$("#tipo_asistencia").val("");
+$('#tipo_asistencia').selectpicker('refresh');
+}
+
 
 //Función Listar
 function listar()
@@ -81,6 +103,31 @@ function listar()
 }
 //Función para guardar o editar
 
+//Función Listar
+function listarasistencia()
+{
+	tabla=$('#tbllistadoasistencia').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [
+		     
+		        ],
+		"ajax":
+				{
+					url: '../ajax/persona.php?op=listarasistencia',
+					type : "get",
+					dataType : "json",
+					error: function(e){
+						console.log(e.responseText);
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
 function guardaryeditarColaborador(e)
 {
 	e.preventDefault(); //No se activará la acción predeterminada del evento
@@ -111,7 +158,110 @@ function guardaryeditarColaborador(e)
 	});
 	limpiar();
 }
+function verificarfecha(){
+	let fecha2 = document.querySelector('input[type="date"]').value;
+	//console.log(fecha2);
 
+	document.getElementById("fecha_asistencia").innerHTML = fecha2;
+	$('#getCodeModal').modal('show');
+	verficarfecha();
+ }
+
+
+// const btn = document.getElementById("fecha_asistencia");
+// btn.addEventListener("change", verficarfecha);
+
+function verificar(idpersona){
+	//obtenemos la fecha actual
+
+$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona},
+	function(data,status)
+	{
+		data=JSON.parse(data);
+		$("#idpersona").val(data.idpersona);
+		//console.log(data.idpersona)
+	});
+}
+
+function verficarfecha()
+{
+
+var fecha3 = document.getElementById("fecha_asistencia").value;
+console.log(fecha3);
+
+var idpersona2 = document.getElementById("idpersona").value;
+console.log(idpersona2);
+
+// let date = document.querySelector('input[type="date"]');
+// console.log(date.value);
+$.post("../ajax/persona.php?op=verificar",{fecha_asistencia : fecha3, idpersona:idpersona2},
+	function(data,status)
+	{
+			data=JSON.parse(data);
+			if(data==null && $("#tipo_asistencia").val()!=""){
+
+					
+					 $.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona2},
+					function(data,status)
+					{
+						data=JSON.parse(data);
+						$("#idpersona").val(data.idpersona);
+					});
+			
+			}else if(data=!null && $("#tipo_asistencia").val()!=""){
+			
+				 $.post("../ajax/persona.php?op=verificar",{fecha_asistencia : fecha3, idpersona:idpersona2},
+				function(data,status)
+				{
+					data=JSON.parse(data);
+					$("#idasistencia").val(data.idasistencia);
+					$("#idpersona").val(data.idpersona);
+					$("#tipo_asistencia").val(data.tipo_asistencia);
+					$("#tipo_asistencia").selectpicker('refresh');
+		
+				});
+
+			}else if($("#tipo_asistencia").val()==""){
+				alert('borrar');
+				}
+	})
+	limpiar();
+	
+}
+
+function guardarasistencia(e)
+{
+
+	e.preventDefault(); //No se activará la acción predeterminada del evento
+	$("#btnGuardar_asis").prop("disabled",true);
+	$('#getCodeModal').modal('hide');
+	var formData = new FormData($("#formulario_asis")[0]);
+
+	$.ajax({
+		url: "../ajax/persona.php?op=guardarasistencia",
+	    type: "POST",
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+
+
+
+	    success: function(datos)
+	    {
+		 //		Swal.fire(
+			//		'Registro Exitoso!',
+			//		'Presione Ok!',
+			//		'success'
+			//	)
+	         bootbox.alert(datos);
+	         mostrarformcolaborador(false);
+			 setInterval('location.reload()',5000);
+	         tabla.ajax.reload();
+	    }
+
+	});
+	limpiar();
+}
 function mostrar(idpersona)
 {
 	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona}, function(data, status)

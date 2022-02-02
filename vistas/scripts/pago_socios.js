@@ -3,13 +3,17 @@ var tabla;
 //Función que se ejecuta al inicio
 function init(){
 	mostrarform(false);
-	
-    listarcredito();
+	listarpagosocios();
 
-	$("#formulario").on("submit",function(e)
+	$("#formulariopagosocio").on("submit",function(e)
 	{
 		guardaryeditar(e);
 	});
+
+	// $("#formulariopagosocio").on("submit",function(e)
+	// {
+	// 	guardaryeditarpagosocio(e);
+	// });
 	//Cargamos los items al select cliente
 	$.post("../ajax/venta.php?op=selectCliente", function(r){
 	            $("#idcliente").html(r);
@@ -22,6 +26,10 @@ function init(){
 	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
 		$('#tipo_pago').selectpicker('refresh');
+});
+$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+	$("#totalpago").html(r);
+
 });
 }
 
@@ -66,7 +74,7 @@ function mostrarform(flag)
 		$("#formularioregistros").show();
 		//$("#btnGuardar").prop("disabled",false);
 		$("#btnagregar").hide();
-		listarArticulos();
+		//listarArticulos();
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -82,9 +90,9 @@ function mostrarform(flag)
 }
 
 
-function listarcredito()
+function listarpagosocios()
 {
-	tabla=$('#tbllistadocredito').dataTable(
+	tabla=$('#tbllistadopagosocios').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -97,7 +105,7 @@ function listarcredito()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listarcredito',
+					url: '../ajax/pago.php?op=listarpagosocios',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -116,156 +124,68 @@ function cancelarform()
 	mostrarform(false);
 }
 
-//Función Listar
-function listar()
-{
-	tabla=$('#tbllistado').dataTable(
-	{
-		"aProcessing": true,//Activamos el procesamiento del datatables
-	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
-	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [
-		            'copyHtml5',
-		            'excelHtml5',
-		            'csvHtml5',
-		            'pdf'
-		        ],
-		"ajax":
-				{
-					url: '../ajax/venta.php?op=listar',
-					type : "get",
-					dataType : "json",
-					error: function(e){
-						console.log(e.responseText);
-					}
-				},
-		"bDestroy": true,
-		"iDisplayLength": 5,//Paginación
-	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
-	}).DataTable();
+
+
+
+const pago = document.getElementById("pago");
+pago.addEventListener("change", ()=>{
+const pago2 = document.getElementById("total_socio").value;
+let pago3 = document.getElementById("totalpago2").value;
+const pago = document.getElementById("pago").value;
+if (parseInt(pago) > parseInt(pago2) ){
+    alert("el monto supera la deuda");
+	$("#btnGuardar").hide();
+}else if (parseInt(pago)>parseInt(pago3)) {
+	alert("No hay suficientes fondos en la cuenta")
+	$("#btnGuardar").hide();
+}else {
+	$("#btnGuardar").show();
 }
 
+});
 
 
-//Función ListarArticulos
-function listarArticulos()
-{
-	let almacen = document.getElementById("idalmacen");
-	let selecAlmacen = almacen.value
-	tabla=$('#tblarticulos').dataTable(
-	{
-		"aProcessing": true,//Activamos el procesamiento del datatables
-	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
-	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
-	    buttons: [		          
-		            
-		        ],
-		"ajax":
-				{
-					url: '../ajax/venta.php?op=listarproductos&idalmacen='+selecAlmacen,
-					type : "get",
-					dataType : "json",						
-					error: function(e){
-						console.log(e.responseText);	
-					}
-				},
-		"bDestroy": true,
-		"iDisplayLength": 5,//Paginación
-	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
-	}).DataTable();
-}
-//Función para guardar o editar
-
-const validarpago=()=>{
-
-	let total=document.getElementById("total_credito");
-	let totales=parseInt(total.value);
-	let pago=document.getElementById("pago");
-	let pagos=parseInt(pago.value);
-
-
-
-	//console.log(pagos);
-	if(totales>=pagos){
-		var formData = new FormData($("#formulario")[0]);
-		$.ajax({
-			url: "../ajax/venta.php?op=guardaryeditarcredito",
-			type: "POST",
-			data: formData,
-			contentType: false,
-			processData: false,
-			
-	
-			success: function(datos)
-			{										
-			 
-				bootbox.alert(datos);
-				setInterval('location.reload()',5000);
-				mostrarform(false);
-				listar();
-				 
-				  
-			}
-			
-	
-		});
-		validarfecha();
-		limpiar();
-			
-	}
-	
-	else{
-		alert("EL monto es superior a la deuda");
-	}
-	
-}
 
 function guardaryeditar(e)
 {
 	e.preventDefault(); //No se activará la acción predeterminada del evento
-	//$("#btnGuardar").prop("disabled",true);
-	//var formData = new FormData($("#formulario")[0]);
-	
-	validarpago();
-	// $.ajax({
-	// 	url: "../ajax/venta.php?op=guardaryeditar",
-	//     type: "POST",
-	//     data: formData,
-	//     contentType: false,
-	//     processData: false,
+	$("#btnGuardar").prop("disabled",true);
+	var formData = new FormData($("#formulariopagosocio")[0]);
 
-	//     success: function(datos)
-	//     {	
+	$.ajax({
+		url: "../ajax/pago.php?op=guardaryeditarpagosocio",
+	    type: "POST",
+	    data: formData,
+	    contentType: false,
+	    processData: false,
 
-	//           bootbox.alert(datos);
-	//           mostrarform(false);
-	//           listar();
-	//     }
+	    success: function(datos)
+	    {
+	          bootbox.alert(datos);
+	          mostrarform(false);
+	          tabla.ajax.reload();
+	    }
 
-	// });
-	// limpiar();
+	});
+	limpiar();
 }
 
 
 
-function mostrarcredito(idventa)
+function mostrarpagosocio(idventa)
+
 {
-	$.post("../ajax/venta.php?op=mostrarcredito",{idventa : idventa}, function(data, status)
+	$.post("../ajax/pago.php?op=mostrarpago",{idventa : idventa}, function(data, status)
+//	$.post("../ajax/venta.php?op=mostrarcredito",{idventa : idventa}, function(data, status)
 	{
 		data = JSON.parse(data);
 		mostrarform(true);
-		$("#idventa").val(data.idingreso);
-		$("#idcliente").val(data.idpersona);
-		$("#idcliente1").val(data.nombrepersona);
-		$('#idcliente').selectpicker('refresh');
-		$("#tipo_comprobante").val(data.tipo_comprobante);
-		$("#tipo_comprobante").selectpicker('refresh');	
-		$("#idalmacen").val(data.idalmacen);
-		$("#idalmacen").selectpicker('refresh');
-		$("#total_credito").val(data.totales);
+		$("#idventa").val(data.idpagosocios);
+		$("#idplanilla").val(data.nombre);
+		$("#total_socio").val(data.total_socio)
+	
 		
-
-		let total=document.getElementById("total_credito");
+		let total=document.getElementById("total_socio");
 		let totales=total.value;
 		
 				
@@ -279,16 +199,13 @@ function mostrarcredito(idventa)
 				$("#pagoborrador").show();
 			}
 	
-		
-	
-	
 		//Ocultar y mostrar los botones
 		//$("#btnGuardar").show();
 		$("#btnCancelar").show();
 		$("#btnAgregarArt").hide();
  	});
 
- 	$.post("../ajax/venta.php?op=listarDetallecredito&id="+idventa,function(r){
+ 	$.post("../ajax/pago.php?op=listarDetalleplanillasocios&id="+idventa,function(r){
 	        $("#detalles").html(r);
 	});
 }
@@ -436,6 +353,22 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
       cont=0;
     }
   }
+
+//   function formapagoFinanzas()
+//   {
+// 	let tipopago2 = document.getElementById("forma_pago").value;
+
+// 	if(tipopago2==1){
+// 	$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+// 		$("#totalpago").html(r);
+
+// 	});
+// }
+//     }
+
+
+
+	
 
   function eliminarDetalle(indice){
   	$("#fila" + indice).remove();

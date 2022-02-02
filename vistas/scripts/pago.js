@@ -4,10 +4,16 @@ var tabla;
 function init(){
 	mostrarform(false);
 	listar();
+	listar_planilla();
 
 	$("#formulario").on("submit",function(e)
 	{
 		guardaryeditar(e);
+	});
+
+	$("#formulariopagoplanilla").on("submit",function(e)
+	{
+		guardaryeditarpagoplanilla(e);
 	});
 	//Cargamos los items al select cliente
 	$.post("../ajax/venta.php?op=selectCliente", function(r){
@@ -18,10 +24,10 @@ function init(){
 		$("#idalmacen").html(r);
 		$('#idalmacen').selectpicker('refresh');
 	});
-//	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
-//		$("#tipo_pago").html(r);
-//		$('#tipo_pago').selectpicker('refresh');
-//});
+	$.post("../ajax/pago.php?op=mostrardatos", function(r){
+		$("#idplanilla").html(r);
+		$('#idplanilla').selectpicker('refresh');
+});
     $.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
 		$('#tipo_pago').selectpicker('refresh');
@@ -31,12 +37,10 @@ function init(){
 //Función limpiar
 function limpiar()
 {
-	$("#idcliente").val("");
-	$('#idcliente').selectpicker('refresh');
-	$("#cliente").val("");
-	$("#serie_comprobante").val("");
-	$("#num_comprobante").val("");
-	$("#impuesto").val("0");
+	$("#forma_pago").val("");
+	$('#forma_pago').selectpicker('refresh');
+	$("#fecha_hora").val("");
+	$("#totalpago").val("");
 	$("#idalmacen").val("");
 	$("#idalmacen").selectpicker('refresh');
 	$("#tipo_pago").val("");
@@ -69,6 +73,7 @@ function mostrarform(flag)
 		//$("#btnGuardar").prop("disabled",false);
 		$("#btnagregar").hide();
 		listarArticulos();
+	//	listarplanilla();
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -134,7 +139,7 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/venta.php?op=listar',
+					url: '../ajax/pago.php?op=listar',
 					type : "get",
 					dataType : "json",
 					error: function(e){
@@ -146,6 +151,71 @@ function listar()
 	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
 	}).DataTable();
 }
+
+
+function listar_planilla()
+{
+	tabla=$('#tbllistadoplanilla').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [
+		            'copyHtml5',
+		            'excelHtml5',
+		            'csvHtml5',
+		            'pdf'
+		        ],
+		"ajax":
+				{
+					url: '../ajax/pago.php?op=listarpla',
+					type : "get",
+					dataType : "json",
+					error: function(e){
+						console.log(e.responseText);
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
+
+
+// filtrar por planilla
+function detalle_planilla()
+{
+	
+
+	let idpla=document.getElementById("idplanilla");
+	let selecidplanilla = idpla.value
+	// let almacen = document.getElementById("idalmacen");
+	// let selecAlmacen = almacen.value
+	console.log(selecidplanilla);
+	tabla=$('#tbplanilla').dataTable(
+	{
+		"aProcessing": true,//Activamos el procesamiento del datatables
+	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
+	    dom: 'Bfrtip',//Definimos los elementos del control de tabla
+	    buttons: [		          
+		            
+		        ],
+		"ajax":
+				{
+					url: '../ajax/pago.php?op=detallesplanilla&idplanilla='+selecidplanilla,
+					type : "get",
+					dataType : "json",						
+					error: function(e){
+					console.log(e.responseText);	
+
+					}
+				},
+		"bDestroy": true,
+		"iDisplayLength": 5,//Paginación
+	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
+	}).DataTable();
+}
+
 
 
 //Función ListarArticulos
@@ -184,7 +254,34 @@ function guardaryeditar(e)
 	var formData = new FormData($("#formulario")[0]);
 
 	$.ajax({
-		url: "../ajax/venta.php?op=guardaryeditar",
+		url: "../ajax/pago.php?op=guardaryeditar",
+	    type: "POST",
+	    data: formData,
+	    contentType: false,
+	    processData: false,
+
+	    success: function(datos)
+	    {	
+
+	          bootbox.alert(datos);
+	          mostrarform(false);
+	          listar();
+	    }
+
+	});
+	limpiar();
+}
+
+
+
+function guardaryeditarpagoplanilla(e)
+{
+	e.preventDefault(); //No se activará la acción predeterminada del evento
+	//$("#btnGuardar").prop("disabled",true);
+	var formData = new FormData($("#formulariopagoplanilla")[0]);
+
+	$.ajax({
+		url: "../ajax/pago.php?op=guardaryeditarpagoplanilla",
 	    type: "POST",
 	    data: formData,
 	    contentType: false,
@@ -204,35 +301,78 @@ function guardaryeditar(e)
 
 function mostrar(idventa)
 {
-	$.post("../ajax/venta.php?op=mostrar",{idventa : idventa}, function(data, status)
+	$.post("../ajax/pago.php?op=mostrar",{idventa : idventa}, function(data, status)
 	{
+		var voucher=1;
 		data = JSON.parse(data);
 		mostrarform(true);
 
-		$("#idcliente").val(data.idcliente);
-		$("#idcliente").selectpicker('refresh');
-		$("#tipo_comprobante").val(data.tipo_comprobante);
+		$("#forma_pago").val(data.forma_pago);
+		$("#forma_pago").selectpicker('refresh');
+		$("#idsocio").val(data.idsocio);
+		$("#idsocio").selectpicker('refresh');
+		$("#tipo_comprobante").val(voucher);
 		$("#tipo_comprobante").selectpicker('refresh');
-		$("#serie_comprobante").val(data.serie_comprobante);
-		$("#num_comprobante").val(data.num_comprobante);
 		$("#fecha_hora").val(data.fecha);
-		$("#impuesto").val(data.impuesto);
-		$("#idventa").val(data.idventa);
-		$("#idalmacen").val(data.idalmacen);
-		$("#idalmacen").selectpicker('refresh');
-		$("#tipo_pago").val(data.tipo_pago);
-		$("#tipo_pago").selectpicker('refresh');
+
+		
+		
+		
 		//Ocultar y mostrar los botones
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
 		$("#btnAgregarArt").hide();
+		if(data.forma_pago==2){
+			$("#tipo").show();		
+		}
+		else{
+			$("#tipo").hide();	
+		}
  	});
 
- 	$.post("../ajax/venta.php?op=listarDetalle&id="+idventa,function(r){
+ 	$.post("../ajax/pago.php?op=listarDetalle&id="+idventa,function(r){
 	        $("#detalles").html(r);
 	});
 }
 
+
+
+
+function mostrarplanilla(idventa)
+{
+	$.post("../ajax/pago.php?op=mostrar",{idventa : idventa}, function(data, status)
+	{
+		var voucher=1;
+		data = JSON.parse(data);
+		mostrarform(true);
+
+		$("#forma_pago").val(data.forma_pago);
+		$("#forma_pago").selectpicker('refresh');
+		$("#idsocio").val(data.idsocio);
+		$("#idsocio").selectpicker('refresh');
+		$("#tipo_comprobante").val(voucher);
+		$("#tipo_comprobante").selectpicker('refresh');
+		$("#fecha_hora").val(data.fecha);
+
+		
+		
+		
+		//Ocultar y mostrar los botones
+		$("#btnGuardar").hide();
+		$("#btnCancelar").show();
+		$("#btnAgregarArt").hide();
+		if(data.forma_pago==2){
+			$("#tipo").show();		
+		}
+		else{
+			$("#tipo").hide();	
+		}
+ 	});
+
+ 	$.post("../ajax/pago.php?op=listarDetalleplanilla&id="+idventa,function(r){
+	        $("#detalles").html(r);
+	});
+}
 
 // function mostrarcredito(idventa)
 // {
@@ -301,36 +441,37 @@ function marcarImpuesto()
 
 
 function agregarDetalle(idarticulo,articulo,stock,precio_venta)
+
+{
+	var cantidad=1;
+  var descuento=0;
+  var precio_venta=1;
+  
+
+
+  if (idarticulo!="")
   {
-  	var cantidad=1;
-    var descuento=0;
-    var precio_venta=1;
-	globalThis.id_articulo = idarticulo;
+	  var subtotal=cantidad*precio_venta;
+	  var fila='<tr class="filas" id="fila'+cont+'">'+
+	  '<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
+	  '<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+	  '<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" min="0" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+	  '<td><input type="number" onkeypress="return event.charCode >= 48" min="0" name="descuento[]" value="'+descuento+'"></td>'+
+	  '<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
+	  '<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
+	  '</tr>';
+	  cont++;
+	  detalles=detalles+1;//Loadin
+	  $('#detalles').append(fila);
+	  modificarSubototales();
+	  
 
-
-    if (idarticulo!="")
-    {
-    	var subtotal=cantidad*precio_venta;
-    	var fila='<tr class="filas" id="fila'+cont+'">'+
-    	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
-    	'<td><input type="hidden" id="id_articulo" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
-		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
-    	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
-    	'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
-    	'<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
-    	'<td><span name="subtotal" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
-    	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
-    	'</tr>';
-    	cont++;
-    	detalles=detalles+1;//Loadin
-    	$('#detalles').append(fila);
-    	modificarSubototales();
-		
-
-	}else
-    {
-    	alert("Error al ingresar el detalle, revisar los datos del artículo");
-    }
+  }else
+  {
+	  alert("Error al ingresar el detalle, revisar los datos del artículo");
+  }
   }
 
 
@@ -369,7 +510,7 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   
   function calcularTotales(){
   	var sub = document.getElementsByName("subtotal");
-	let num = document.getElementById("totalpago").value;
+	//let num = document.getElementById("totalpago").value;
   	var total = 0.0;
 
 	 
@@ -378,30 +519,35 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 		total += document.getElementsByName("subtotal")[i].value;
 	}
 
-	if(total>parseInt(num)){
-		alert("No existen suficientes fondos");
-
-	} 
+	
 
 	$("#total").html("Q/. " + total);
     $("#total_venta").val(total);
     evaluar();
+	let formpago = document.getElementById("forma_pago").value;
+	if(formpago==1||formpago==3){
+    let num = document.getElementById("totalpago").value;
+	if(total>parseInt(num)){
+		alert("No existen suficientes fondos");
+		$("#btnGuardar").hide();
+	} 
+}
   }
 
-  function fechaprorroga(){
-	let tipopago = document.getElementById("tipo_pago").value;
-	if(tipopago==2&&tipopago!=0){
+//   function fechaprorroga(){
+// 	let tipopago = document.getElementById("tipo_pago").value;
+// 	if(tipopago==2&&tipopago!=0){
 	
-		$("#fecha_pro").show();
+// 		$("#fecha_pro").show();
 	
-	}
-	else
-    {
-      $("#fecha_pro").hide();
-      cont=0;
-    }
+// 	}
+// 	else
+//     {
+//       $("#fecha_pro").hide();
+//       cont=0;
+//     }
 
-  }
+//   }
   function evaluar(){
   	if (detalles>0)
     {
@@ -424,16 +570,24 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
 			// var to = r.innerHTML;
 			// console.log(r);
 		});
-		
+	}else if(tipopago2==3){
+		$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+			$("#total1").html(r);
+			// var to = r.innerHTML;
+			// console.log(r);
+		});
 	}
-	else if(tipopago2==3){
-		alert("pendiente de total");
-
-	}
+	
 }
+
+const boton = document.getElementById("btnagregar");
+boton.addEventListener('click', ()=>{
+	$("#tipo").hide();
+});
 
   function fechaprorroga(){
 	let tipopago = document.getElementById("forma_pago").value;
+	
 	if(tipopago==1||tipopago==3){
 	
 		$("#total1").show();
@@ -455,5 +609,96 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
   	detalles=detalles-1;
   	evaluar()
   }
+
+
+
+
+  function agregarplanilla(idplanilla,nombre,mes,totalplanilla)
+ {  
+
+	var cantidad=1;
+
+	
+
+
+    if (idplanilla!="")
+    { 
+		
+    	var subtotal=cantidad*totalplanilla;
+    	var fila='<tr class="filas" id="fila'+cont+'">'+
+    	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
+    	'<td><input type="hidden" id="idplanilla" name="idplanilla[]" value="'+idplanilla+'">'+nombre+'</td>'+
+		'<td><input type="hidden" name="mes[]" value="'+cantidad+'">'+mes+'</td>'+
+		'<td><input type="hidden" onkeypress="return event.charCode >= 48" min="0" min="0" name="totalplanilla[]" id="totalplanilla[]" value="'+totalplanilla+'">'+totalplanilla+'</td>'+
+    	'<td><span name="subtotal" onkeypress="return event.charCode >= 48" min="0" id="subtotal'+cont+'">'+subtotal+'</span></td>'+
+    	'<td><button type="button" onclick="modificarSubototales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
+    	'</tr>';
+    	cont++;
+    	detalles=detalles+1;//Loadin
+    	$('#detalles').append(fila);
+    	modificarSubototalesplanilla();
+		
+
+	}else
+    {
+    	alert("Error al ingresar el detalle, revisar los datos del artículo");
+    }
+  }
+
+  function modificarSubototalesplanilla()
+  {
+  	var cant = document.getElementsByName("mes[]");
+    var prec = document.getElementsByName("totalplanilla[]");
+    var sub = document.getElementsByName("subtotal");
+
+    for (var i = 0; i <cant.length; i++) {
+    	var inpC=cant[i];
+    	var inpP=prec[i];
+    	var inpS=sub[i];
+
+		// if(ct<=st){
+
+    	inpS.value=(inpC.value * inpP.value);
+    	document.getElementsByName("subtotal")[i].innerHTML = inpS.value;
+		// }
+		// else{
+		// 	alert("La cantidad ingresada es mayor al stock disponible");
+        //     location.reload();
+		// }
+    }
+    calcularTotalesplanilla();
+
+  }
+
+  function calcularTotalesplanilla(){
+	var sub = document.getElementsByName("subtotal");
+  //let num = document.getElementById("totalpago").value;
+	var total = 0.0;
+
+   
+
+	for (var i = 0; i <sub.length; i++) {
+	  total += document.getElementsByName("subtotal")[i].value;
+  }
+
+  
+
+  $("#total").html("Q/. " + total);
+  $("#total_venta").val(total);
+  evaluar();
+  let formpago = document.getElementById("forma_pago").value;
+  if(formpago==1||formpago==3){
+  let num = document.getElementById("totalpago").value;
+  if(total>parseInt(num)){
+	  alert("No existen suficientes fondos");
+	  $("#btnGuardar").hide();
+  } 
+}
+}
+
+
+
+
+
 
 init();
