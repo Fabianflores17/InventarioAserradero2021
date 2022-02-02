@@ -23,6 +23,7 @@ Class Articulo
 		$sql_datos="INSERT INTO datos_planilla(idplanilla,idpersona,sueldos,tipo_empledo) 
 		SELECT '$idplanillanew',idpersona,limite_credito,tipo_person FROM persona WHERE tipo_person='3'";
 		return ejecutarConsulta($sql_datos);	
+
 		
 	}
 	

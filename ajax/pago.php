@@ -13,6 +13,7 @@ $idusuario=$_SESSION["idusuario"];
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
 $fecha_pro=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
 $idsocio=isset($_POST["idsocio"])? limpiarCadena($_POST["idsocio"]):"";
+$total_pagado=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
 
 
 switch ($_GET["op"]){
@@ -37,6 +38,13 @@ switch ($_GET["op"]){
 		if (empty($idventa)){
 			$rspta=$venta->insertarpagoplanilla($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$_POST["idplanilla"],$_POST["mes"],$_POST["totalplanilla"]);
 			echo $rspta ? "Pago de planilla realizado" : "No se pudo realizar el pago de la planilla";	
+		}	
+	break;
+
+	case 'guardaryeditarpagosocio':
+		if ($idventa>0){
+			$rspta=$venta->insertar_abono($idventa,$total_pagado);
+			echo $rspta ? "Pago de planilla realizado".$idventa : "No se pudo realizar el pago de la planilla".$idventa;	
 		}	
 	break;
 
@@ -394,8 +402,8 @@ switch ($_GET["op"]){
 		while ($reg = $rspta->fetch_object())
 				{
 				echo 
-				'<label>Total(*):</label>
-				<input  id="totalpago" type="text" class="form-control"  value=' . $reg->total . '>'
+				'<label>Total estado cuenta(*):</label>
+				<input  id="totalpago2" type="text" class="form-control"  value=' . $reg->total . '>'
 				;
 				}
 	break;

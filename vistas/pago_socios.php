@@ -89,17 +89,18 @@ if ($_SESSION['ventas']==1)
                           </div>
 
                      
-                          <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
+                          <!-- <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
                             <label>Pagado por:</label>
                             <select onchange="formapagoFinanzas();" name="forma_pago" id="forma_pago" title="Seleccione el almacen" class="form-control selectpicker"  required="">
                             <option value="1">Estado de cuenta</option>
                           </select>
                
-                          </div>
-                    
+                          </div> -->
+                          <div class="col-lg-12" >
                           <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12" id="totalpago">
                             <!-- <label>Saldo estado cuenta:</label>
                             <input type="text" class="form-control" name="total_estado" id="total_estado" placeholder="Total" disabled> -->
+                          </div>
                           </div>
                           
                           

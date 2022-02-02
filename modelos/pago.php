@@ -339,5 +339,14 @@ Class Colaborador
 		return ejecutarConsulta($sql);		
 	}
 
+	public function insertar_abono($idventa,$total_pagado) {
+
+	$sql_abonos="INSERT INTO pago_socios(idplanilla,idsocio,tipo_pago,total) 
+	SELECT idplanilla,idsocio,'2','$total_pagado' FROM pago_socios WHERE idpagosocios='$idventa'";
+	return ejecutarConsulta($sql_abonos);
+	
+	}
+	
+
 }
 ?>
