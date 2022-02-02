@@ -91,16 +91,15 @@ if ($_SESSION['ventas']==1)
                      
                           <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
                             <label>Pagado por:</label>
-                            <select name="forma_pago" id="forma_pago" title="Seleccione el almacen" class="form-control selectpicker"  required="">
+                            <select onchange="formapagoFinanzas();" name="forma_pago" id="forma_pago" title="Seleccione el almacen" class="form-control selectpicker"  required="">
                             <option value="1">Estado de cuenta</option>
                           </select>
                
                           </div>
                     
-                          <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12">
-                            <label>Saldo estado cuenta:</label>
-                            <input type="text" class="form-control" name="total_estado" id="total_estado" placeholder="Total" disabled>
-                
+                          <div class="form-group col-lg-4 col-md-2 col-sm-6 col-xs-12" id="totalpago">
+                            <!-- <label>Saldo estado cuenta:</label>
+                            <input type="text" class="form-control" name="total_estado" id="total_estado" placeholder="Total" disabled> -->
                           </div>
                           
                           
@@ -129,7 +128,7 @@ if ($_SESSION['ventas']==1)
                           </div>
 
                           <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <button class="btn btn-primary" type="submit" onclik="validarpago()" id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
+                            <button class="btn btn-primary" type="submit"  id="btnGuardar"><i class="fa fa-save"></i> Guardar</button>
 
                             <button id="btnCancelar" class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
                           </div>

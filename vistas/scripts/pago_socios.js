@@ -3,18 +3,17 @@ var tabla;
 //Función que se ejecuta al inicio
 function init(){
 	mostrarform(false);
-	
-    listarpagosocios();
+	listarpagosocios();
 
 	$("#formulario").on("submit",function(e)
 	{
 		guardaryeditar(e);
 	});
 
-	$("#formulariopagosocio").on("submit",function(e)
-	{
-		guardaryeditarpagosocio(e);
-	});
+	// $("#formulariopagosocio").on("submit",function(e)
+	// {
+	// 	guardaryeditarpagosocio(e);
+	// });
 	//Cargamos los items al select cliente
 	$.post("../ajax/venta.php?op=selectCliente", function(r){
 	            $("#idcliente").html(r);
@@ -124,16 +123,18 @@ function cancelarform()
 
 const validarpago=()=>{
 
-	let total=document.getElementById("total_credito");
+	let total=document.getElementById("total_socio");
 	let totales=parseInt(total.value);
 	let pago=document.getElementById("pago");
 	let pagos=parseInt(pago.value);
+	let totalp=document.getElementById("totalpago");
+	let totalpago=parseInt(totalp.value);
 
-	//console.log(pagos);
+	
 	if(totales>=pagos){
-		var formData = new FormData($("#formulario")[0]);
+		var formData = new FormData($("#formulariopagosocio")[0]);
 		$.ajax({
-			url: "../ajax/venta.php?op=guardaryeditarcredito",
+			url: "../ajax/venta.php?op=guardareditarcredito",
 			type: "POST",
 			data: formData,
 			contentType: false,
@@ -144,7 +145,7 @@ const validarpago=()=>{
 			{										
 			 
 				bootbox.alert(datos);
-				setInterval('location.reload()',5000);
+				//setInterval('location.reload()',5000);
 				mostrarform(false);
 				listar();
 				 
@@ -153,7 +154,7 @@ const validarpago=()=>{
 			
 	
 		});
-		validarfecha();
+		//validarfecha();
 		limpiar();
 			
 	}
@@ -169,25 +170,9 @@ function guardaryeditar(e)
 	e.preventDefault(); //No se activará la acción predeterminada del evento
 	//$("#btnGuardar").prop("disabled",true);
 	//var formData = new FormData($("#formulario")[0]);
-	
+	console.log(totalpago);
 	validarpago();
-	// $.ajax({
-	// 	url: "../ajax/venta.php?op=guardaryeditar",
-	//     type: "POST",
-	//     data: formData,
-	//     contentType: false,
-	//     processData: false,
 
-	//     success: function(datos)
-	//     {	
-
-	//           bootbox.alert(datos);
-	//           mostrarform(false);
-	//           listar();
-	//     }
-
-	// });
-	// limpiar();
 }
 
 
@@ -373,6 +358,22 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
       cont=0;
     }
   }
+
+  function formapagoFinanzas()
+  {
+	let tipopago2 = document.getElementById("forma_pago").value;
+
+	if(tipopago2==1){
+	$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+		$("#totalpago").html(r);
+
+	});
+}
+    }
+
+
+
+	
 
   function eliminarDetalle(indice){
   	$("#fila" + indice).remove();

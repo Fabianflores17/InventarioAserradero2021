@@ -146,6 +146,7 @@ function listar()
 }
 
 
+
 //Función ListarArticulos
 function listarArticulos()
 {

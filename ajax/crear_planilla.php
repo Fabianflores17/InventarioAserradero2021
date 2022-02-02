@@ -87,17 +87,18 @@ switch ($_GET["op"]){
 
  		$data= Array();
  		while ($reg=$rspta->fetch_object()){
-			$diario=$reg->limite_credito/30;
+			$diario=$reg->sueldos/30;
 			$dia=number_format($diario,2);
-			$totales=$reg->limite_credito-($reg->faltas*$dia);
+			$totales=$reg->sueldos-($reg->faltas*$dia);
  			$data[]=array(
- 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->nombre.',\''.$reg->nombre.'\');"><span class="fa fa-plus"></span></button>',
- 				"1"=>$reg->nombre,
- 				"2"=>$reg->mes,
-				"3"=>$reg->dias,
-				"4"=>$reg->faltas,
-				"5"=>$dia,
-				"6"=>$totales
+ 				//"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->nombre.',\''.$reg->nombre.'\');"><span class="fa fa-plus"></span></button>',
+ 				"0"=>$reg->nombre,
+ 				"1"=>$reg->mes,
+				"2"=>$reg->dias,
+				"3"=>$reg->faltas,
+				"4"=>$totales,
+				"5"=>$reg->fecha_inicio,
+				"6"=>$reg->fecha_final
  				);
  		}
  		$results = array(

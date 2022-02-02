@@ -24,10 +24,10 @@ function init(){
 		$("#idalmacen").html(r);
 		$('#idalmacen').selectpicker('refresh');
 	});
-//	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
-//		$("#tipo_pago").html(r);
-//		$('#tipo_pago').selectpicker('refresh');
-//});
+	$.post("../ajax/pago.php?op=mostrardatos", function(r){
+		$("#idplanilla").html(r);
+		$('#idplanilla').selectpicker('refresh');
+});
     $.post("../ajax/ingreso.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
 		$('#tipo_pago').selectpicker('refresh');
@@ -73,7 +73,7 @@ function mostrarform(flag)
 		//$("#btnGuardar").prop("disabled",false);
 		$("#btnagregar").hide();
 		listarArticulos();
-		listarplanilla()
+	//	listarplanilla();
 
 		$("#btnGuardar").hide();
 		$("#btnCancelar").show();
@@ -181,10 +181,17 @@ function listar_planilla()
 	}).DataTable();
 }
 
-function listarplanilla()
+
+// filtrar por planilla
+function detalle_planilla()
 {
+	
+
+	let idpla=document.getElementById("idplanilla");
+	let selecidplanilla = idpla.value
 	// let almacen = document.getElementById("idalmacen");
 	// let selecAlmacen = almacen.value
+	console.log(selecidplanilla);
 	tabla=$('#tbplanilla').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
@@ -195,11 +202,12 @@ function listarplanilla()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/pago.php?op=listarPlanilla',
+					url: '../ajax/pago.php?op=detallesplanilla&idplanilla='+selecidplanilla,
 					type : "get",
 					dataType : "json",						
 					error: function(e){
-						console.log(e.responseText);	
+					console.log(e.responseText);	
+
 					}
 				},
 		"bDestroy": true,
@@ -603,32 +611,13 @@ boton.addEventListener('click', ()=>{
   }
 
 
-//  function mostrardatos(idplanilla)
-//  {
-	
-// 		$.post("../ajax/pago.php?op=mostrardatos",{idplanilla : idplanilla}, function(data, status)
-// 		{
-		
-// 			data = JSON.parse(data);
-// 			mostrarform(true);
-	
-// 			$("#totalplanilla").val(data.totalplanilla);
-
-			
-			
-// 		 });
-	
-//  }
 
 
-  function agregarplanilla(idventa)
+  function agregarplanilla(idplanilla,nombre,mes,totalplanilla)
  {  
-	$.post("../ajax/pago.php?op=listarDetalle&id="+idventa,function(r){
-		$("#detalles").html(r);
-
 
 	var cantidad=1;
-	console.log(idplanilla);
+
 	
 
 
@@ -654,7 +643,6 @@ boton.addEventListener('click', ()=>{
     {
     	alert("Error al ingresar el detalle, revisar los datos del artículo");
     }
-	});
   }
 
   function modificarSubototalesplanilla()

@@ -311,7 +311,7 @@ function marcarImpuesto()
 
 
 
-function agregarDetalle(idarticulo,articulo,stock,precio,precio2,precio3,precio4,precio5,precio6,precio7,precio8,precio9,precio10)
+function agregarDetalle(idarticulo,articulo,stock,precio_compra,precio,precio2,precio3,precio4,precio5,precio6,precio7,precio8,precio9,precio10)
   {
 
   	var cantidad=1;
@@ -328,8 +328,9 @@ function agregarDetalle(idarticulo,articulo,stock,precio,precio2,precio3,precio4
     	var fila='<tr class="filas" id="fila'+cont+'">'+
     	'<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
     	'<td><input type="hidden" id="idarticulo[]" name="idarticulo[]" value="'+idarticulo+'">'+idarticulo+ ' ' +articulo+'</td>'+
-		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+'</td>'+
+		'<td><input type="hidden" name="stock[]" value="'+stock+'">'+stock+' <input type="hidden" name="precio_compra[]" id="precio_compra[]" value="'+precio_compra+'"></td>'+
     	'<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
+	
     	'<td><select  id="idprecio[]" name="idprecio[]"  class="form-control" title="--Seleccione el precio--" required=""> <option value="'+precio+'"> '+precio+'</option><option value="'+precio2+'"> '+precio2+'</option><option value="'+precio3+'"> '+precio3+'</option><option value="'+precio4+'"> '+precio4+'</option><option value="'+precio5+'"> '+precio5+'</option><option value="'+precio6+'"> '+precio6+'</option><option value="'+precio7+'"> '+precio7+'</option><option value="'+precio8+'"> '+precio8+'</option><option value="'+precio9+'"> '+precio9+'</option><option value="'+precio10+'"> '+precio10+'</option> </select></td>'+
 		//'<td><input type="text" name="idprecio" id="idprecio"></td>'+
 		//'<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+

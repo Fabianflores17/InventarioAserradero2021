@@ -130,11 +130,11 @@ if ($_SESSION['almacen']==1)
        
           <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover"  style="width:100%">
             <thead>
-                <th>Opciones</th>
                 <th>Nombre</th>
                 <th>Mes</th>
                 <th>Dias laborados</th>
                 <th>Falta</th>
+                <th>Sueldo</th>
                 <th>Fecha inicio</th>
                 <th>Fecha final</th>
             </thead>
@@ -142,11 +142,12 @@ if ($_SESSION['almacen']==1)
 
             </tbody>
             <tfoot>
-              <th>Opciones</th>
+              
                 <th>Nombre</th>
                 <th>Mes</th>
                 <th>Dias laborados</th>
                 <th>Falta</th>
+                <th>Sueldo</th>
                 <th>Fecha inicio</th>
                 <th>Fecha final</th>
      

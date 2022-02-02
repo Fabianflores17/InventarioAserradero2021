@@ -7,6 +7,7 @@ require_once "../modelos/pago.php";
 $venta=new Colaborador();
 
 $idventa=isset($_POST["idventa"])? limpiarCadena($_POST["idventa"]):"";
+$idplanilla=isset($_POST["idplanilla"])? limpiarCadena($_POST["idplanilla"]):"";
 $formapago=isset($_POST["forma_pago"])? limpiarCadena($_POST["forma_pago"]):"";
 $idusuario=$_SESSION["idusuario"];
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
@@ -52,12 +53,12 @@ switch ($_GET["op"]){
 	break;
 
 	
-	case 'mostrardatos':
-		$idplanilla=$_REQUEST["idplanilla"];
-		$rspta=$venta->mostrardatos($idplanilla);
- 		//Codificar el resultado utilizando json
- 		echo json_encode($rspta);
-	break;
+	// case 'mostrardatos':
+	// 	$idplanilla=$_GET['id'];
+	// 	$rspta=$venta->mostrardatos($idplanilla);
+ 	// 	//Codificar el resultado utilizando json
+ 	// 	echo json_encode($rspta);
+	// break;
 
 	case 'mostrarpago':
 		$rspta=$venta->mostrarpagosocio($idventa);
@@ -233,7 +234,7 @@ switch ($_GET["op"]){
 
 
 	case 'listarpla':
-		$rspta=$venta->listar_planilla();
+	 	$rspta=$venta->listar_planilla();
  		//Vamos a declarar un array
  		$data= Array();
 
@@ -399,6 +400,26 @@ switch ($_GET["op"]){
 				}
 	break;
 
+	//case 'mostrardatos':
+		// 	$idplanilla=$_GET['id'];
+		// 	$rspta=$venta->mostrardatos($idplanilla);
+		 // 	//Codificar el resultado utilizando json
+		 // 	echo json_encode($rspta);
+		// break;
+	
+
+	case 'mostrardatos':
+		$rspta = $venta->listarPlanilla();
+
+		while ($reg = $rspta->fetch_object())
+				{
+			
+				echo '<option value=' . $reg->idplanilla . '>' . $reg->nombre . '</option>';
+				
+				}
+	break;
+
+
 
 	case 'selectalmacen':
 		require_once "../modelos/almacen.php";
@@ -445,18 +466,18 @@ switch ($_GET["op"]){
 
 	break;
 
-	case 'listarPlanilla':
-		//$idalmacen=$_GET['idalmacen'];
-		$rspta=$venta->listarPlanilla(); 
+	case 'detallesplanilla':
+		 $idplanilla=$_GET['idplanilla'];
+		$rspta=$venta->detallesplanilla($idplanilla); 
  		//Vamos a declarar un array
  		$data= Array();
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\');"><span class="fa fa-plus"></span></button>',
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarplanilla('.$reg->idplanilla.',\''.$reg->nombre.'\',\''.$reg->mes.'\',\''.$reg->totalplanilla.'\');"><span class="fa fa-plus"></span></button>',
  				"1"=>$reg->nombre,
  				"2"=>$reg->mes,
-				"3"=>'<P> Q.'.$reg->mes.'</P>'
+				"3"=>$reg->totalplanilla
  				);
  		}
  		$results = array(

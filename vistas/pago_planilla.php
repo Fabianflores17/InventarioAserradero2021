@@ -89,12 +89,17 @@ if ($_SESSION['ventas']==1)
                             <label>Fecha(*):</label>
                             <input type="date" class="form-control" name="fecha_hora" id="fecha_hora" required="">
                           </div>
+
+                          <div class="form-group col-lg-2 col-md-2 col-sm-6 col-xs-12">
+                            <label>Seleccionar Planilla(*):</label>
+                              <select onchange="detalle_planilla()" id="idplanilla" name="idplanilla" title="Seleccione forma de planilla" class="form-control selectpicker"> </select>
+                          </div>  
                           <div class="form-group col-lg-3 col-md-3 col-sm-6 col-xs-12">
                             <a data-toggle="modal" href="#myModal">
-                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Agregar Planlilla</button>
+                              <button id="btnAgregarArt" type="button" class="btn btn-primary"> <span class="fa fa-plus"></span> Confirmar Planlilla</button>
                             </a>
                           </div>
-                          <h3 id="totalCaja"></h3>
+                    
 
                           <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 table-responsive">
                             <table id="detalles" class="table table-striped table-bordered table-condensed table-hover">

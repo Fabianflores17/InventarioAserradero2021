@@ -75,6 +75,7 @@ if ($_SESSION['ventas']==1)
                                <option value="3">Finanzas</option>
                               </select>
                           </div> 
+                          
                           <div class="form-group col-lg-2 col-md-2 col-sm-4 col-xs-12" id="total1">
                           <input type="hidden" name="idventa" id="idventa">
                             <!-- <label>Total(*):</label>

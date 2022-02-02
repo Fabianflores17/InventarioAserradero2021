@@ -23,7 +23,7 @@ $total_pago=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idventa)){
-			$rspta=$venta->insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$_POST["idarticulo"],$_POST["cantidad"],$_POST["idprecio"],$_POST["descuento"]);
+			$rspta=$venta->insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$_POST["idarticulo"],$_POST["precio_compra"],$_POST["cantidad"],$_POST["idprecio"],$_POST["descuento"]);
 			echo $rspta ? "Venta registrada" : "No se pudieron registrar todos los datos de la venta";
 			// echo $rspta ? "<script type='text/JavaScript'> location.reload(); </script>";
 			
@@ -279,7 +279,7 @@ switch ($_GET["op"]){
 
  		while ($reg=$rspta->fetch_object()){
  			$data[]=array(
- 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->idproducto.',\''.$reg->nombre.'\',\''.$reg->stock.'\',\''.$reg->precio.'\',\''.$reg->precio2.'\',\''.$reg->precio3.'\',\''.$reg->precio4.'\',\''.$reg->precio5.'\',\''.$reg->precio6.'\',\''.$reg->precio7.'\',\''.$reg->precio8.'\',\''.$reg->precio9.'\',\''.$reg->precio10.'\');"><span class="fa fa-plus"></span></button>',
+ 				"0"=>'<button id="agregar_producto" class="btn btn-warning bloque"  onclick="this.disabled=true; agregarDetalle('.$reg->idproducto.',\''.$reg->nombre.'\',\''.$reg->stock.'\',\''.$reg->precio_compra.'\',\''.$reg->precio.'\',\''.$reg->precio2.'\',\''.$reg->precio3.'\',\''.$reg->precio4.'\',\''.$reg->precio5.'\',\''.$reg->precio6.'\',\''.$reg->precio7.'\',\''.$reg->precio8.'\',\''.$reg->precio9.'\',\''.$reg->precio10.'\');"><span class="fa fa-plus"></span></button>',
  				"1"=>$reg->codigo,
  				"2"=>$reg->nombre,
 				"3"=>$reg->stock

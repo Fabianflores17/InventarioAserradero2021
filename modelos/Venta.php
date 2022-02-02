@@ -11,7 +11,7 @@ Class Venta
 	}
 	//transaccion y operacion
 	//Implementamos un método para insertar registros
-	public function insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$idarticulo,$cantidad,$precio_venta,$descuento)
+	public function insertar($idcliente,$idalmacen,$idpago,$idusuario,$tipo_comprobante,$serie_comprobante,$num_comprobante,$fecha_hora,$impuesto,$total_venta,$fecha_pro,$idarticulo,$precio_compra,$cantidad,$precio_venta,$descuento)
 	{
 		$sql_venta="INSERT INTO venta (idcliente,idusuario,tipo_comprobante,serie_comprobante,num_comprobante,fecha_hora,impuesto,total_venta)
 		VALUES ('$idcliente','$idusuario','$tipo_comprobante','$serie_comprobante','$num_comprobante','$fecha_hora','$impuesto','$total_venta')";
@@ -26,7 +26,7 @@ Class Venta
 
 		while ($num_elementos < count($idarticulo))
 		{
-			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','2','$idalmacen')";
+			$sql_detalle = "INSERT INTO operacion (transaccion_id,idproducto,cantidad,price_compra,idprecio_lis,tipo_operacion_id,idalmacen) VALUES ('$idingresonew', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_compra[$num_elementos]','$precio_venta[$num_elementos]','2','$idalmacen')";
 			$sql_detalle_venta = "INSERT INTO detalle_venta(idventa, idarticulo,cantidad,precio_venta,descuento) VALUES ('$idventa', '$idarticulo[$num_elementos]','$cantidad[$num_elementos]','$precio_venta[$num_elementos]','$descuento[$num_elementos]')";
 			ejecutarConsulta($sql_detalle_venta);
 			ejecutarConsulta($sql_detalle) or $sw = false;	
@@ -178,7 +178,7 @@ Class Venta
 
 	public function listarproduct($idalmacen)
 	{
-		$sql="SELECT Datos.idproducto,p.codigo,o.idalmacen,l.precio,l.precio2,l.precio3,precio4,l.precio5,l.precio6,l.precio7,precio8,l.precio9,l.precio10,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
+		$sql="SELECT MAX(o.price_compra) as precio_compra,Datos.idproducto,p.codigo,o.idalmacen,l.precio,l.precio2,l.precio3,precio4,l.precio5,l.precio6,l.precio7,precio8,l.precio9,l.precio10,p.condicion,p.nombre,c.nombre as categoria, Entradas.Entradas - IFNULL(Salidas.Salidas,0) as stock 
 		From ( Select distinct idproducto From operacion ) as Datos 
 		Left join ( Select idproducto, Sum(cantidad) as Entradas from operacion WHERE tipo_operacion_id='1' AND idalmacen='$idalmacen' 
 		Group by idproducto) as Entradas On Datos.idproducto = Entradas.idproducto 

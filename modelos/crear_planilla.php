@@ -58,18 +58,19 @@ Class Articulo
 
 	public function mostrarplanilla($idarticulo)
 	{
-		$sql="SELECT p.nombre,p.limite_credito,pa.mes,Asistencia.Asistencia as dias,Falta.Falta as faltas,pa.fecha_inicio,pa.fecha_final 
-		From ( Select idpersona From asistencia ) as Datos Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Asistencia from asistencia asis
-		INNER JOIN persona p ON asis.idpersona=p.idpersona
-		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
-		WHERE asis.tipo_asistencia='1' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final and pa.idplanilla='$idarticulo' GROUP by idpersona) as Asistencia On Datos.idpersona = Asistencia.idpersona 
-		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia  asis
-		INNER JOIN persona p ON asis.idpersona=p.idpersona
-		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado
-        WHERE asis.tipo_asistencia='2' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final and pa.idplanilla='$idarticulo' GROUP by idpersona) as Falta On Datos.idpersona = Falta.idpersona 
-		inner join persona p ON datos.idpersona=p.idpersona 
-		inner join planilla pa on pa.tipo_empleado=p.tipo_person 
-		where pa.idplanilla='$idarticulo' GROUP BY datos.idpersona";
+		$sql="SELECT p.sueldos,ifnull(Falta.Falta,0) as faltas,Asistencia.Asistencia as dias,pe.nombre,pa.mes,pa.idplanilla,pa.fecha_inicio,pa.fecha_final From ( Select DISTINCT idpersona From asistencia ) as Datos 
+		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis 
+		INNER JOIN persona p ON asis.idpersona=p.idpersona 
+		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado 
+		WHERE asis.tipo_asistencia='2' and pa.idplanilla='$idarticulo' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final 
+		GROUP by asis.idpersona) as Falta On Datos.idpersona = Falta.idpersona 
+		Left join ( Select asis.idpersona, COUNT(tipo_asistencia) as Asistencia from asistencia asis
+		INNER JOIN persona p ON asis.idpersona=p.idpersona 
+		INNER JOIN planilla pa ON p.tipo_person=pa.tipo_empleado 
+		WHERE asis.tipo_asistencia='1' and pa.idplanilla='$idarticulo' AND asis.fecha BETWEEN pa.fecha_inicio and pa.fecha_final 
+		GROUP by asis.idpersona) as Asistencia On Datos.idpersona = Asistencia.idpersona
+		inner join datos_planilla p ON datos.idpersona=p.idpersona inner join planilla pa on pa.idplanilla=p.idplanilla
+		inner join persona pe on p.idpersona=pe.idpersona WHERE pa.idplanilla='$idarticulo'";
 		return ejecutarConsulta($sql);
 	}
 

@@ -308,9 +308,9 @@ Class Colaborador
 
 	}
  
-	public function mostrardatos($idplanilla){
+	public function detallesplanilla($idplanilla){
 		
-	$sql="SELECT SUM(p.sueldos-(p.sueldos/30*Falta.Falta)) as totalplanilla,pa.idplanilla,pa.nombre,pa.mes 
+	$sql="SELECT TRUNCATE(SUM(p.sueldos-(p.sueldos/30*ifnull(Falta.Falta,0))),2) as totalplanilla,pa.nombre,pa.mes,pa.idplanilla
 	From ( Select DISTINCT idpersona From asistencia ) as Datos Left 
 	join ( Select asis.idpersona, COUNT(tipo_asistencia) as Falta from asistencia asis 
 	INNER JOIN persona p ON asis.idpersona=p.idpersona 
@@ -334,10 +334,8 @@ Class Colaborador
 
 	public function mostrarestado_cuenta()
 	{
-
-	
-		$sql="SELECT (SELECT Sum(monto) From cuenta where tipo_transaccion='1') - 
-		(SELECT Sum(monto) From cuenta where tipo_transaccion='2') total";	
+		$sql="SELECT Truncate((SELECT Sum(monto) From cuenta where tipo_transaccion='1') - 
+		(SELECT Sum(monto) From cuenta where tipo_transaccion='2'),2) total";	
 		return ejecutarConsulta($sql);		
 	}
 
