@@ -1,9 +1,12 @@
 <?php
+if (strlen(session_id()) < 1) 
+session_start();
 require_once "../modelos/almacenes.php";
 
 $almacen=new Almacen();
 
 $idalmacen=isset($_POST["idalmacen"])? limpiarCadena($_POST["idalmacen"]):"";
+$stock_id=$_SESSION["stock_id"];
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -50,7 +53,7 @@ switch ($_GET["op"]){
 	break;
 
 	case 'listar':
-		$rspta=$almacen->listar();
+		$rspta=$almacen->listar($stock_id);
  		//Vamos a declarar un array
  		$data= Array();
 

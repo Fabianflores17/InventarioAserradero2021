@@ -121,6 +121,8 @@ if (strlen(session_id()) < 1)
             }
             ?>
 
+            
+
             <?php
             if ($_SESSION['caja']==1)
             {
@@ -169,6 +171,7 @@ if (strlen(session_id()) < 1)
                 <li><a href="ventas.php"><i class="fa fa-circle-o"></i> Ventas</a></li>
                 <li><a href="ventascredito.php" onclick="validarfecha();"><i class="fa fa-circle-o"></i> Ventas credito</a></li>
                 <li><a href="cliente.php"><i class="fa fa-circle-o"></i> Clientes</a></li>
+               
               </ul>
             </li>';
             }
@@ -257,6 +260,8 @@ if (strlen(session_id()) < 1)
               </a>
               <ul class="treeview-menu">
                 <li><a href="comprasfecha.php"><i class="fa fa-circle-o"></i> Consulta Compras</a></li>
+                <li><a href="reportecaja.php"><i class="fa fa-circle-o"></i> Consulta Caja chica</a></li>
+                <li><a href="reporteproducto.php"><i class="fa fa-circle-o"></i> Consulta Ganancia de Producto</a></li>
               </ul>
             </li>';
             }

@@ -21,6 +21,13 @@ Class Ingreso
 	
 	}
 
+	public function editar($idingreso,$idproducto,$idusuario,$precio1,$precio2,$precio3,$precio4,$precio5,$precio6,$precio7,$precio8,$precio9,$precio10)
+	{
+		$sql="UPDATE listaprecio SET idproducto='$idproducto',idusuario='$idusuario',precio='$precio1',precio2='$precio2',precio3='$precio3',precio4='$precio4',precio5='$precio5',precio6='$precio6',precio7='$precio7',precio8='$precio8',precio9='$precio9',precio10='$precio10'  
+		WHERE idprecio='$idingreso'";
+		return ejecutarConsulta($sql);
+	}
+
 	
 	//Implementamos un método para anular categorías
 	public function anular($idingreso)
@@ -43,6 +50,8 @@ Class Ingreso
 		FROM operacion o inner join producto p on o.idproducto=p.idproducto where o.transaccion_id='$idingreso'";
 		return ejecutarConsulta($sql);
 	}
+
+
 
 
 	

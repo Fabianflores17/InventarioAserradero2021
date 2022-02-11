@@ -55,7 +55,6 @@ if ($_SESSION['compras']==1)
                             <label>Proveedor(*):</label>
                             <input type="hidden" name="idingreso" id="idingreso">
                             <select id="idproducto" name="idproducto" title="Seleccione prodcuto" class="form-control selectpicker" data-live-search="true" required>
-
                             </select>
               
                           </div>

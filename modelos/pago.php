@@ -90,8 +90,8 @@ Class Colaborador
 		elseif($formapago==2){
 			$numero=0;
 
-			$sql_venta="INSERT INTO pago_socios (descripcion,idsocio,idplanilla,total,fecha)
-			VALUES ('Pago planilla','$idsocio','$idplanilla[$numero]','$total_venta','$fecha_pro')";
+			$sql_venta="INSERT INTO pago_socios (descripcion,idsocio,total,fecha)
+			VALUES ('Pago planilla','$idsocio','$total_venta','$fecha_pro')";
 			//ejecutarConsulta($sql_venta);
 			$idventa=ejecutarConsulta_retornarID($sql_venta);
 
@@ -100,7 +100,11 @@ Class Colaborador
 	
 			while ($num_elementos < count($idplanilla))
 			{
-				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio,idpagosocios) VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio',$idventa)";
+				$sql_detalle_venta = "INSERT INTO detalle_pago (idplanilla,cantidad,pago,condicion,fecha,forma_pago,idusuario,idsocio,idpagosocios) 
+				VALUES ('$idplanilla[$num_elementos]','$mes[$num_elementos]','$totalplanilla[$num_elementos]','1','$fecha_pro','$formapago','$idusuario','$idsocio',$idventa)";
+				$sql_abono="INSERT INTO abono_socios (idpagosocios,tipo_pago,total,fecha)
+				VALUES ('$idventa','1','$total_venta','$fecha_pro')";
+				ejecutarConsulta($sql_abono);
 				ejecutarConsulta($sql_detalle_venta) or $sw = false;	
 				$num_elementos=$num_elementos + 1;
 				
@@ -144,6 +148,16 @@ Class Colaborador
 		values ('2','$idventa','$idcliente','$total_pago')";
 		ejecutarConsulta($sql);
 	}
+	public function insertar_abono($idventa,$total_pagado) {
+		$fecha=date('Y-m-d');
+		$sql="INSERT INTO cuenta (tipo_transaccion,descripcion,monto,fecha) 
+		values ('2','Devolucion a socio','$total_pagado','$fecha')";
+		ejecutarConsulta($sql);
+		$sql_abonos="INSERT INTO abono_socios (idpagosocios,tipo_pago,total,fecha) 
+		values ('$idventa','2','$total_pagado','$fecha')";
+		return ejecutarConsulta($sql_abonos);
+		
+		}
 
 	
 	//Implementamos un método para anular la venta
@@ -170,8 +184,8 @@ Class Colaborador
 		inner join usuario u ON d.idusuario=u.idusuario 
 		inner join pago_socios p ON p.idpagosocios=d.idpagosocios 
 		inner join planilla pla On pla.idplanilla=d.idplanilla 
-		left join (select idpagosocios, sum(total) as deuda FROM pago_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
-		left join (select idpagosocios, sum(total) as abono FROM pago_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
+		left join (select idpagosocios, sum(total) as deuda FROM abono_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
+		left join (select idpagosocios, sum(total) as abono FROM abono_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
 		where p.idpagosocios='$idventa' GROUP by p.idpagosocios";
 		return ejecutarConsultaSimpleFila($sql);		
 	}
@@ -239,12 +253,12 @@ Class Colaborador
 
 
 	{
-		$sql="SELECT d.idpagosocios,d.condicion,d.fecha, u.nombre as usuario, (deuda.deuda-ifnull(abono.abono,0)) as totales 
+		$sql="SELECT d.idpagosocios,d.condicion,d.fecha, u.nombre as usuario, (deuda.deuda-ifnull(abono.abono,0)) as totales
 		FROM detalle_pago as d 
 		inner join usuario u ON d.idusuario=u.idusuario 
 		inner join pago_socios p ON p.idpagosocios=d.idpagosocios 
-		left join (select idpagosocios, sum(total) as deuda FROM pago_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
-		left join (select idpagosocios, sum(total) as abono FROM pago_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
+		left join (select idpagosocios, sum(total) as deuda FROM abono_socios WHERE tipo_pago='1' GROUP BY idpagosocios) as deuda On d.idpagosocios=deuda.idpagosocios 
+		left join (select idpagosocios, sum(total) as abono FROM abono_socios WHERE tipo_pago='2' GROUP BY idpagosocios) as abono on d.idpagosocios=abono.idpagosocios 
 		GROUP by p.idpagosocios";
 		return ejecutarConsulta($sql);		
 	}

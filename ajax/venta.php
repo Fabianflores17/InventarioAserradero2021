@@ -11,6 +11,7 @@ $idcliente=isset($_POST["idcliente"])? limpiarCadena($_POST["idcliente"]):"";
 $idalmacen=isset($_POST["idalmacen"])? limpiarCadena($_POST["idalmacen"]):"";
 $idpago=isset($_POST["tipo_pago"])? limpiarCadena($_POST["tipo_pago"]):"";
 $idusuario=$_SESSION["idusuario"];
+$stock_id=$_SESSION["stock_id"];
 $tipo_comprobante=isset($_POST["tipo_comprobante"])? limpiarCadena($_POST["tipo_comprobante"]):"";
 $serie_comprobante=isset($_POST["serie_comprobante"])? limpiarCadena($_POST["serie_comprobante"]):"";
 $num_comprobante=isset($_POST["num_comprobante"])? limpiarCadena($_POST["num_comprobante"]):"";
@@ -117,6 +118,7 @@ switch ($_GET["op"]){
                                 </tfoot>';
 	break;
 
+	// Listar tabla venta en vista venta
 	case 'listar':
 		$rspta=$venta->listartrans();
  		//Vamos a declarar un array
@@ -252,7 +254,7 @@ switch ($_GET["op"]){
 		require_once "../modelos/almacen.php";
 		$almacen = new Almacen();
 
-		$rspta = $almacen->listaralmacen();
+		$rspta = $almacen->listaralmacen($stock_id);
 
 		while ($reg = $rspta->fetch_object())
 				{

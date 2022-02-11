@@ -8,6 +8,7 @@ $articulo=new Articulo();
 $idarticulo=isset($_POST["idarticulo"])? limpiarCadena($_POST["idarticulo"]):"";
 $idcategoria=isset($_POST["idcategoria"])? limpiarCadena($_POST["idcategoria"]):"";
 $idusuario=$_SESSION["idusuario"];
+//$stock_id=$_SESSION["stock_id"];
 $codigo=isset($_POST["codigo"])? limpiarCadena($_POST["codigo"]):"";
 $nombre=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $presentacion=isset($_POST["presentacion"])? limpiarCadena($_POST["presentacion"]):"";
@@ -99,6 +100,15 @@ switch ($_GET["op"]){
 		while ($reg = $rspta->fetch_object())
 				{
 					echo '<option value=' . $reg->idcategoria . '>' . $reg->nombre . '</option>';
+				}
+	break;
+
+	case "selectproducto":
+		$rspta = $articulo->selectpro();
+
+		while ($reg = $rspta->fetch_object())
+				{
+					echo '<option value=' . $reg->idproducto. '>' . $reg->nombre . '</option>';
 				}
 	break;
 }

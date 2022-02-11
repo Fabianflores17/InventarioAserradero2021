@@ -184,14 +184,14 @@ function mostrar(idingreso)
 		$("#idingreso").val(data.idprecio);
 
 		//Ocultar y mostrar los botones
-		$("#btnGuardar").hide();
+		$("#btnGuardar").show();
 		$("#btnCancelar").show();
-		$("#btnAgregarArt").hide();
+		//$("#btnAgregarArt").hide();
  	});
 
- 	$.post("../ajax/ingreso.php?op=listarDetalle&id="+idingreso,function(r){
-	        $("#detalles").html(r);
-	});
+ 	// $.post("../ajax/ingreso.php?op=listarDetalle&id="+idingreso,function(r){
+	//         $("#detalles").html(r);
+	// });
 }
 
 //Función para anular registros

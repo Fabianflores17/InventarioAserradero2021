@@ -68,7 +68,11 @@ Class Ingreso
 	public function listar()
 	{
 		$sql="SELECT i.idingreso,i.idpersona,i.fecha,i.total,i.codigo_factura,i.serie,p.nombre as proveedor,u.idusuario,u.nombre as usuario,i.estado
-		FROM transaccion i INNER JOIN persona p ON i.idpersona=p.idpersona INNER JOIN usuario u ON i.idusuario=u.idusuario ORDER BY i.idingreso desc";
+		FROM transaccion i 
+		INNER JOIN persona p ON i.idpersona=p.idpersona 
+		INNER JOIN usuario u ON i.idusuario=u.idusuario
+		WHERE i.tipo_operacion_id='1'
+		 ORDER BY i.idingreso desc";
 		return ejecutarConsulta($sql);		
 	}
 	

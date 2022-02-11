@@ -11,10 +11,10 @@ Class Usuario
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($nombre,$apellido,$telefono,$email,$cargo,$login,$clave,$imagen,$permisos)
+	public function insertar($nombre,$apellido,$telefono,$email,$cargo,$login,$clave,$imagen,$stock_id,$permisos)
 	{
-		$sql="INSERT INTO usuario (nombre,apellido,telefono,email,cargo,login,password,imagen,condicion)
-		VALUES ('$nombre','$apellido','$telefono','$email','$cargo','$login','$clave','$imagen','1')";
+		$sql="INSERT INTO usuario (nombre,apellido,telefono,email,cargo,login,password,imagen,stock_id,condicion)
+		VALUES ('$nombre','$apellido','$telefono','$email','$cargo','$login','$clave','$imagen','$stock_id','1')";
 		//return ejecutarConsulta($sql);
 		$idusuarionew=ejecutarConsulta_retornarID($sql);
 
@@ -32,15 +32,25 @@ Class Usuario
 	}
 
 	//Implementamos un método para editar registros
-	public function editar($idusuario,$nombre,$apellido,$telefono,$email,$cargo,$login,$clave,$imagen,$permisos)
+	public function editar($idusuario,$nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$clave,$imagen,$stock_id,$permisos)
 	{
-		$sql="UPDATE usuario SET nombre='$nombre',apellido='$apellido',telefono='$telefono',email='$email',cargo='$cargo',login='$login',password='$clave',imagen='$imagen' WHERE idusuario='$idusuario'";
+
+		if($clave==''){
+		$sql="UPDATE usuario SET nombre='$nombre',apellido='$apellido',telefono='$telefono',email='$email',cargo='$cargo',login='$login',imagen='$imagen',stock_id='$stock_id' WHERE idusuario='$idusuario'";
 		ejecutarConsulta($sql);
 
 		//Eliminamos todos los permisos asignados para volverlos a registrar
 		$sqldel="DELETE FROM usuario_permiso WHERE idusuario='$idusuario'";
 		ejecutarConsulta($sqldel);
+	}else if($clave!=''){
 
+		$sql="UPDATE usuario SET nombre='$nombre',apellido='$apellido',telefono='$telefono',email='$email',cargo='$cargo',login='$login',password='$clavehash',imagen='$imagen',stock_id='$stock_id' WHERE idusuario='$idusuario'";
+		ejecutarConsulta($sql);
+
+		//Eliminamos todos los permisos asignados para volverlos a registrar
+		$sqldel="DELETE FROM usuario_permiso WHERE idusuario='$idusuario'";
+		ejecutarConsulta($sqldel);
+	}
 		$num_elementos=0;
 		$sw=true;
 
@@ -72,7 +82,8 @@ Class Usuario
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idusuario)
 	{
-		$sql="SELECT * FROM usuario WHERE idusuario='$idusuario'";
+		$sql="SELECT a.idalmacen as almacen,u.nombre,u.apellido,u.telefono,u.email,u.cargo,u.password as clave,u.imagen,u.idusuario,u.login FROM usuario u
+		inner join almacen a ON a.idalmacen=u.stock_id WHERE idusuario='$idusuario'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -92,9 +103,17 @@ Class Usuario
 	//Función para verificar el acceso al sistema
 	public function verificar($login,$clave)
     {
-    	$sql="SELECT idusuario,nombre,apellido,telefono,email,cargo,imagen,login FROM usuario WHERE login='$login' AND password='$clave' AND condicion='1'";
+    	$sql="SELECT idusuario,nombre,apellido,telefono,stock_id,email,cargo,imagen,login FROM usuario WHERE login='$login' AND password='$clave' AND condicion='1'";
     	return ejecutarConsulta($sql);
     }
+
+	//select almacen
+	public function selectalmacen()
+	{
+		$sql="SELECT * FROM almacen";
+		return ejecutarConsulta($sql);
+	}
+
 }
 
 ?>

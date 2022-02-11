@@ -52,6 +52,7 @@ if ($_SESSION['almacen']==1)
                     
                     <div class="panel-body table-responsive" id="listadoarticulos">
                     <table id="tbbodega" class="table table-striped table-bordered table-condensed table-hover dataTable" width="100%">
+                   
                           <thead >
                             <th>Codigo</th>
                             <th>Nombre</th>
@@ -69,7 +70,10 @@ if ($_SESSION['almacen']==1)
                             <th>Estado</th>
                           </tfoot>
                         </table>
-                    </div>
+
+                    
+                        <button class="btn btn-info" type="button" onclick="document.location='almacenes.php'"> Volver atras</button>
+                                            </div>
                     <!--Fin centro -->
                   </div><!-- /.box -->
               </div><!-- /.col -->

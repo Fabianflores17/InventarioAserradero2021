@@ -55,9 +55,9 @@ Class Almacen
 		return ejecutarConsulta($sql);
 	}
 
-	public function listaralmacen()
+	public function listaralmacen($stock_id)
 	{
-		$sql="SELECT * FROM almacen";
+		$sql="SELECT * FROM almacen where (case when '$stock_id'!='' then idalmacen='$stock_id' else idalmacen end)";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los registros y mostrar en el select

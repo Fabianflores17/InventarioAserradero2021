@@ -1,10 +1,14 @@
 <?php
+if (strlen(session_id()) < 1)
+session_start();
+
 require_once "../modelos/caja.php";
 
 $caja=new Caja();
 
 $idcaja=isset($_POST["idcaja"])? limpiarCadena($_POST["idcaja"]):"";
 $cantida=isset($_POST["cantida"])? limpiarCadena($_POST["cantida"]):"";
+$idusuario=$_SESSION["idusuario"];
 $descripcion=isset($_POST["descripcion"])? limpiarCadena($_POST["descripcion"]):"";
 $tipo_transaccion=isset($_POST["tipo_transaccion"])? limpiarCadena($_POST["tipo_transaccion"]):"";
 $fecha=isset($_POST["fecha"])? limpiarCadena($_POST["fecha"]):"";
@@ -19,11 +23,11 @@ $num_documento=isset($_POST["num_documento"])? limpiarCadena($_POST["num_documen
 switch ($_GET["op"]){
 	case 'guardaryeditar':
 		if (empty($idcaja)){
-			$rspta=$caja->insertar($cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento);
+			$rspta=$caja->insertar($cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento,$idusuario);
 			echo $rspta ? "caja registrada" : "caja no se pudo registrar";
 		}
 		else {
-			$rspta=$caja->editar($idcaja,$cantida,$descripcion,$tipo_transaccion);
+			$rspta=$caja->editar($idcaja,$cantida,$descripcion,$tipo_transaccion,$fecha,$documento,$num_documento,$idusuario);
 			echo $rspta ? "caja actualizada" : "caja no se pudo actualizar";
 		}
 	break;

@@ -27,6 +27,8 @@ switch ($_GET["op"]){
 			echo $rspta ? "Lista de precio registrada" : "No se pudieron registrar la informacion";
 		}
 		else {
+			$rspta=$ingreso->editar($idingreso,$idproducto,$idusuario,$precio1,$precio2,$precio3,$precio4,$precio5,$precio6,$precio7,$precio8,$precio9,$precio10);
+			echo $rspta ? "Artículo actualizado" : "Artículo no se pudo actualizar";
 		}
 	break;
 
@@ -79,6 +81,7 @@ switch ($_GET["op"]){
                                     <th><h4 id="total">Q/.'.$total.'</h4><input type="hidden" name="total_compra" id="total_compra"></th> 
                                 </tfoot>';
 	break;
+
 
 	case 'listar':
 		$rspta=$ingreso->listar();

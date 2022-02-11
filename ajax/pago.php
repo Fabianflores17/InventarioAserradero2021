@@ -7,12 +7,13 @@ require_once "../modelos/pago.php";
 $venta=new Colaborador();
 
 $idventa=isset($_POST["idventa"])? limpiarCadena($_POST["idventa"]):"";
-$idplanilla=isset($_POST["idplanilla"])? limpiarCadena($_POST["idplanilla"]):"";
+//$idplanilla=isset($_POST["idplanilla"])? limpiarCadena($_POST["idplanilla"]):"";
 $formapago=isset($_POST["forma_pago"])? limpiarCadena($_POST["forma_pago"]):"";
 $idusuario=$_SESSION["idusuario"];
 $total_venta=isset($_POST["total_venta"])? limpiarCadena($_POST["total_venta"]):"";
 $fecha_pro=isset($_POST["fecha_hora"])? limpiarCadena($_POST["fecha_hora"]):"";
 $idsocio=isset($_POST["idsocio"])? limpiarCadena($_POST["idsocio"]):"";
+$total_pagado=isset($_POST["pago"])? limpiarCadena($_POST["pago"]):"";
 
 
 switch ($_GET["op"]){
@@ -26,6 +27,7 @@ switch ($_GET["op"]){
 		}
 	break;
 
+
 	case 'guardaryeditarcredito':
 		if ($idventa>0){
 			$rspta=$venta->insertarcredito($idcliente,$idventa,$total_pago);
@@ -36,6 +38,13 @@ switch ($_GET["op"]){
 	case 'guardaryeditarpagoplanilla':
 		if (empty($idventa)){
 			$rspta=$venta->insertarpagoplanilla($formapago,$idusuario,$total_venta,$fecha_pro,$idsocio,$_POST["idplanilla"],$_POST["mes"],$_POST["totalplanilla"]);
+			echo $rspta ? "Pago de planilla realizado" : "No se pudo realizar el pago de la planilla";	
+		}	
+	break;
+
+	case 'guardaryeditarpagosocio':
+		if ($idventa>0){
+			$rspta=$venta->insertar_abono($idventa,$total_pagado);
 			echo $rspta ? "Pago de planilla realizado" : "No se pudo realizar el pago de la planilla";	
 		}	
 	break;
@@ -335,19 +344,19 @@ switch ($_GET["op"]){
  			// else{
  			// 	$url='../reportes/exFactura.php?id=';
  			// }
-			
+			$socio=2;
 
  			$data[]=array(
- 				"0"=>(($reg->condicion=='0')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>'.
+ 				"0"=>(($reg->condicion=='1')?'<button id="btnmostrar" class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>'.
  					' <button class="btn btn-danger" onclick="anular('.$reg->idpagosocios.')"><i class="fa fa-close"></i></button>':
- 					'<button class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye"></i></button>').
- 					'<a target="_blank" href="'.$url.$reg->idpagosocios.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
+ 					'<button class="btn btn-warning" onclick="mostrarpagosocio('.$reg->idpagosocios.')"><i class="fa fa-eye">Abonar</i></button>'),
+ 					//'<a target="_blank" href="'.$url.$reg->idpagosocios.'"> <button class="btn btn-info"><i class="fa fa-file"></i></button></a>',
  				"1"=>$reg->fecha,
  				"2"=>$reg->usuario,
  				"3"=>$tipo_comprobante ?'<span class="label bg-black">Voucher</span>':
  				'<span class="label bg-red"></span>',
  				"4"=>'<P>Q.'.($reg->totales).'</P>',
-				"5"=>($reg->condicion == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($reg->forma_pago == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
+				"5"=>($socio == 1)? ' <span id="validar" class="label bg-primary">Caja chica</span> ':($socio == 2  ? '<span  id="validar" class="label bg-yellow">Socios</span>': ' <span id="validar" class="label bg-green">Finanzas</span> '),
  				"6"=>($reg->condicion=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
@@ -394,8 +403,8 @@ switch ($_GET["op"]){
 		while ($reg = $rspta->fetch_object())
 				{
 				echo 
-				'<label>Total(*):</label>
-				<input  id="totalpago" type="text" class="form-control"  value=' . $reg->total . '>'
+				'<label>Total Estado Cuentas(*):</label>
+				<input  id="totalpago2" type="text" class="form-control"  value=' . $reg->total . '>'
 				;
 				}
 	break;

@@ -48,6 +48,12 @@ Class Articulo
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
+	public function selectpro()
+	{
+		$sql="SELECT * FROM producto";
+		return ejecutarConsulta($sql);
+	}
+
 	//Implementar un método para listar los registros
 	public function listar()
 	{

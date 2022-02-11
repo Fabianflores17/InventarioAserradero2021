@@ -13,6 +13,7 @@ $cargo=isset($_POST["cargo"])? limpiarCadena($_POST["cargo"]):"";
 $login=isset($_POST["login"])? limpiarCadena($_POST["login"]):"";
 $clave=isset($_POST["clave"])? limpiarCadena($_POST["clave"]):"";
 $imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
+$stock_id=isset($_POST["stock_id"])? limpiarCadena($_POST["stock_id"]):"";
 
 switch ($_GET["op"]){
 	case 'guardaryeditar':
@@ -35,12 +36,12 @@ switch ($_GET["op"]){
 		$clavehash=sha1($clave);
 
 		if (empty($idusuario)){
-			$rspta=$usuario->insertar($nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
+			$rspta=$usuario->insertar($nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$imagen,$stock_id,$_POST['permiso']);
 			echo $rspta ? "Usuario registrado" : "No se pudieron registrar todos los datos del usuario";
 		}
 		else {
-			$rspta=$usuario->editar($idusuario,$nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$imagen,$_POST['permiso']);
-			echo $rspta ? "Usuario actualizado" : "Usuario no se pudo actualizar";
+			$rspta=$usuario->editar($idusuario,$nombre,$apellido,$telefono,$email,$cargo,$login,$clavehash,$clave,$imagen,$stock_id,$_POST['permiso']);
+			echo $rspta ? "Usuario actualizado".$clavehash : "Usuario no se pudo actualizar";
 		}
 	break;
 
@@ -91,6 +92,16 @@ switch ($_GET["op"]){
 
 	break;
 
+	case 'selectalmacen':
+		
+		$rspta = $usuario->selectalmacen();
+
+		while ($reg = $rspta->fetch_object())
+				{
+				echo '<option value=' . $reg->idalmacen. '>' . $reg->nombre . '</option>';
+				}
+	break;
+
 	case 'permisos':
 		//Obtenemos todos los permisos de la tabla permisos
 		require_once "../modelos/Permiso.php";
@@ -136,6 +147,7 @@ switch ($_GET["op"]){
 	        $_SESSION['nombre']=$fetch->nombre;
 	        $_SESSION['imagen']=$fetch->imagen;
 	        $_SESSION['login']=$fetch->login;
+			$_SESSION['stock_id']=$fetch->stock_id;
 
 	        //Obtenemos los permisos del usuario
 	    	$marcados = $usuario->listarmarcados($fetch->idusuario);
@@ -159,7 +171,7 @@ switch ($_GET["op"]){
 			in_array(7,$valores)?$_SESSION['consultav']=1:$_SESSION['consultav']=0;
 			in_array(8,$valores)?$_SESSION['caja']=1:$_SESSION['caja']=0;
 		  	in_array(9,$valores)?$_SESSION['Planilla']=1:$_SESSION['Planilla']=0;
-			in_array(10,$valores)?$_SESSION['Articulo']=1:$_SESSION['articulo']=0;
+			in_array(10,$valores)?$_SESSION['Articulo']=1:$_SESSION['Articulo']=0;
 			in_array(11,$valores)?$_SESSION['Ficha']=1:$_SESSION['ficha']=0;
 			in_array(12,$valores)?$_SESSION['Estadocuentas']=1:$_SESSION['Estadocuentas']=0;
 

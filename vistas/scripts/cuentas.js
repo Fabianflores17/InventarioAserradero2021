@@ -122,6 +122,7 @@ function validarcuenta(){
 
 }
 
+
 function mostrar(idcaja)
 {
 	$.post("../ajax/caja.php?op=mostrar",{idcaja : idcaja}, function(data, status)
@@ -135,6 +136,7 @@ function mostrar(idcaja)
 		$("#documento").val(data.documento);
 		$("#documento").selectpicker('refresh');
 		$("#num_documento").val(data.num_documento);
+		$("#fecha").val(data.fecha);
 		
  		$("#idcaja").val(data.id);
 

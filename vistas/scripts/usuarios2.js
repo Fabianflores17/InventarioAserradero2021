@@ -15,6 +15,10 @@ function init(){
 	$.post("../ajax/usuario.php?op=permisos&id=",function(r){
 	        $("#permisos").html(r);
 	});
+	$.post("../ajax/usuario.php?op=selectalmacen", function(r){
+		$("#stock_id").html(r);
+		$('#stock_id').selectpicker('refresh');
+});
 }
 
 //Función limpiar
@@ -127,10 +131,12 @@ function mostrar(idusuario)
 		$("#email").val(data.email);
 		$("#cargo").val(data.cargo);
 		$("#login").val(data.login);
-		$("#clave").val(data.password);
+		//$("#clave").val(data.password);
 		$("#imagenmuestra").show();
 		$("#imagenmuestra").attr("src","../files/usuarios/"+data.imagen);
 		$("#imagenactual").val(data.imagen);
+		$("#stock_id").val(data.almacen);
+		$('#stock_id').selectpicker('refresh');
 		$("#idusuario").val(data.idusuario);
 
  	});

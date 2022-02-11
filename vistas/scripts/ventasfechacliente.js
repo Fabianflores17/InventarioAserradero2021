@@ -10,15 +10,18 @@ function init(){
 	            $("#idcliente").html(r);
 	            $('#idcliente').selectpicker('refresh');
 	});
+
 }
 
 
 //Función Listar
 function listar()
 {
+
 	var fecha_inicio = $("#fecha_inicio").val();
 	var fecha_fin = $("#fecha_fin").val();
 	var idcliente = $("#idcliente").val();
+	var tipo_pago = $("#tipo_pago").val();
 
 	tabla=$('#tbllistado').dataTable(
 	{
@@ -34,7 +37,7 @@ function listar()
 		"ajax":
 				{
 					url: '../ajax/consultas.php?op=ventasfechacliente',
-					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin, idcliente: idcliente},
+					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin, idcliente: idcliente, tipo_pago:tipo_pago},
 					type : "get",
 					dataType : "json",						
 					error: function(e){
@@ -45,15 +48,29 @@ function listar()
 		"iDisplayLength": 5,//Paginación
 	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
 	}).DataTable();
+	mostrartotalventas();
 
 }
 
+
+function mostrartotalventas(fecha_inicio,fecha_fin,idcliente,tipo_pago){
+	var fecha_inicio = $("#fecha_inicio").val();
+	var fecha_fin = $("#fecha_fin").val();
+	var idcliente = $("#idcliente").val();
+	var tipo_pago = $("#tipo_pago").val();
+
+	$.post("../ajax/consultas.php?op=mostrartotalventas",{fecha_inicio,fecha_fin,idcliente,tipo_pago},function(r){
+		$("#totales").html(r);
+
+});
+
+}
 
 function listarestadocuenta()
 {
 	var fecha_inicio = $("#fecha_inicio").val();
 	var fecha_fin = $("#fecha_fin").val();
-	var idcliente = $("#tipo").val();
+	var idcliente = $("#idcliente").val();
 	
 	// console.log(fecha_inicio);
 	// console.log(fecha_fin);

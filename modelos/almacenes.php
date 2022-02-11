@@ -49,9 +49,9 @@ Class Almacen
 	}
 
 	//Implementar un método para listar los registros
-	public function listar()
+	public function listar($stock_id)
 	{
-		$sql="SELECT * FROM almacen";
+		$sql="SELECT * FROM almacen where (case when '$stock_id'!='' then idalmacen='$stock_id' else idalmacen end)";
 		return ejecutarConsulta($sql);
 	}
 	//Implementar un método para listar los productos

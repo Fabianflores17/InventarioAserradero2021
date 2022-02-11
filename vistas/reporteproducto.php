@@ -11,7 +11,7 @@ else
 {
 require 'header.php';
 
-if ($_SESSION['consultav']==1)
+if ($_SESSION['consultac']==1)
 {
 ?>
 <!--Contenido-->
@@ -23,7 +23,7 @@ if ($_SESSION['consultav']==1)
               <div class="col-md-12">
                   <div class="box">
                     <div class="box-header with-border">
-                          <h1 class="box-title">Consulta de Ventas por fecha y cliente</h1>
+                          <h1 class="box-title">Consulta por Producto</h1>
                         <div class="box-tools pull-right">
                         <h4 id="totales">Q/. 0.00</h4>
                         </div>
@@ -31,47 +31,38 @@ if ($_SESSION['consultav']==1)
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                           <label>Fecha Inicio</label>
                           <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="<?php echo date("Y-m-d"); ?>">
                         </div>
-                        <div class="form-group col-lg-2 col-md-3 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6 col-xs-12">
                           <label>Fecha Fin</label>
                           <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>">
                         </div>
-                        <div class="form-inline col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                          <label>Cliente</label>
-                          <select name="idcliente" id="idcliente" title="Seleccione Cliente" class="form-control selectpicker" data-live-search="true" >                         	
-                          </select>                          
-                        </div>
-                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
-                            <label>Tipo Pago(*):</label>
-                            <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker" title="--Seleccione Tipo Pago--" >
-                               <option value="1">Pagado</option>
-                               <option value="2">Credito</option>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label>Selecciones producto(*):</label>
+                            <select name="idproducto" id="idproducto" class="form-control selectpicker" title="--Seleccione producto--" >
                             </select>
-                            <button class="btn btn-success" onclick="listar()">Mostrar</button>
-                          </div>
-                        <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
+                          <button class="btn btn-success" onclick="listarganancia()">Mostrar</button>
+                       </div>
+                        <table id="tbllistadoganacia" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Cliente</th>
-                            <th>Comprobante</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
-                            <th>Estado</th>
+                            <th>Nombre</th>
+                            <th>Cantida de productos</th>
+                            <th>precio/costo entrada</th>
+                            <th>precio venta</th>
+                            <th>Ganancia</th>
                           </thead>
                           <tbody>                            
                           </tbody>
                           <tfoot>
-                            <th>Fecha</th>
-                            <th>Usuario</th>
-                            <th>Cliente</th>
-                            <th>Comprobante</th>
-                            <th>Número</th>
-                            <th>Total Venta</th>
-                            <th>Estado</th>
+                          <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Cantida de productos</th>
+                            <th>precio/costo entrada</th>
+                            <th>precio venta</th>
+                            <th>Ganancia</th>
                           </tfoot>
                         </table>
                     </div>
@@ -93,7 +84,7 @@ else
 
 require 'footer.php';
 ?>
-<script type="text/javascript" src="scripts/ventasfechacliente.js"></script>
+<script type="text/javascript" src="scripts/reporteganacia.js"></script>
 <?php 
 }
 ob_end_flush();

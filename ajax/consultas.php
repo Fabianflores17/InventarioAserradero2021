@@ -8,8 +8,10 @@ switch ($_GET["op"]){
 	case 'comprasfecha':
 		$fecha_inicio=$_REQUEST["fecha_inicio"];
 		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idproveedor=$_REQUEST["idproveedor"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
 
-		$rspta=$consulta->comprasfecha($fecha_inicio,$fecha_fin);
+		$rspta=$consulta->comprasfecha($fecha_inicio,$fecha_fin,$idproveedor,$tipo_pago);
  		//Vamos a declarar un array
  		$data= Array();
 
@@ -17,12 +19,11 @@ switch ($_GET["op"]){
  			$data[]=array(
  				"0"=>$reg->fecha,
  				"1"=>$reg->usuario,
- 				"2"=>$reg->proveedor,
+ 				"2"=>$reg->cliente,
  				"3"=>$reg->tipo_comprobante,
- 				"4"=>$reg->serie_comprobante.' '.$reg->num_comprobante,
- 				"5"=>$reg->total_compra,
- 				"6"=>$reg->impuesto,
- 				"7"=>($reg->estado=='Aceptado')?'<span class="label bg-green">Aceptado</span>':
+ 				"4"=>$reg->serie.' '.$reg->codigo_factura,
+ 				"5"=>'<p>Q'.$reg->total.'</p>',
+ 				"6"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}
@@ -34,6 +35,117 @@ switch ($_GET["op"]){
  		echo json_encode($results);
 
 	break;
+
+	case 'reportecaja':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+	//	$idproveedor=$_REQUEST["idproveedor"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
+
+		$rspta=$consulta->reportecaja($fecha_inicio,$fecha_fin,$tipo_pago);
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+ 			$data[]=array(
+ 				"0"=>$reg->fecha,
+ 				"1"=>$reg->usuario,
+ 				"2"=>$reg->descripcion,
+ 				"3"=>$reg->num_documento,
+ 				"4"=>'<p>Q'.$reg->monto.'</p>',
+ 				"5"=>($reg->tipo_transacion=='1')?'<span class="label bg-green">Ingreso</span>':
+ 				'<span class="label bg-red">Gasto</span>'
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
+	case 'reporteganancia':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idproducto=$_REQUEST["idproducto"];
+
+		$rspta=$consulta->reporteganancia($fecha_inicio,$fecha_fin,$idproducto);
+ 		//Vamos a declarar un array
+ 		$data= Array();
+
+ 		while ($reg=$rspta->fetch_object()){
+ 			$data[]=array(
+ 				"0"=>$reg->fecha,
+ 				"1"=>$reg->producto,
+ 				"2"=>$reg->cantidad,
+ 				"3"=>$reg->preciocompra,
+ 				"4"=>$reg->precio,
+ 				"5"=>'<p>Q'.$reg->Ganancia.'</p>',
+ 				);
+ 		}
+ 		$results = array(
+ 			"sEcho"=>1, //Información para el datatables
+ 			"iTotalRecords"=>count($data), //enviamos el total registros al datatable
+ 			"iTotalDisplayRecords"=>count($data), //enviamos el total registros a visualizar
+ 			"aaData"=>$data);
+ 		echo json_encode($results);
+
+	break;
+
+	case 'mostrartotalventas':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idcliente=$_REQUEST["idcliente"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
+		$rspta=$consulta->mostrartotalventas($fecha_inicio,$fecha_fin,$idcliente,$tipo_pago);
+ 		//Codificar el resultado utilizando json
+ 		while ($reg = $rspta->fetch_object())
+				{
+				echo '<h4  >Q.' . $reg->totales . '</h4>';
+				}
+	break;
+
+	case 'mostrartotalcompra':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idproveedor=$_REQUEST["idproveedor"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
+		$rspta=$consulta->mostrartotalcompra($fecha_inicio,$fecha_fin,$idproveedor,$tipo_pago);
+ 		//Codificar el resultado utilizando json
+ 		while ($reg = $rspta->fetch_object())
+				{
+				echo '<h4  >Q.' . $reg->totales . '</h4>';
+				}
+	break;
+
+
+	case 'mostrartotalcaja':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
+		$rspta=$consulta->mostrartotalcaja($fecha_inicio,$fecha_fin,$tipo_pago);
+ 		//Codificar el resultado utilizando json
+ 		while ($reg = $rspta->fetch_object())
+				{
+				echo '<h4  >Q.' . $reg->totales . '</h4>';
+				}
+	break;
+
+	case 'mostrartotalganancia':
+		$fecha_inicio=$_REQUEST["fecha_inicio"];
+		$fecha_fin=$_REQUEST["fecha_fin"];
+		$idproducto=$_REQUEST["idproducto"];
+		$rspta=$consulta->mostrartotalganancia($fecha_inicio,$fecha_fin,$idproducto);
+ 		//Codificar el resultado utilizando json
+ 		while ($reg = $rspta->fetch_object())
+				{
+				echo '<h4  >Q.' . $reg->totales . '</h4>';
+				}
+	break;
+
+	
 
 	case 'mostrar':
 		$fecha_inicio=$_REQUEST["fecha_inicio"];
@@ -48,8 +160,9 @@ switch ($_GET["op"]){
 		$fecha_inicio=$_REQUEST["fecha_inicio"];
 		$fecha_fin=$_REQUEST["fecha_fin"];
 		$idcliente=$_REQUEST["idcliente"];
+		$tipo_pago=$_REQUEST["tipo_pago"];
 
-		$rspta=$consulta->ventasfechacliente($fecha_inicio,$fecha_fin,$idcliente);
+		$rspta=$consulta->reporteventa($fecha_inicio,$fecha_fin,$idcliente,$tipo_pago);
  		//Vamos a declarar un array
  		$data= Array();
 
@@ -59,10 +172,9 @@ switch ($_GET["op"]){
  				"1"=>$reg->usuario,
  				"2"=>$reg->cliente,
  				"3"=>$reg->tipo_comprobante,
- 				"4"=>$reg->serie_comprobante.' '.$reg->num_comprobante,
- 				"5"=>$reg->total_venta,
- 				"6"=>$reg->impuesto,
- 				"7"=>($reg->estado=='0')?'<span class="label bg-green">Aceptado</span>':
+ 				"4"=>$reg->serie.' '.$reg->codigo_factura,
+ 				"5"=>'<p>Q'.$reg->total.'</p>',
+ 				"6"=>($reg->estado=='1')?'<span class="label bg-green">Aceptado</span>':
  				'<span class="label bg-red">Anulado</span>'
  				);
  		}

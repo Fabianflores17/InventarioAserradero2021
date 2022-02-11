@@ -2,27 +2,30 @@ var tabla;
 
 //Función que se ejecuta al inicio
 function init(){
-	listar();
 
+	listarcaja();
+	// listarganancia();
 	// $("#fecha_inicio").change(listar);
 	// $("#fecha_fin").change(listar);
-	$.post("../ajax/ingreso.php?op=selectProveedor", function(r){
-		$("#idproveedor").html(r);
-		$('#idproveedor').selectpicker('refresh');
+	$.post("../ajax/articulo.php?op=selectproducto", function(r){
+		$("#idproducto").html(r);
+		$('#idproducto').selectpicker('refresh');
 	});
 }
 
 
 //Función Listar reporte compras
-function listar()
+
+
+//funcion listar reporte caja chica
+function listarcaja()
 {
 
 	var fecha_inicio = $("#fecha_inicio").val();
 	var fecha_fin = $("#fecha_fin").val();
-	var idproveedor = $("#idproveedor").val();
 	var tipo_pago = $("#tipo_pago").val();
 
-	tabla=$('#tbllistado').dataTable(
+	tabla=$('#tbllistadocaja').dataTable(
 	{
 		"aProcessing": true,//Activamos el procesamiento del datatables
 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -35,8 +38,8 @@ function listar()
 		        ],
 		"ajax":
 				{
-					url: '../ajax/consultas.php?op=comprasfecha',
-					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin, idproveedor: idproveedor, tipo_pago:tipo_pago},
+					url: '../ajax/consultas.php?op=reportecaja',
+					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin, tipo_pago:tipo_pago},
 					type : "get",
 					dataType : "json",						
 					error: function(e){
@@ -47,17 +50,16 @@ function listar()
 		"iDisplayLength": 5,//Paginación
 	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
 	}).DataTable();
-	mostrartotalventas();
+	mostrartotalcaja();
 
 }
 
-function mostrartotalventas(fecha_inicio,fecha_fin,idproveedor,tipo_pago){
+function mostrartotalcaja(fecha_inicio,fecha_fin,tipo_pago){
 	var fecha_inicio = $("#fecha_inicio").val();
 	var fecha_fin = $("#fecha_fin").val();
-	var idproveedor = $("#idproveedor").val();
 	var tipo_pago = $("#tipo_pago").val();
 
-	$.post("../ajax/consultas.php?op=mostrartotalcompra",{fecha_inicio,fecha_fin,idproveedor,tipo_pago},function(r){
+	$.post("../ajax/consultas.php?op=mostrartotalcaja",{fecha_inicio,fecha_fin,tipo_pago},function(r){
 		$("#totales").html(r);
 
 });
@@ -65,12 +67,15 @@ function mostrartotalventas(fecha_inicio,fecha_fin,idproveedor,tipo_pago){
 }
 
 
-// function listar()
+//funcion listar reporte caja chica
+// function listarganancia()
 // {
+
 // 	var fecha_inicio = $("#fecha_inicio").val();
 // 	var fecha_fin = $("#fecha_fin").val();
+// 	var idproducto = $("#idproducto").val();
 
-// 	tabla=$('#tbllistado').dataTable(
+// 	tabla=$('#tbllistadoganacia').dataTable(
 // 	{
 // 		"aProcessing": true,//Activamos el procesamiento del datatables
 // 	    "aServerSide": true,//Paginación y filtrado realizados por el servidor
@@ -83,8 +88,8 @@ function mostrartotalventas(fecha_inicio,fecha_fin,idproveedor,tipo_pago){
 // 		        ],
 // 		"ajax":
 // 				{
-// 					url: '../ajax/consultas.php?op=comprasfecha',
-// 					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin},
+// 					url: '../ajax/consultas.php?op=reporteganancia',
+// 					data:{fecha_inicio: fecha_inicio,fecha_fin: fecha_fin, idproducto:idproducto},
 // 					type : "get",
 // 					dataType : "json",						
 // 					error: function(e){
@@ -95,7 +100,20 @@ function mostrartotalventas(fecha_inicio,fecha_fin,idproveedor,tipo_pago){
 // 		"iDisplayLength": 5,//Paginación
 // 	    "order": [[ 0, "desc" ]]//Ordenar (columna,orden)
 // 	}).DataTable();
+// 	mostrartotalganacia();
+
 // }
 
+// function mostrartotalganacia(fecha_inicio,fecha_fin,tipo_pago){
+// 	var fecha_inicio = $("#fecha_inicio").val();
+// 	var fecha_fin = $("#fecha_fin").val();
+// 	var idproducto = $("#idproducto").val();
+
+// 	$.post("../ajax/consultas.php?op=mostrartotalganancia",{fecha_inicio,fecha_fin,idproducto},function(r){
+// 		$("#totales").html(r);
+
+// });
+
+// }
 
 init();

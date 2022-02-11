@@ -25,19 +25,33 @@ if ($_SESSION['consultac']==1)
                     <div class="box-header with-border">
                           <h1 class="box-title">Consulta de Compras por fecha </h1>
                         <div class="box-tools pull-right">
+                        <h4 id="totales">Q/. 0.00</h4>
                         </div>
                     </div>
                     <!-- /.box-header -->
                     <!-- centro -->
                     <div class="panel-body table-responsive" id="listadoregistros">
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                           <label>Fecha Inicio</label>
                           <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="<?php echo date("Y-m-d"); ?>">
                         </div>
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <div class="form-group col-lg-2 col-md-6 col-sm-6 col-xs-12">
                           <label>Fecha Fin</label>
                           <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="<?php echo date("Y-m-d"); ?>">
                         </div>
+                        <div class="form-inline col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                          <label>Proveedor</label>
+                          <select name="idproveedor" id="idproveedor" title="Seleccione Cliente" class="form-control selectpicker" data-live-search="true" >                         	
+                          </select>                          
+                        </div>
+                        <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                            <label>Tipo Pago(*):</label>
+                            <select name="tipo_pago" id="tipo_pago" class="form-control selectpicker" title="--Seleccione Tipo Pago--" >
+                               <option value="1">Pagado</option>
+                               <option value="2">Credito</option>
+                            </select>
+                          <button class="btn btn-success" onclick="listar()">Mostrar</button>
+                       </div>
                         <table id="tbllistado" class="table table-striped table-bordered table-condensed table-hover">
                           <thead>
                             <th>Fecha</th>
@@ -46,7 +60,6 @@ if ($_SESSION['consultac']==1)
                             <th>Comprobante</th>
                             <th>Número</th>
                             <th>Total Compra</th>
-                            <th>Impuesto</th>
                             <th>Estado</th>
                           </thead>
                           <tbody>                            
@@ -58,7 +71,6 @@ if ($_SESSION['consultac']==1)
                             <th>Comprobante</th>
                             <th>Número</th>
                             <th>Total Compra</th>
-                            <th>Impuesto</th>
                             <th>Estado</th>
                           </tfoot>
                         </table>

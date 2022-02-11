@@ -5,7 +5,7 @@ function init(){
 	mostrarform(false);
 	listarpagosocios();
 
-	$("#formulario").on("submit",function(e)
+	$("#formulariopagosocio").on("submit",function(e)
 	{
 		guardaryeditar(e);
 	});
@@ -26,6 +26,10 @@ function init(){
 	$.post("../ajax/venta.php?op=selectTipo_pago", function(r){
 		$("#tipo_pago").html(r);
 		$('#tipo_pago').selectpicker('refresh');
+});
+$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+	$("#totalpago").html(r);
+
 });
 }
 
@@ -120,21 +124,28 @@ function cancelarform()
 	mostrarform(false);
 }
 
-
 const validarpago=()=>{
 
 	let total=document.getElementById("total_socio");
 	let totales=parseInt(total.value);
 	let pago=document.getElementById("pago");
 	let pagos=parseInt(pago.value);
-	let totalp=document.getElementById("totalpago");
-	let totalpago=parseInt(totalp.value);
+	let pago3 = document.getElementById("totalpago2");
+	let pago33=parseInt(pago3.value);
 
-	
-	if(totales>=pagos){
+	console.log(pago33);
+
+
+	//console.log(pagos);
+	if(pagos > totales){
+		alert("El monto supera la deuda");
+	}else if(pagos>pago33){
+		alert("El monto supera la Estado de cuenta");
+	}
+	else{
 		var formData = new FormData($("#formulariopagosocio")[0]);
 		$.ajax({
-			url: "../ajax/venta.php?op=guardareditarcredito",
+			url: "../ajax/pago.php?op=guardaryeditarpagosocio",
 			type: "POST",
 			data: formData,
 			contentType: false,
@@ -145,35 +156,67 @@ const validarpago=()=>{
 			{										
 			 
 				bootbox.alert(datos);
-				//setInterval('location.reload()',5000);
+				setInterval('location.reload()',5000);
 				mostrarform(false);
-				listar();
-				 
-				  
-			}
-			
-	
+					  
+			}	
 		});
 		//validarfecha();
-		limpiar();
-			
 	}
-	
-	else{
-		alert("EL monto es superior a la deuda");
-	}
-	
+		limpiar();	
+
 }
 
 function guardaryeditar(e)
 {
-	e.preventDefault(); //No se activará la acción predeterminada del evento
-	//$("#btnGuardar").prop("disabled",true);
-	//var formData = new FormData($("#formulario")[0]);
-	console.log(totalpago);
+	e.preventDefault(); 
+	
 	validarpago();
 
 }
+
+
+// function guardaryeditar(e)
+// {
+// 	e.preventDefault(); //No se activará la acción predeterminada del evento
+// 	$("#btnGuardar").prop("disabled",true);
+// 	var formData = new FormData($("#formulariopagosocio")[0]);
+
+// 	$.ajax({
+// 		url: "../ajax/pago.php?op=guardaryeditarpagosocio",
+// 	    type: "POST",
+// 	    data: formData,
+// 	    contentType: false,
+// 	    processData: false,
+
+// 	    success: function(datos)
+// 	    {
+// 	          bootbox.alert(datos);
+// 	          mostrarform(false);
+// 	          tabla.ajax.reload();
+// 	    }
+
+// 	});
+// 	limpiar();
+// }
+
+
+// const pago = document.getElementById("pago");
+// pago.addEventListener("change", ()=>{
+// const pago2 = document.getElementById("total_socio").value;
+// let pago3 = document.getElementById("totalpago2").value;
+// const pago = document.getElementById("pago").value;
+// if (parseInt(pago) > parseInt(pago2) ){
+//     alert("el monto supera la deuda");
+// 	$("#btnGuardar").hide();
+// }else if (parseInt(pago)>parseInt(pago3)) {
+// 	alert("No hay suficientes fondos en la cuenta")
+// 	$("#btnGuardar").hide();
+// }else {
+// 	$("#btnGuardar").show();
+// }
+
+// });
 
 
 
@@ -192,10 +235,8 @@ function mostrarpagosocio(idventa)
 		
 		let total=document.getElementById("total_socio");
 		let totales=total.value;
-		
-				
-	
-		if(totales==0){
+		//console.log(totales);
+				if(totales==0){
 			$("#btnGuardar").hide();
 			$("#pagoborrador").hide();
 			alert("Ya esta pagado el total del credito");
@@ -359,17 +400,17 @@ function agregarDetalle(idarticulo,articulo,stock,precio_venta)
     }
   }
 
-  function formapagoFinanzas()
-  {
-	let tipopago2 = document.getElementById("forma_pago").value;
+//   function formapagoFinanzas()
+//   {
+// 	let tipopago2 = document.getElementById("forma_pago").value;
 
-	if(tipopago2==1){
-	$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
-		$("#totalpago").html(r);
+// 	if(tipopago2==1){
+// 	$.post("../ajax/pago.php?op=selectotalestadoccuenta", function(r){
+// 		$("#totalpago").html(r);
 
-	});
-}
-    }
+// 	});
+// }
+//     }
 
 
 
